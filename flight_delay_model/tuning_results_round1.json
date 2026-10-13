@@ -1,0 +1,205 @@
+{
+  "task": "cls_dep_delay",
+  "tuned_at": "2026-10-05T14:04:24",
+  "note": "仅使用2019-2021训练/2022验证，未触碰测试集",
+  "results": [
+    {
+      "name": "CB-v1-基线(旧配置)",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "overrides": {},
+      "metrics": {
+        "auc": 0.682,
+        "best_f1": 0.4221,
+        "threshold": 0.507,
+        "precision@best_f1": 0.3224,
+        "recall@best_f1": 0.6112,
+        "accuracy@best_f1": 0.6439,
+        "precision@recall0.6": 0.3255,
+        "seconds": 63.9
+      }
+    },
+    {
+      "name": "LGB-v1-基线(旧配置)",
+      "algo": "lightgbm",
+      "feature_set": "v1",
+      "overrides": {},
+      "metrics": {
+        "auc": 0.6735,
+        "best_f1": 0.4158,
+        "threshold": 0.459,
+        "precision@best_f1": 0.3125,
+        "recall@best_f1": 0.6215,
+        "accuracy@best_f1": 0.6284,
+        "precision@recall0.6": 0.3179,
+        "seconds": 20.7
+      }
+    },
+    {
+      "name": "CB-v2-lr0.05",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05
+      },
+      "metrics": {
+        "auc": 0.6377,
+        "best_f1": 0.3924,
+        "threshold": 0.437,
+        "precision@best_f1": 0.2801,
+        "recall@best_f1": 0.6549,
+        "accuracy@best_f1": 0.5684,
+        "precision@recall0.6": 0.2906,
+        "seconds": 386.1
+      }
+    },
+    {
+      "name": "CB-v2-仅升级特征",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {},
+      "metrics": {
+        "auc": 0.6375,
+        "best_f1": 0.3923,
+        "threshold": 0.45,
+        "precision@best_f1": 0.2838,
+        "recall@best_f1": 0.6353,
+        "accuracy@best_f1": 0.5812,
+        "precision@recall0.6": 0.2906,
+        "seconds": 171.2
+      }
+    },
+    {
+      "name": "CB-v2-lr0.05-l2=9",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "l2_leaf_reg": 9.0
+      },
+      "metrics": {
+        "auc": 0.6374,
+        "best_f1": 0.3924,
+        "threshold": 0.452,
+        "precision@best_f1": 0.2848,
+        "recall@best_f1": 0.6308,
+        "accuracy@best_f1": 0.5842,
+        "precision@recall0.6": 0.2905,
+        "seconds": 385.0
+      }
+    },
+    {
+      "name": "CB-v2-lr0.05-d6-l2=9",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "depth": 6,
+        "l2_leaf_reg": 9.0
+      },
+      "metrics": {
+        "auc": 0.6372,
+        "best_f1": 0.3922,
+        "threshold": 0.454,
+        "precision@best_f1": 0.2847,
+        "recall@best_f1": 0.6299,
+        "accuracy@best_f1": 0.5844,
+        "precision@recall0.6": 0.2904,
+        "seconds": 564.9
+      }
+    },
+    {
+      "name": "CB-v2-lr0.05-d6",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "depth": 6
+      },
+      "metrics": {
+        "auc": 0.637,
+        "best_f1": 0.392,
+        "threshold": 0.458,
+        "precision@best_f1": 0.2848,
+        "recall@best_f1": 0.6289,
+        "accuracy@best_f1": 0.5849,
+        "precision@recall0.6": 0.2902,
+        "seconds": 379.3
+      }
+    },
+    {
+      "name": "CB-v2-lr0.05-d10",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "depth": 10
+      },
+      "metrics": {
+        "auc": 0.637,
+        "best_f1": 0.3918,
+        "threshold": 0.457,
+        "precision@best_f1": 0.288,
+        "recall@best_f1": 0.6124,
+        "accuracy@best_f1": 0.5953,
+        "precision@recall0.6": 0.2903,
+        "seconds": 467.7
+      }
+    },
+    {
+      "name": "LGB-v2-lr0.05-l63",
+      "algo": "lightgbm",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "num_leaves": 63
+      },
+      "metrics": {
+        "auc": 0.6337,
+        "best_f1": 0.3889,
+        "threshold": 0.459,
+        "precision@best_f1": 0.2819,
+        "recall@best_f1": 0.6266,
+        "accuracy@best_f1": 0.5809,
+        "precision@recall0.6": 0.287,
+        "seconds": 33.2
+      }
+    },
+    {
+      "name": "LGB-v2-lr0.05-l127-mcs300",
+      "algo": "lightgbm",
+      "feature_set": "v2",
+      "overrides": {
+        "learning_rate": 0.05,
+        "num_leaves": 127,
+        "min_child_samples": 300
+      },
+      "metrics": {
+        "auc": 0.6327,
+        "best_f1": 0.3883,
+        "threshold": 0.43,
+        "precision@best_f1": 0.2749,
+        "recall@best_f1": 0.661,
+        "accuracy@best_f1": 0.5567,
+        "precision@recall0.6": 0.2862,
+        "seconds": 42.4
+      }
+    },
+    {
+      "name": "LGB-v2-仅升级特征",
+      "algo": "lightgbm",
+      "feature_set": "v2",
+      "overrides": {},
+      "metrics": {
+        "auc": 0.6326,
+        "best_f1": 0.3881,
+        "threshold": 0.433,
+        "precision@best_f1": 0.2743,
+        "recall@best_f1": 0.6635,
+        "accuracy@best_f1": 0.5547,
+        "precision@recall0.6": 0.2865,
+        "seconds": 29.7
+      }
+    }
+  ]
+}

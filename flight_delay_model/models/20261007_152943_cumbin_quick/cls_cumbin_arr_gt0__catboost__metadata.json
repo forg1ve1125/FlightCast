@@ -1,0 +1,80 @@
+{
+  "run_id": "20261007_152943_cumbin_quick",
+  "task": "cls_cumbin_arr_gt0",
+  "task_desc": "累积二分类: P(arr延误 > 0分钟), 无类别加权",
+  "algo": "catboost",
+  "feature_set": "v1",
+  "model_file": "cls_cumbin_arr_gt0__catboost.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261007_152943_cumbin_quick/cls_cumbin_arr_gt0__catboost.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categories": null,
+  "edge_minutes": 0,
+  "cumulative": true,
+  "bucket_edges": [
+    0,
+    15,
+    30,
+    60
+  ],
+  "bucket_labels": [
+    "不延误",
+    "延误1-15分钟",
+    "延误16-30分钟",
+    "延误31-60分钟",
+    "延误60分钟以上"
+  ],
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "val_years": [
+      2022
+    ],
+    "train_rows": 1791628,
+    "val_rows": 667761
+  },
+  "hyperparams": {
+    "loss_function": "Logloss",
+    "iterations": 1500,
+    "learning_rate": 0.1,
+    "depth": 8,
+    "l2_leaf_reg": 3.0,
+    "class_weighting": "无（保持概率绝对值可信）"
+  },
+  "random_seed": 42,
+  "val_metrics_2022": {
+    "auc": 0.6169,
+    "logloss": 0.6473,
+    "brier": 0.2278,
+    "positive_rate": 0.3733,
+    "best_iteration": 13
+  },
+  "trained_at": "2026-10-07T15:31:54",
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "catboost": "1.2.10"
+  },
+  "mode": "full"
+}

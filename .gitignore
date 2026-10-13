@@ -1,0 +1,28 @@
+# macOS / IDE / Python
+.DS_Store
+.idea/
+__pycache__/
+*.pyc
+
+# 个人课程文件（与项目仓库无关）
+NoFree-rider_*
+
+# ---- 大数据集：保留 manifest 与数据字典，CSV 不入库（可从来源重建） ----
+Dataset/*.csv
+
+# ---- 天气数据：原始逐站文件与整合表不入库（10 号脚本可重建） ----
+flight_delay_model/weather/raw/
+flight_delay_model/weather/*.csv.gz
+
+# ---- 模型二进制不入库（脚本可重训）；metadata/指标/图表/报告保留用于追溯 ----
+*.cbm
+flight_delay_model/models/**/*.txt
+
+# ---- 前端 ----
+flight_delay_model/frontend/node_modules/
+flight_delay_model/frontend/dist/
+
+# ---- 运行时数据库 / 密钥 / 日志 ----
+flight_delay_model/server/*.db
+flight_delay_model/server/.secret_key
+flight_delay_model/server/flask.log

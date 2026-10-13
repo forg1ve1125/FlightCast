@@ -1,0 +1,214 @@
+{
+  "run_id": "20261005_155440_final_gt0",
+  "evaluated_at": "2026-10-05T15:54:40",
+  "test_years": [
+    2023
+  ],
+  "note": "测试集只能使用一次",
+  "models": [
+    {
+      "task": "cls_arr_delay",
+      "algo": "catboost",
+      "model_file": "cls_arr_delay__catboost.cbm",
+      "test_rows": 454414,
+      "test_metrics@0.5": {
+        "threshold": 0.5,
+        "accuracy": 0.5916,
+        "precision": 0.4866,
+        "recall": 0.5876,
+        "f1": 0.5323,
+        "auc": 0.6282,
+        "confusion_matrix": {
+          "TP": 105636,
+          "FP": 111468,
+          "TN": 163178,
+          "FN": 74132
+        }
+      },
+      "test_metrics@tuned": {
+        "threshold": 0.4,
+        "accuracy": 0.4833,
+        "precision": 0.4265,
+        "recall": 0.8882,
+        "f1": 0.5763,
+        "auc": 0.6282,
+        "confusion_matrix": {
+          "TP": 159663,
+          "FP": 214693,
+          "TN": 59953,
+          "FN": 20105
+        }
+      },
+      "tuned_threshold_from_val": {
+        "threshold": 0.4,
+        "val_f1": 0.553
+      }
+    },
+    {
+      "task": "cls_arr_delay",
+      "algo": "lightgbm",
+      "model_file": "cls_arr_delay__lightgbm.txt",
+      "test_rows": 454414,
+      "test_metrics@0.5": {
+        "threshold": 0.5,
+        "accuracy": 0.6113,
+        "precision": 0.5091,
+        "recall": 0.4886,
+        "f1": 0.4986,
+        "auc": 0.6295,
+        "confusion_matrix": {
+          "TP": 87833,
+          "FP": 84686,
+          "TN": 189960,
+          "FN": 91935
+        }
+      },
+      "test_metrics@tuned": {
+        "threshold": 0.4,
+        "accuracy": 0.4923,
+        "precision": 0.4304,
+        "recall": 0.8762,
+        "f1": 0.5772,
+        "auc": 0.6295,
+        "confusion_matrix": {
+          "TP": 157512,
+          "FP": 208466,
+          "TN": 66180,
+          "FN": 22256
+        }
+      },
+      "tuned_threshold_from_val": {
+        "threshold": 0.4,
+        "val_f1": 0.553
+      }
+    },
+    {
+      "task": "cls_dep_delay",
+      "algo": "catboost",
+      "model_file": "cls_dep_delay__catboost.cbm",
+      "test_rows": 454414,
+      "test_metrics@0.5": {
+        "threshold": 0.5,
+        "accuracy": 0.6381,
+        "precision": 0.5442,
+        "recall": 0.6419,
+        "f1": 0.5891,
+        "auc": 0.6911,
+        "confusion_matrix": {
+          "TP": 117871,
+          "FP": 98720,
+          "TN": 172080,
+          "FN": 65743
+        }
+      },
+      "test_metrics@tuned": {
+        "threshold": 0.42,
+        "accuracy": 0.5785,
+        "precision": 0.4871,
+        "recall": 0.8136,
+        "f1": 0.6093,
+        "auc": 0.6911,
+        "confusion_matrix": {
+          "TP": 149383,
+          "FP": 157308,
+          "TN": 113492,
+          "FN": 34231
+        }
+      },
+      "tuned_threshold_from_val": {
+        "threshold": 0.42,
+        "val_f1": 0.5963
+      }
+    },
+    {
+      "task": "cls_dep_delay",
+      "algo": "lightgbm",
+      "model_file": "cls_dep_delay__lightgbm.txt",
+      "test_rows": 454414,
+      "test_metrics@0.5": {
+        "threshold": 0.5,
+        "accuracy": 0.6371,
+        "precision": 0.5439,
+        "recall": 0.6318,
+        "f1": 0.5845,
+        "auc": 0.6888,
+        "confusion_matrix": {
+          "TP": 116004,
+          "FP": 97286,
+          "TN": 173514,
+          "FN": 67610
+        }
+      },
+      "test_metrics@tuned": {
+        "threshold": 0.42,
+        "accuracy": 0.5781,
+        "precision": 0.4867,
+        "recall": 0.8099,
+        "f1": 0.6081,
+        "auc": 0.6888,
+        "confusion_matrix": {
+          "TP": 148718,
+          "FP": 156820,
+          "TN": 113980,
+          "FN": 34896
+        }
+      },
+      "tuned_threshold_from_val": {
+        "threshold": 0.42,
+        "val_f1": 0.5963
+      }
+    },
+    {
+      "task": "reg_arr_delay",
+      "algo": "catboost",
+      "model_file": "reg_arr_delay__catboost.cbm",
+      "test_rows": 179768,
+      "test_metrics_delayed_only": {
+        "mae_min": 35.27,
+        "rmse_min": 87.98,
+        "r2": -0.0818,
+        "n_samples": 179768
+      },
+      "combined_expected_delay_mae_min": 3.5
+    },
+    {
+      "task": "reg_arr_delay",
+      "algo": "lightgbm",
+      "model_file": "reg_arr_delay__lightgbm.txt",
+      "test_rows": 179768,
+      "test_metrics_delayed_only": {
+        "mae_min": 35.33,
+        "rmse_min": 88.09,
+        "r2": -0.0845,
+        "n_samples": 179768
+      },
+      "combined_expected_delay_mae_min": 3.26
+    },
+    {
+      "task": "reg_dep_delay",
+      "algo": "catboost",
+      "model_file": "reg_dep_delay__catboost.cbm",
+      "test_rows": 183614,
+      "test_metrics_delayed_only": {
+        "mae_min": 34.81,
+        "rmse_min": 87.32,
+        "r2": -0.0757,
+        "n_samples": 183614
+      },
+      "combined_expected_delay_mae_min": 3.55
+    },
+    {
+      "task": "reg_dep_delay",
+      "algo": "lightgbm",
+      "model_file": "reg_dep_delay__lightgbm.txt",
+      "test_rows": 183614,
+      "test_metrics_delayed_only": {
+        "mae_min": 34.87,
+        "rmse_min": 87.51,
+        "r2": -0.0804,
+        "n_samples": 183614
+      },
+      "combined_expected_delay_mae_min": 3.44
+    }
+  ]
+}

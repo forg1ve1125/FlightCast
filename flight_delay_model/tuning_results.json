@@ -1,0 +1,198 @@
+{
+  "task": "cls_dep_delay",
+  "tuned_at": "2026-10-05T15:15:41",
+  "note": "仅使用2019-2021训练/2022验证，未触碰测试集",
+  "results": [
+    {
+      "name": "CB-v1-基线",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {},
+      "metrics": {
+        "auc": 0.682,
+        "best_f1": 0.4221,
+        "threshold": 0.507,
+        "precision@best_f1": 0.3224,
+        "recall@best_f1": 0.6112,
+        "accuracy@best_f1": 0.6439,
+        "precision@recall0.6": 0.3255,
+        "seconds": 73.2
+      }
+    },
+    {
+      "name": "CB-v1-lr0.05-d6-l2=9",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.05,
+        "depth": 6,
+        "l2_leaf_reg": 9.0
+      },
+      "metrics": {
+        "auc": 0.682,
+        "best_f1": 0.4225,
+        "threshold": 0.502,
+        "precision@best_f1": 0.3198,
+        "recall@best_f1": 0.6225,
+        "accuracy@best_f1": 0.6379,
+        "precision@recall0.6": 0.3258,
+        "seconds": 151.6
+      }
+    },
+    {
+      "name": "CB-v1-lr0.05",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.05
+      },
+      "metrics": {
+        "auc": 0.6819,
+        "best_f1": 0.4225,
+        "threshold": 0.504,
+        "precision@best_f1": 0.3204,
+        "recall@best_f1": 0.62,
+        "accuracy@best_f1": 0.6393,
+        "precision@recall0.6": 0.3254,
+        "seconds": 112.7
+      }
+    },
+    {
+      "name": "CB-v1-lr0.05-d10",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.05,
+        "depth": 10
+      },
+      "metrics": {
+        "auc": 0.6816,
+        "best_f1": 0.4222,
+        "threshold": 0.508,
+        "precision@best_f1": 0.3239,
+        "recall@best_f1": 0.6059,
+        "accuracy@best_f1": 0.647,
+        "precision@recall0.6": 0.3255,
+        "seconds": 157.9
+      }
+    },
+    {
+      "name": "CB-v1-lr0.15-d8-l2=6",
+      "algo": "catboost",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.15,
+        "l2_leaf_reg": 6.0
+      },
+      "metrics": {
+        "auc": 0.6813,
+        "best_f1": 0.4223,
+        "threshold": 0.506,
+        "precision@best_f1": 0.3219,
+        "recall@best_f1": 0.6136,
+        "accuracy@best_f1": 0.6427,
+        "precision@recall0.6": 0.3253,
+        "seconds": 87.4
+      }
+    },
+    {
+      "name": "LGB-v1-lr0.05-l63-mcs300",
+      "algo": "lightgbm",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.05,
+        "num_leaves": 63,
+        "min_child_samples": 300
+      },
+      "metrics": {
+        "auc": 0.6756,
+        "best_f1": 0.4177,
+        "threshold": 0.487,
+        "precision@best_f1": 0.3122,
+        "recall@best_f1": 0.6305,
+        "accuracy@best_f1": 0.6258,
+        "precision@recall0.6": 0.3202,
+        "seconds": 18.6
+      }
+    },
+    {
+      "name": "LGB-v1-基线",
+      "algo": "lightgbm",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {},
+      "metrics": {
+        "auc": 0.6735,
+        "best_f1": 0.4158,
+        "threshold": 0.459,
+        "precision@best_f1": 0.3125,
+        "recall@best_f1": 0.6215,
+        "accuracy@best_f1": 0.6284,
+        "precision@recall0.6": 0.3179,
+        "seconds": 19.1
+      }
+    },
+    {
+      "name": "LGB-v1-lr0.05-l255",
+      "algo": "lightgbm",
+      "feature_set": "v1",
+      "use_asof": false,
+      "overrides": {
+        "learning_rate": 0.05,
+        "num_leaves": 255
+      },
+      "metrics": {
+        "auc": 0.6705,
+        "best_f1": 0.4142,
+        "threshold": 0.385,
+        "precision@best_f1": 0.3132,
+        "recall@best_f1": 0.6112,
+        "accuracy@best_f1": 0.6321,
+        "precision@recall0.6": 0.3158,
+        "seconds": 28.5
+      }
+    },
+    {
+      "name": "CB-v2asof-lr0.05",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "use_asof": true,
+      "overrides": {
+        "learning_rate": 0.05
+      },
+      "metrics": {
+        "auc": 0.5012,
+        "best_f1": 0.3515,
+        "threshold": 0.491,
+        "precision@best_f1": 0.2135,
+        "recall@best_f1": 0.9931,
+        "accuracy@best_f1": 0.22,
+        "precision@recall0.6": 0.2149,
+        "seconds": 70.4
+      }
+    },
+    {
+      "name": "CB-v2asof-lr0.1",
+      "algo": "catboost",
+      "feature_set": "v2",
+      "use_asof": true,
+      "overrides": {},
+      "metrics": {
+        "auc": 0.5008,
+        "best_f1": 0.3515,
+        "threshold": 0.482,
+        "precision@best_f1": 0.2135,
+        "recall@best_f1": 0.9928,
+        "accuracy@best_f1": 0.2202,
+        "precision@recall0.6": 0.2148,
+        "seconds": 71.3
+      }
+    }
+  ]
+}

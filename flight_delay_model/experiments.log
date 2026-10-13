@@ -1,0 +1,13 @@
+训练 1,791,628 / 验证 667,762，正例率 val=0.3914
+基线: {'base_catboost': {'auc': 0.6923, 'acc': 0.6441, 'precision': 0.5398, 'recall': 0.6153}, 'base_lightgbm': {'auc': 0.6898, 'acc': 0.6433, 'precision': 0.5394, 'recall': 0.6078}}
+E1 集成: {'auc': 0.6934, 'acc': 0.6457, 'precision': 0.542, 'recall': 0.6125}
+E2 慢学习率: {'auc': 0.6927, 'acc': 0.6441, 'precision': 0.5395, 'recall': 0.6188, 'best_iter': 238, 'seconds': 130.2}
+E3 15分钟粒度: {'auc': 0.6924, 'acc': 0.6455, 'precision': 0.5417, 'recall': 0.6115, 'seconds': 89.7}
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/07_experiments_val.py:125: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  xg_va[c] = pd.Categorical(xg_va[c], categories=cats)
+E4 XGBoost: {'auc': 0.6839, 'acc': 0.644, 'precision': 0.7233, 'recall': 0.1467, 'best_iter': 30, 'seconds': 18.5}
+E5 单段式: {'mae': 15.2, 'within_5': 0.694, 'within_10': 0.7553, 'seconds': 158.2}
+E5 两段式: {'mae': 12.93, 'within_5': 0.7279, 'within_10': 0.8003}
+E6 Brier: {'catboost': 0.221, 'lightgbm': 0.2217, 'ensemble': 0.2208}
+
+已保存 /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_155440_final_gt0/experiments_val2022.json，总耗时 402s

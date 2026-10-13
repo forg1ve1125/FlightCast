@@ -1,0 +1,71 @@
+读取清洗后数据集: /Users/lyc031125/Desktop/IS6400/Group Project/Dataset/flights_sample_3m_clean.csv
+  共 3,000,000 行 x 20 列
+数据划分: 训练集 2019-2020-2021: 1,848,656 行 | 验证集 2022: 687,860 行 | 测试集 2023: 463,484 行（本次训练不使用）
+
+=== [catboost] cls_dep_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+0:	test: 0.6662253	best: 0.6662253 (0)	total: 414ms	remaining: 10m 20s
+200:	test: 0.6902948	best: 0.6922804 (88)	total: 59.5s	remaining: 6m 24s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6922803545
+bestIteration = 88
+
+Shrink model to first 89 iterations.
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6441, 'precision': 0.5398, 'recall': 0.6153, 'f1': 0.5751, 'auc': 0.6923, 'best_iteration': 88}  耗时 74.5s
+
+=== [catboost] cls_arr_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+0:	test: 0.6025448	best: 0.6025448 (0)	total: 329ms	remaining: 8m 13s
+200:	test: 0.6255147	best: 0.6280907 (52)	total: 1m 14s	remaining: 8m
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6280907401
+bestIteration = 52
+
+Shrink model to first 53 iterations.
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.5953, 'precision': 0.4659, 'recall': 0.5751, 'f1': 0.5148, 'auc': 0.6281, 'best_iteration': 52}  耗时 78.1s
+
+=== [catboost] reg_dep_delay : 训练 543,330 行 / 验证 261,370 行 ===
+0:	learn: 31.8630187	test: 32.1029565	best: 32.1029565 (0)	total: 77.2ms	remaining: 1m 55s
+200:	learn: 30.8843581	test: 31.5800287	best: 31.5719527 (129)	total: 23.3s	remaining: 2m 30s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 31.57195268
+bestIteration = 129
+
+Shrink model to first 130 iterations.
+验证集(2022)指标: {'mae_min': 31.57, 'rmse_min': 77.67, 'r2': -0.0698, 'best_iteration': 129}  耗时 32.9s
+
+=== [catboost] reg_arr_delay : 训练 549,121 行 / 验证 249,258 行 ===
+0:	learn: 31.1825391	test: 32.8155576	best: 32.8155576 (0)	total: 100ms	remaining: 2m 29s
+200:	learn: 30.2949366	test: 32.3103270	best: 32.2890494 (79)	total: 24.2s	remaining: 2m 36s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 32.28904944
+bestIteration = 79
+
+Shrink model to first 80 iterations.
+验证集(2022)指标: {'mae_min': 32.29, 'rmse_min': 79.22, 'r2': -0.0803, 'best_iteration': 79}  耗时 28.4s
+
+=== [lightgbm] cls_dep_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:209: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+[200]	valid_0's auc: 0.685759
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6433, 'precision': 0.5394, 'recall': 0.6078, 'f1': 0.5716, 'auc': 0.6898, 'best_iteration': 85}  耗时 20.5s
+
+=== [lightgbm] cls_arr_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:209: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6153, 'precision': 0.4845, 'recall': 0.4779, 'f1': 0.4812, 'auc': 0.6236, 'best_iteration': 45}  耗时 17.0s
+
+=== [lightgbm] reg_dep_delay : 训练 543,330 行 / 验证 261,370 行 ===
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:209: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+验证集(2022)指标: {'mae_min': 31.63, 'rmse_min': 77.77, 'r2': -0.0726, 'best_iteration': 49}  耗时 7.7s
+
+=== [lightgbm] reg_arr_delay : 训练 549,121 行 / 验证 249,258 行 ===
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:209: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+[200]	valid_0's l1: 32.4337
+验证集(2022)指标: {'mae_min': 32.36, 'rmse_min': 79.27, 'r2': -0.0817, 'best_iteration': 55}  耗时 7.9s
+
+全部完成。模型存档目录: /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/final_gt0

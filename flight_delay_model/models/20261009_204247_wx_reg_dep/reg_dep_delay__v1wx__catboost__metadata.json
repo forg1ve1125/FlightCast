@@ -1,0 +1,105 @@
+{
+  "run_id": "20261009_204247_wx_reg_dep",
+  "task": "reg_dep_delay",
+  "task_desc": "E[出发延误分钟|延误>0] 回归 + 天气特征（两段式第二段）",
+  "algo": "catboost",
+  "feature_set": "v1wx",
+  "model_file": "reg_dep_delay__v1wx__catboost.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_204247_wx_reg_dep/reg_dep_delay__v1wx__catboost.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE",
+    "tmpf_o",
+    "dwpf_o",
+    "relh_o",
+    "sknt_o",
+    "gust_o",
+    "vsby_o",
+    "p01i_o",
+    "skyl1_o",
+    "skyc1_okta_o",
+    "wx_ts_o",
+    "wx_sn_o",
+    "wx_ra_o",
+    "wx_fg_o",
+    "wx_missing_o"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categories": null,
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "val_years": [
+      2022
+    ],
+    "train_rows": 543330,
+    "val_rows": 261370
+  },
+  "hyperparams": {
+    "loss_function": "MAE",
+    "iterations": 1500,
+    "learning_rate": 0.1,
+    "depth": 8,
+    "l2_leaf_reg": 3.0
+  },
+  "random_seed": 42,
+  "weather_coverage": {
+    "origin": 0.9962
+  },
+  "val_metrics_2022": {
+    "mae": 31.36,
+    "rmse": 77.33,
+    "r2": -0.0605,
+    "hit_10min": 0.4267,
+    "hit_15min": 0.5788,
+    "n": 261370,
+    "best_iteration": 313,
+    "seconds": 43.8
+  },
+  "baseline_v1_val_metrics": {
+    "mae": 31.57,
+    "rmse": 77.67,
+    "r2": -0.0698,
+    "hit_10min": 0.4185,
+    "hit_15min": 0.5759,
+    "n": 261370
+  },
+  "two_stage_val": {
+    "old_v1": {
+      "mae": 17.45,
+      "hit_5min": 0.314,
+      "hit_10min": 0.6676
+    },
+    "new_wx": {
+      "mae": 17.19,
+      "hit_5min": 0.3491,
+      "hit_10min": 0.6776
+    }
+  },
+  "trained_at": "2026-10-09T20:43:46",
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "catboost": "1.2.10"
+  },
+  "mode": "full",
+  "scope": "departure-only (2026-10-08 decision)"
+}

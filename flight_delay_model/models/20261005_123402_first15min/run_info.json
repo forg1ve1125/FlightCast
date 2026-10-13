@@ -1,0 +1,16 @@
+{
+  "run_id": "20261005_123402_first15min",
+  "created_at": "2026-10-05T12:38:05",
+  "quick_mode": false,
+  "data_csv": "/Users/lyc031125/Desktop/IS6400/Group Project/Dataset/flights_sample_3m_clean.csv",
+  "models": [
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/cls_dep_delay__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/cls_arr_delay__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/reg_dep_delay__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/reg_arr_delay__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/cls_dep_delay__lightgbm.txt",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/cls_arr_delay__lightgbm.txt",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/reg_dep_delay__lightgbm.txt",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402_first15min/reg_arr_delay__lightgbm.txt"
+  ]
+}

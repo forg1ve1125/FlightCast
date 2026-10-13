@@ -1,0 +1,31 @@
+存档目录: /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261006_124341_buckets
+
+[dep] 训练集区间分布: 不延误=69.7%, 延误1-15分钟=15.1%, 延误16-30分钟=5.4%, 延误31-60分钟=4.6%, 延误60分钟以上=5.3%
+=== [dep] 训练 1,791,628 / 验证 667,762 ===
+0:	learn: 1.4535971	test: 1.4786564	best: 1.4786564 (0)	total: 1.97s	remaining: 39m 24s
+200:	learn: 0.9300632	test: 1.1173553	best: 1.1166873 (107)	total: 7m 52s	remaining: 39m 8s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 1.116687259
+bestIteration = 107
+
+Shrink model to first 108 iterations.
+  [catboost] acc=0.6090 macroF1=0.1532 (647.7s, best_iter=107)
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/08_train_bucket_models.py:106: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+[200]	valid_0's multi_logloss: 1.12904
+Traceback (most recent call last):
+  File "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/08_train_bucket_models.py", line 220, in <module>
+    main()
+  File "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/08_train_bucket_models.py", line 166, in main
+    proba = model.predict(x_va, num_iteration=model.best_iteration)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lyc031125/.pyenv/versions/3.12.14/lib/python3.12/site-packages/lightgbm/basic.py", line 4894, in predict
+    return predictor.predict(
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/lyc031125/.pyenv/versions/3.12.14/lib/python3.12/site-packages/lightgbm/basic.py", line 1092, in predict
+    data = _data_from_pandas(
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/lyc031125/.pyenv/versions/3.12.14/lib/python3.12/site-packages/lightgbm/basic.py", line 778, in _data_from_pandas
+    raise ValueError("train and valid dataset categorical_feature do not match.")
+ValueError: train and valid dataset categorical_feature do not match.

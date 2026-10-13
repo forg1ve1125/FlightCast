@@ -1,0 +1,371 @@
+{
+  "run_id": "20261007_152943_cumbin_quick",
+  "mode": "full",
+  "flat_multiclass_run_id": "20261006_124341_buckets",
+  "segments": {
+    "dep": {
+      "n_val": 667762,
+      "cumulative": {
+        "auc_per_threshold": {
+          "gt0": 0.6812,
+          "gt15": 0.6679,
+          "gt30": 0.67,
+          "gt60": 0.6593
+        },
+        "logloss_per_threshold": {
+          "gt0": 0.6341,
+          "gt15": 0.4849,
+          "gt30": 0.3767,
+          "gt60": 0.2442
+        },
+        "monotone_violations_raw_pct": 2.09,
+        "bucket_metrics": {
+          "accuracy": 0.6086,
+          "macro_f1": 0.1514,
+          "weighted_f1": 0.4605,
+          "confusion_matrix": [
+            [
+              406384,
+              8,
+              0,
+              0,
+              0
+            ],
+            [
+              124037,
+              7,
+              0,
+              0,
+              0
+            ],
+            [
+              48638,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              42388,
+              2,
+              0,
+              0,
+              0
+            ],
+            [
+              46289,
+              4,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class_f1": {
+            "bucket0_不延误": 0.7567,
+            "bucket1_延误1-15分钟": 0.0001,
+            "bucket2_延误16-30分钟": 0.0,
+            "bucket3_延误31-60分钟": 0.0,
+            "bucket4_延误60分钟以上": 0.0
+          },
+          "probability_calibration": [
+            {
+              "bucket": 0,
+              "mean_pred_prob": 0.6642,
+              "actual_rate": 0.6086
+            },
+            {
+              "bucket": 1,
+              "mean_pred_prob": 0.1567,
+              "actual_rate": 0.1858
+            },
+            {
+              "bucket": 2,
+              "mean_pred_prob": 0.0811,
+              "actual_rate": 0.0728
+            },
+            {
+              "bucket": 3,
+              "mean_pred_prob": 0.046,
+              "actual_rate": 0.0635
+            },
+            {
+              "bucket": 4,
+              "mean_pred_prob": 0.052,
+              "actual_rate": 0.0693
+            }
+          ]
+        },
+        "calib_mean_abs_dev_pp": 2.56
+      },
+      "flat_multiclass": {
+        "run_id": "20261006_124341_buckets",
+        "bucket_metrics": {
+          "accuracy": 0.609,
+          "macro_f1": 0.1532,
+          "weighted_f1": 0.4626,
+          "confusion_matrix": [
+            [
+              406142,
+              249,
+              0,
+              0,
+              1
+            ],
+            [
+              123523,
+              521,
+              0,
+              0,
+              0
+            ],
+            [
+              48315,
+              328,
+              0,
+              0,
+              0
+            ],
+            [
+              42003,
+              385,
+              0,
+              0,
+              2
+            ],
+            [
+              45900,
+              390,
+              0,
+              0,
+              3
+            ]
+          ],
+          "per_class_f1": {
+            "bucket0_不延误": 0.7575,
+            "bucket1_延误1-15分钟": 0.0083,
+            "bucket2_延误16-30分钟": 0.0,
+            "bucket3_延误31-60分钟": 0.0,
+            "bucket4_延误60分钟以上": 0.0001
+          },
+          "probability_calibration": [
+            {
+              "bucket": 0,
+              "mean_pred_prob": 0.6933,
+              "actual_rate": 0.6086
+            },
+            {
+              "bucket": 1,
+              "mean_pred_prob": 0.1534,
+              "actual_rate": 0.1858
+            },
+            {
+              "bucket": 2,
+              "mean_pred_prob": 0.0542,
+              "actual_rate": 0.0728
+            },
+            {
+              "bucket": 3,
+              "mean_pred_prob": 0.0464,
+              "actual_rate": 0.0635
+            },
+            {
+              "bucket": 4,
+              "mean_pred_prob": 0.0526,
+              "actual_rate": 0.0693
+            }
+          ]
+        },
+        "calib_mean_abs_dev_pp": 3.39
+      },
+      "verdict": {
+        "accuracy_win": false,
+        "calibration_win": true,
+        "macro_f1_win": false,
+        "wins": 1,
+        "recommend": "保留现状(MultiClass)"
+      }
+    },
+    "arr": {
+      "n_val": 667761,
+      "cumulative": {
+        "auc_per_threshold": {
+          "gt0": 0.6169,
+          "gt15": 0.6427,
+          "gt30": 0.6477,
+          "gt60": 0.6559
+        },
+        "logloss_per_threshold": {
+          "gt0": 0.6473,
+          "gt15": 0.4888,
+          "gt30": 0.3751,
+          "gt60": 0.2428
+        },
+        "monotone_violations_raw_pct": 0.31,
+        "bucket_metrics": {
+          "accuracy": 0.6267,
+          "macro_f1": 0.1541,
+          "weighted_f1": 0.4829,
+          "confusion_matrix": [
+            [
+              418503,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              113537,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              48245,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              41666,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              45810,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class_f1": {
+            "bucket0_不延误": 0.7705,
+            "bucket1_延误1-15分钟": 0.0,
+            "bucket2_延误16-30分钟": 0.0,
+            "bucket3_延误31-60分钟": 0.0,
+            "bucket4_延误60分钟以上": 0.0
+          },
+          "probability_calibration": [
+            {
+              "bucket": 0,
+              "mean_pred_prob": 0.6549,
+              "actual_rate": 0.6267
+            },
+            {
+              "bucket": 1,
+              "mean_pred_prob": 0.1563,
+              "actual_rate": 0.17
+            },
+            {
+              "bucket": 2,
+              "mean_pred_prob": 0.0707,
+              "actual_rate": 0.0722
+            },
+            {
+              "bucket": 3,
+              "mean_pred_prob": 0.0666,
+              "actual_rate": 0.0624
+            },
+            {
+              "bucket": 4,
+              "mean_pred_prob": 0.0515,
+              "actual_rate": 0.0686
+            }
+          ]
+        },
+        "calib_mean_abs_dev_pp": 1.29
+      },
+      "flat_multiclass": {
+        "run_id": "20261006_124341_buckets",
+        "bucket_metrics": {
+          "accuracy": 0.6267,
+          "macro_f1": 0.1541,
+          "weighted_f1": 0.4829,
+          "confusion_matrix": [
+            [
+              418503,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              113537,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              48245,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              41666,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              45810,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "per_class_f1": {
+            "bucket0_不延误": 0.7705,
+            "bucket1_延误1-15分钟": 0.0,
+            "bucket2_延误16-30分钟": 0.0,
+            "bucket3_延误31-60分钟": 0.0,
+            "bucket4_延误60分钟以上": 0.0
+          },
+          "probability_calibration": [
+            {
+              "bucket": 0,
+              "mean_pred_prob": 0.6695,
+              "actual_rate": 0.6267
+            },
+            {
+              "bucket": 1,
+              "mean_pred_prob": 0.1533,
+              "actual_rate": 0.17
+            },
+            {
+              "bucket": 2,
+              "mean_pred_prob": 0.0636,
+              "actual_rate": 0.0722
+            },
+            {
+              "bucket": 3,
+              "mean_pred_prob": 0.0541,
+              "actual_rate": 0.0624
+            },
+            {
+              "bucket": 4,
+              "mean_pred_prob": 0.0595,
+              "actual_rate": 0.0686
+            }
+          ]
+        },
+        "calib_mean_abs_dev_pp": 1.71
+      },
+      "verdict": {
+        "accuracy_win": false,
+        "calibration_win": true,
+        "macro_f1_win": false,
+        "wins": 1,
+        "recommend": "保留现状(MultiClass)"
+      }
+    }
+  }
+}

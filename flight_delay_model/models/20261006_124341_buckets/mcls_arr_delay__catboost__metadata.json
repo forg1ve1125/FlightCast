@@ -1,0 +1,152 @@
+{
+  "run_id": "20261006_124341_buckets",
+  "task": "mcls_arr_delay",
+  "task_desc": "多分类：到达延误落入哪个区间（5档，多情景概率输出）",
+  "algo": "catboost",
+  "feature_set": "v1",
+  "model_file": "mcls_arr_delay__catboost.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261006_124341_buckets/mcls_arr_delay__catboost.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categories": null,
+  "n_classes": 5,
+  "bucket_edges": [
+    0,
+    15,
+    30,
+    60
+  ],
+  "bucket_labels": [
+    "不延误",
+    "延误1-15分钟",
+    "延误16-30分钟",
+    "延误31-60分钟",
+    "延误60分钟以上"
+  ],
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "val_years": [
+      2022
+    ],
+    "test_years": [
+      2023
+    ],
+    "train_rows": 1791628,
+    "val_rows": 667761
+  },
+  "hyperparams": {
+    "iterations": 1200,
+    "learning_rate": 0.1,
+    "depth": 7,
+    "num_leaves": null,
+    "class_weighting": "无（保持概率绝对值可信）"
+  },
+  "random_seed": 42,
+  "val_metrics_2022": {
+    "accuracy": 0.6267,
+    "macro_f1": 0.1541,
+    "weighted_f1": 0.4829,
+    "confusion_matrix": [
+      [
+        418503,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113537,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        48245,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        41666,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        45810,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "per_class_f1": {
+      "bucket0_不延误": 0.7705,
+      "bucket1_延误1-15分钟": 0.0,
+      "bucket2_延误16-30分钟": 0.0,
+      "bucket3_延误31-60分钟": 0.0,
+      "bucket4_延误60分钟以上": 0.0
+    },
+    "probability_calibration": [
+      {
+        "bucket": 0,
+        "mean_pred_prob": 0.6695,
+        "actual_rate": 0.6267
+      },
+      {
+        "bucket": 1,
+        "mean_pred_prob": 0.1533,
+        "actual_rate": 0.17
+      },
+      {
+        "bucket": 2,
+        "mean_pred_prob": 0.0636,
+        "actual_rate": 0.0722
+      },
+      {
+        "bucket": 3,
+        "mean_pred_prob": 0.0541,
+        "actual_rate": 0.0624
+      },
+      {
+        "bucket": 4,
+        "mean_pred_prob": 0.0595,
+        "actual_rate": 0.0686
+      }
+    ],
+    "best_iteration": 28,
+    "seconds": 546.5
+  },
+  "trained_at": "2026-10-06T13:10:31",
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "catboost": "1.2.10",
+    "lightgbm": null
+  }
+}

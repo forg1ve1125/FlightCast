@@ -1,0 +1,92 @@
+{
+  "run_id": "20261009_193645_wx_dep",
+  "task": "cls_dep_delay",
+  "task_desc": "分类：出发延误概率  P(DEP_DELAY > 0) +天气+块时长特征（仅出发延误口径）",
+  "algo": "catboost",
+  "feature_set": "v1wx_block",
+  "model_file": "cls_dep_delay__v1wx_block__catboost.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx_block__catboost.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE",
+    "tmpf_o",
+    "dwpf_o",
+    "relh_o",
+    "sknt_o",
+    "gust_o",
+    "vsby_o",
+    "p01i_o",
+    "skyl1_o",
+    "skyc1_okta_o",
+    "wx_ts_o",
+    "wx_sn_o",
+    "wx_ra_o",
+    "wx_fg_o",
+    "wx_missing_o",
+    "CRS_ELAPSED_TIME",
+    "CRS_TIME_DIFF",
+    "CRS_BLOCK_MINUS_DIFF"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categories": null,
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "val_years": [
+      2022
+    ],
+    "train_rows": 1791628,
+    "val_rows": 667762
+  },
+  "hyperparams": {
+    "loss_function": "Logloss",
+    "eval_metric": "AUC",
+    "iterations": 1500,
+    "learning_rate": 0.1,
+    "depth": 8,
+    "l2_leaf_reg": 3.0,
+    "auto_class_weights": "Balanced"
+  },
+  "random_seed": 42,
+  "weather_coverage": {
+    "origin": 0.9962,
+    "dest": 0.9961
+  },
+  "val_metrics_2022": {
+    "threshold": 0.5,
+    "accuracy": 0.6533,
+    "precision": 0.5511,
+    "recall": 0.6156,
+    "f1": 0.5816,
+    "auc": 0.7024,
+    "logloss": 0.6254,
+    "best_iteration": 124,
+    "seconds": 0.4
+  },
+  "trained_at": "2026-10-13T12:18:57",
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "catboost": "1.2.10"
+  },
+  "mode": "full",
+  "scope": "departure-only (2026-10-08 decision)"
+}

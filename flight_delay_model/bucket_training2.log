@@ -1,0 +1,25 @@
+存档目录: /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261006_124341_buckets
+
+[dep] 训练集区间分布: 不延误=69.7%, 延误1-15分钟=15.1%, 延误16-30分钟=5.4%, 延误31-60分钟=4.6%, 延误60分钟以上=5.3%
+=== [dep] 训练 1,791,628 / 验证 667,762 ===
+  [catboost] 已存在，跳过（acc=0.609）
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/08_train_bucket_models.py:106: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+[200]	valid_0's multi_logloss: 1.12904
+  [lightgbm] acc=0.6089 macroF1=0.1526 (58.5s, best_iter=53)
+
+[arr] 训练集区间分布: 不延误=69.3%, 延误1-15分钟=15.1%, 延误16-30分钟=5.7%, 延误31-60分钟=4.7%, 延误60分钟以上=5.2%
+=== [arr] 训练 1,791,628 / 验证 667,761 ===
+0:	learn: 1.4604709	test: 1.4805960	best: 1.4805960 (0)	total: 1.05s	remaining: 20m 57s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 1.118693101
+bestIteration = 28
+
+Shrink model to first 29 iterations.
+  [catboost] acc=0.6267 macroF1=0.1541 (546.5s, best_iter=28)
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/08_train_bucket_models.py:106: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+  [lightgbm] acc=0.6267 macroF1=0.1541 (62.5s, best_iter=46)
+
+完成。区间模型存档: /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261006_124341_buckets

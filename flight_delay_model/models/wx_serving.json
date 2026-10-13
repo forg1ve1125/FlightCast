@@ -1,0 +1,9 @@
+{
+  "cls_run": "20261009_193645_wx_dep",
+  "cls_file": "cls_dep_delay__v1wx_od__catboost.cbm",
+  "bucket_run": "20261013_122152_buckets_wx_dep",
+  "bucket_file": "mcls_dep_delay__v1wx_od__catboost.cbm",
+  "reg_run": "20261013_130457_wx_reg_dep",
+  "reg_file": "reg_dep_delay__v1wx_od__catboost.cbm",
+  "note": "最终形态（2026-10-13 定格，2023 测试集已收官）：三组件全部换装 od 档（v1+双端天气39特征）。cls=11号臂4; bucket=12号od档; reg=13号od档。带 _file 键指定文件名；null 表示该组件沿用 v1 基线。回滚：把三个 *_file 改回 *_v1wx_*.cbm 并将 bucket_run/reg_run 改回 20261009_202254/20261009_204247。"
+}

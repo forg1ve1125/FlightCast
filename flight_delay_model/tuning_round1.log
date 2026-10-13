@@ -1,0 +1,104 @@
+读取 /Users/lyc031125/Desktop/IS6400/Group Project/Dataset/flights_sample_3m_clean.csv
+训练 1,848,656 行 / 验证 687,860 行（2023 测试集不加载！）
+历史统计: route_month=73,271 全局延误率=0.1580
+
+0:	test: 0.6589634	best: 0.6589634 (0)	total: 538ms	remaining: 13m 27s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6819996234
+bestIteration = 46
+
+Shrink model to first 47 iterations.
+[CB-v1-基线(旧配置)               ] AUC=0.6820 F1=0.4221 P=0.322 R=0.611 acc=0.6439  (63.9s)
+0:	test: 0.6179657	best: 0.6179657 (0)	total: 355ms	remaining: 8m 52s
+200:	test: 0.6368436	best: 0.6368436 (200)	total: 1m 11s	remaining: 7m 42s
+400:	test: 0.6363149	best: 0.6375095 (281)	total: 2m 31s	remaining: 6m 56s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6375095008
+bestIteration = 281
+
+Shrink model to first 282 iterations.
+[CB-v2-仅升级特征                 ] AUC=0.6375 F1=0.3923 P=0.284 R=0.635 acc=0.5812  (171.2s)
+0:	test: 0.6179657	best: 0.6179657 (0)	total: 364ms	remaining: 9m 5s
+200:	test: 0.6354435	best: 0.6354435 (200)	total: 1m 22s	remaining: 8m 56s
+400:	test: 0.6366979	best: 0.6366979 (400)	total: 2m 48s	remaining: 7m 43s
+600:	test: 0.6374020	best: 0.6374020 (600)	total: 4m 25s	remaining: 6m 36s
+800:	test: 0.6372755	best: 0.6376823 (682)	total: 6m 3s	remaining: 5m 16s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6376823428
+bestIteration = 682
+
+Shrink model to first 683 iterations.
+[CB-v2-lr0.05                ] AUC=0.6377 F1=0.3924 P=0.280 R=0.655 acc=0.5684  (386.1s)
+0:	test: 0.6051920	best: 0.6051920 (0)	total: 338ms	remaining: 8m 26s
+200:	test: 0.6339144	best: 0.6339144 (200)	total: 1m 19s	remaining: 8m 35s
+400:	test: 0.6357344	best: 0.6357646 (391)	total: 2m 42s	remaining: 7m 25s
+600:	test: 0.6369048	best: 0.6369048 (600)	total: 4m 7s	remaining: 6m 9s
+800:	test: 0.6367925	best: 0.6370405 (749)	total: 5m 32s	remaining: 4m 49s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6370405301
+bestIteration = 749
+
+Shrink model to first 750 iterations.
+[CB-v2-lr0.05-d6             ] AUC=0.6370 F1=0.3920 P=0.285 R=0.629 acc=0.5849  (379.3s)
+0:	test: 0.6231668	best: 0.6231668 (0)	total: 702ms	remaining: 17m 33s
+200:	test: 0.6355608	best: 0.6355608 (200)	total: 2m 21s	remaining: 15m 15s
+400:	test: 0.6368853	best: 0.6369159 (383)	total: 4m 47s	remaining: 13m 7s
+600:	test: 0.6363168	best: 0.6369990 (473)	total: 7m 22s	remaining: 11m 1s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6369990457
+bestIteration = 473
+
+Shrink model to first 474 iterations.
+[CB-v2-lr0.05-d10            ] AUC=0.6370 F1=0.3918 P=0.288 R=0.612 acc=0.5953  (467.7s)
+0:	test: 0.6179656	best: 0.6179656 (0)	total: 541ms	remaining: 13m 31s
+200:	test: 0.6346904	best: 0.6347310 (196)	total: 1m 52s	remaining: 12m 8s
+400:	test: 0.6366194	best: 0.6366736 (396)	total: 3m 43s	remaining: 10m 11s
+600:	test: 0.6372275	best: 0.6373913 (521)	total: 5m 37s	remaining: 8m 24s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6373913161
+bestIteration = 521
+
+Shrink model to first 522 iterations.
+[CB-v2-lr0.05-l2=9           ] AUC=0.6374 F1=0.3924 P=0.285 R=0.631 acc=0.5842  (385.0s)
+0:	test: 0.6051917	best: 0.6051917 (0)	total: 373ms	remaining: 9m 18s
+200:	test: 0.6339956	best: 0.6339956 (200)	total: 1m 32s	remaining: 10m
+400:	test: 0.6355691	best: 0.6355882 (361)	total: 3m 3s	remaining: 8m 23s
+600:	test: 0.6366861	best: 0.6367450 (599)	total: 4m 36s	remaining: 6m 53s
+800:	test: 0.6369888	best: 0.6369951 (762)	total: 6m 12s	remaining: 5m 24s
+1000:	test: 0.6370347	best: 0.6371023 (917)	total: 7m 41s	remaining: 3m 50s
+1200:	test: 0.6367085	best: 0.6371664 (1073)	total: 9m 6s	remaining: 2m 16s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6371664139
+bestIteration = 1073
+
+Shrink model to first 1074 iterations.
+[CB-v2-lr0.05-d6-l2=9        ] AUC=0.6372 F1=0.3922 P=0.285 R=0.630 acc=0.5844  (564.9s)
+[LGB-v1-基线(旧配置)              ] AUC=0.6735 F1=0.4158 P=0.312 R=0.622 acc=0.6284  (20.7s)
+[200]	valid_0's auc: 0.630806
+[LGB-v2-仅升级特征                ] AUC=0.6326 F1=0.3881 P=0.274 R=0.663 acc=0.5547  (29.7s)
+[200]	valid_0's auc: 0.631949
+[LGB-v2-lr0.05-l127-mcs300   ] AUC=0.6327 F1=0.3883 P=0.275 R=0.661 acc=0.5567  (42.4s)
+[200]	valid_0's auc: 0.633443
+[LGB-v2-lr0.05-l63           ] AUC=0.6337 F1=0.3889 P=0.282 R=0.627 acc=0.5809  (33.2s)
+
+===== 验证集(2022)排名（按AUC） =====
+ 1. CB-v1-基线(旧配置)                AUC=0.6820 F1=0.4221 P=0.322 R=0.611 acc=0.6439
+ 2. LGB-v1-基线(旧配置)               AUC=0.6735 F1=0.4158 P=0.312 R=0.622 acc=0.6284
+ 3. CB-v2-lr0.05                 AUC=0.6377 F1=0.3924 P=0.280 R=0.655 acc=0.5684
+ 4. CB-v2-仅升级特征                  AUC=0.6375 F1=0.3923 P=0.284 R=0.635 acc=0.5812
+ 5. CB-v2-lr0.05-l2=9            AUC=0.6374 F1=0.3924 P=0.285 R=0.631 acc=0.5842
+ 6. CB-v2-lr0.05-d6-l2=9         AUC=0.6372 F1=0.3922 P=0.285 R=0.630 acc=0.5844
+ 7. CB-v2-lr0.05-d6              AUC=0.6370 F1=0.3920 P=0.285 R=0.629 acc=0.5849
+ 8. CB-v2-lr0.05-d10             AUC=0.6370 F1=0.3918 P=0.288 R=0.612 acc=0.5953
+ 9. LGB-v2-lr0.05-l63            AUC=0.6337 F1=0.3889 P=0.282 R=0.627 acc=0.5809
+10. LGB-v2-lr0.05-l127-mcs300    AUC=0.6327 F1=0.3883 P=0.275 R=0.661 acc=0.5567
+11. LGB-v2-仅升级特征                 AUC=0.6326 F1=0.3881 P=0.274 R=0.663 acc=0.5547
+
+已保存: tuning_results.json

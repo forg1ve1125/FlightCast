@@ -1,0 +1,357 @@
+{
+  "run_id": "20261013_133654_test2023",
+  "evaluated_at": "2026-10-13T13:37:10",
+  "discipline": "2023 测试集一次性收官评估：所有模型评估前冻结（训练2019-2021/早停2022），本脚本只预测不训练；结果即最终成绩，不再迭代。",
+  "mode": "final",
+  "context_2023": {
+    "rows_total": 463484,
+    "weather_coverage": {
+      "origin": 0.9984,
+      "dest": 0.9984
+    },
+    "dep_delay_share_gt0": 0.3981,
+    "dep_delay_median": -1.0,
+    "dep_delay_mean": 14.5
+  },
+  "model_paths": {
+    "v1": {
+      "cls": "20261005_155440_final_gt0/cls_dep_delay__catboost.cbm",
+      "reg": "20261005_155440_final_gt0/reg_dep_delay__catboost.cbm",
+      "bucket": "20261006_124341_buckets/mcls_dep_delay__catboost.cbm"
+    },
+    "wx": {
+      "cls": "20261009_193645_wx_dep/cls_dep_delay__v1wx__catboost.cbm",
+      "reg": "20261009_204247_wx_reg_dep/reg_dep_delay__v1wx__catboost.cbm",
+      "bucket": "20261009_202254_buckets_wx_dep/mcls_dep_delay__v1wx__catboost.cbm"
+    },
+    "od": {
+      "cls": "20261009_193645_wx_dep/cls_dep_delay__v1wx_od__catboost.cbm",
+      "reg": "20261013_130457_wx_reg_dep/reg_dep_delay__v1wx_od__catboost.cbm",
+      "bucket": "20261013_122152_buckets_wx_dep/mcls_dep_delay__v1wx_od__catboost.cbm"
+    }
+  },
+  "tiers": {
+    "v1": {
+      "cls": {
+        "threshold": 0.5,
+        "accuracy": 0.6381,
+        "precision": 0.5442,
+        "recall": 0.6419,
+        "f1": 0.5891,
+        "auc": 0.6911,
+        "logloss": 0.6369,
+        "val_auc_2022": 0.6923
+      },
+      "bucket": {
+        "accuracy": 0.5962,
+        "macro_f1": 0.1506,
+        "weighted_f1": 0.4465,
+        "confusion_matrix": [
+          [
+            270664,
+            134,
+            0,
+            0,
+            2
+          ],
+          [
+            83227,
+            233,
+            0,
+            0,
+            3
+          ],
+          [
+            33934,
+            176,
+            0,
+            0,
+            0
+          ],
+          [
+            30296,
+            225,
+            0,
+            0,
+            1
+          ],
+          [
+            35324,
+            191,
+            0,
+            0,
+            4
+          ]
+        ],
+        "per_class_f1": {
+          "bucket0_不延误": 0.7474,
+          "bucket1_延误1-15分钟": 0.0055,
+          "bucket2_延误16-30分钟": 0.0,
+          "bucket3_延误31-60分钟": 0.0,
+          "bucket4_延误60分钟以上": 0.0002
+        },
+        "probability_calibration": [
+          {
+            "bucket": 0,
+            "mean_pred_prob": 0.6861,
+            "actual_rate": 0.5959
+          },
+          {
+            "bucket": 1,
+            "mean_pred_prob": 0.1543,
+            "actual_rate": 0.1837
+          },
+          {
+            "bucket": 2,
+            "mean_pred_prob": 0.0553,
+            "actual_rate": 0.0751
+          },
+          {
+            "bucket": 3,
+            "mean_pred_prob": 0.048,
+            "actual_rate": 0.0672
+          },
+          {
+            "bucket": 4,
+            "mean_pred_prob": 0.0563,
+            "actual_rate": 0.0782
+          }
+        ],
+        "calib_mean_abs_dev_pp": 3.61,
+        "expected_delay_mae_vs_max_delay0": 19.73,
+        "val_accuracy_2022": 0.609
+      },
+      "reg": {
+        "mae": 34.81,
+        "rmse": 87.32,
+        "r2": -0.0757,
+        "hit_10min": 0.4011,
+        "hit_15min": 0.5529,
+        "n": 183614
+      },
+      "two_stage": {
+        "mae": 19.35,
+        "hit_5min": 0.2948,
+        "hit_10min": 0.6367
+      }
+    },
+    "wx": {
+      "cls": {
+        "threshold": 0.5,
+        "accuracy": 0.6501,
+        "precision": 0.559,
+        "recall": 0.6355,
+        "f1": 0.5948,
+        "auc": 0.7032,
+        "logloss": 0.6272,
+        "val_auc_2022": 0.7028
+      },
+      "bucket": {
+        "accuracy": 0.5983,
+        "macro_f1": 0.1639,
+        "weighted_f1": 0.4536,
+        "confusion_matrix": [
+          [
+            270256,
+            246,
+            1,
+            1,
+            296
+          ],
+          [
+            82637,
+            569,
+            4,
+            2,
+            251
+          ],
+          [
+            33524,
+            378,
+            1,
+            1,
+            206
+          ],
+          [
+            29731,
+            437,
+            1,
+            5,
+            348
+          ],
+          [
+            34077,
+            373,
+            2,
+            11,
+            1056
+          ]
+        ],
+        "per_class_f1": {
+          "bucket0_不延误": 0.7496,
+          "bucket1_延误1-15分钟": 0.0133,
+          "bucket2_延误16-30分钟": 0.0001,
+          "bucket3_延误31-60分钟": 0.0003,
+          "bucket4_延误60分钟以上": 0.0561
+        },
+        "probability_calibration": [
+          {
+            "bucket": 0,
+            "mean_pred_prob": 0.6892,
+            "actual_rate": 0.5959
+          },
+          {
+            "bucket": 1,
+            "mean_pred_prob": 0.1532,
+            "actual_rate": 0.1837
+          },
+          {
+            "bucket": 2,
+            "mean_pred_prob": 0.0547,
+            "actual_rate": 0.0751
+          },
+          {
+            "bucket": 3,
+            "mean_pred_prob": 0.0474,
+            "actual_rate": 0.0672
+          },
+          {
+            "bucket": 4,
+            "mean_pred_prob": 0.0555,
+            "actual_rate": 0.0782
+          }
+        ],
+        "calib_mean_abs_dev_pp": 3.73,
+        "expected_delay_mae_vs_max_delay0": 19.35,
+        "val_accuracy_2022": 0.6103
+      },
+      "reg": {
+        "mae": 34.53,
+        "rmse": 86.91,
+        "r2": -0.0655,
+        "hit_10min": 0.4095,
+        "hit_15min": 0.5566,
+        "n": 183614
+      },
+      "two_stage": {
+        "mae": 19.01,
+        "hit_5min": 0.3313,
+        "hit_10min": 0.6544
+      }
+    },
+    "od": {
+      "cls": {
+        "threshold": 0.5,
+        "accuracy": 0.6537,
+        "precision": 0.5651,
+        "recall": 0.6205,
+        "f1": 0.5915,
+        "auc": 0.7038,
+        "logloss": 0.6241,
+        "val_auc_2022": 0.7042
+      },
+      "bucket": {
+        "accuracy": 0.5991,
+        "macro_f1": 0.1696,
+        "weighted_f1": 0.4569,
+        "confusion_matrix": [
+          [
+            269932,
+            434,
+            4,
+            7,
+            423
+          ],
+          [
+            82254,
+            807,
+            8,
+            17,
+            377
+          ],
+          [
+            33230,
+            563,
+            6,
+            19,
+            292
+          ],
+          [
+            29422,
+            553,
+            9,
+            30,
+            508
+          ],
+          [
+            33502,
+            498,
+            5,
+            40,
+            1474
+          ]
+        ],
+        "per_class_f1": {
+          "bucket0_不延误": 0.7507,
+          "bucket1_延误1-15分钟": 0.0187,
+          "bucket2_延误16-30分钟": 0.0004,
+          "bucket3_延误31-60分钟": 0.002,
+          "bucket4_延误60分钟以上": 0.0764
+        },
+        "probability_calibration": [
+          {
+            "bucket": 0,
+            "mean_pred_prob": 0.6911,
+            "actual_rate": 0.5959
+          },
+          {
+            "bucket": 1,
+            "mean_pred_prob": 0.1522,
+            "actual_rate": 0.1837
+          },
+          {
+            "bucket": 2,
+            "mean_pred_prob": 0.0545,
+            "actual_rate": 0.0751
+          },
+          {
+            "bucket": 3,
+            "mean_pred_prob": 0.0472,
+            "actual_rate": 0.0672
+          },
+          {
+            "bucket": 4,
+            "mean_pred_prob": 0.0548,
+            "actual_rate": 0.0782
+          }
+        ],
+        "calib_mean_abs_dev_pp": 3.81,
+        "expected_delay_mae_vs_max_delay0": 19.18,
+        "val_accuracy_2022": 0.6108
+      },
+      "reg": {
+        "mae": 34.43,
+        "rmse": 86.67,
+        "r2": -0.0598,
+        "hit_10min": 0.4114,
+        "hit_15min": 0.5569,
+        "n": 183614
+      },
+      "two_stage": {
+        "mae": 18.88,
+        "hit_5min": 0.3544,
+        "hit_10min": 0.6609
+      }
+    }
+  },
+  "two_stage_val_ref_2022": {
+    "v1": 17.45,
+    "wx": 17.19,
+    "od": 17.1
+  },
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "dep": [
+    {
+      "bucket": 0,
+      "label": "不延误",
+      "train_share": 0.6967,
+      "median_minutes": -5.0,
+      "mean_minutes": -5.1
+    },
+    {
+      "bucket": 1,
+      "label": "延误1-15分钟",
+      "train_share": 0.1507,
+      "median_minutes": 5.0,
+      "mean_minutes": 6.3
+    },
+    {
+      "bucket": 2,
+      "label": "延误16-30分钟",
+      "train_share": 0.0536,
+      "median_minutes": 22.0,
+      "mean_minutes": 22.1
+    },
+    {
+      "bucket": 3,
+      "label": "延误31-60分钟",
+      "train_share": 0.046,
+      "median_minutes": 42.0,
+      "mean_minutes": 43.2
+    },
+    {
+      "bucket": 4,
+      "label": "延误60分钟以上",
+      "train_share": 0.0529,
+      "median_minutes": 104.0,
+      "mean_minutes": 141.7
+    }
+  ],
+  "arr": [
+    {
+      "bucket": 0,
+      "label": "不延误",
+      "train_share": 0.6935,
+      "median_minutes": -13.0,
+      "mean_minutes": -13.9
+    },
+    {
+      "bucket": 1,
+      "label": "延误1-15分钟",
+      "train_share": 0.1512,
+      "median_minutes": 6.0,
+      "mean_minutes": 6.6
+    },
+    {
+      "bucket": 2,
+      "label": "延误16-30分钟",
+      "train_share": 0.0566,
+      "median_minutes": 22.0,
+      "mean_minutes": 22.0
+    },
+    {
+      "bucket": 3,
+      "label": "延误31-60分钟",
+      "train_share": 0.0465,
+      "median_minutes": 42.0,
+      "mean_minutes": 43.0
+    },
+    {
+      "bucket": 4,
+      "label": "延误60分钟以上",
+      "train_share": 0.0522,
+      "median_minutes": 104.0,
+      "mean_minutes": 141.7
+    }
+  ]
+}

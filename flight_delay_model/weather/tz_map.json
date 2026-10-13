@@ -1,0 +1,2298 @@
+{
+  "ABE": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ABI": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ABQ": {
+    "base_offset_hours": -7,
+    "state": "NM",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ABR": {
+    "base_offset_hours": -6,
+    "state": "SD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ABY": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ACK": {
+    "base_offset_hours": -5,
+    "state": "MA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ACT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ACV": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ACY": {
+    "base_offset_hours": -5,
+    "state": "NJ",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ADK": {
+    "base_offset_hours": -10,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ADQ": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AEX": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AGS": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AKN": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ALB": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ALO": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ALS": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ALW": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AMA": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ANC": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "APN": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ART": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "ASE": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ATL": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ATW": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ATY": {
+    "base_offset_hours": -6,
+    "state": "SD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AUS": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AVL": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AVP": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "AZA": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  },
+  "AZO": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BDL": {
+    "base_offset_hours": -5,
+    "state": "CT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BET": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BFF": {
+    "base_offset_hours": -7,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BFL": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BFM": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "BGM": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BGR": {
+    "base_offset_hours": -5,
+    "state": "ME",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BHM": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BIH": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "BIL": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BIS": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BJI": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BKG": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BLI": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BLV": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BMI": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BNA": {
+    "base_offset_hours": -6,
+    "state": "TN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BOI": {
+    "base_offset_hours": -7,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BOS": {
+    "base_offset_hours": -5,
+    "state": "MA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BPT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BQK": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BQN": {
+    "base_offset_hours": -4,
+    "state": "PR",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "PR 不实行夏令时，使用州固定偏移"
+  },
+  "BRD": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BRO": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BRW": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BTM": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BTR": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BTV": {
+    "base_offset_hours": -5,
+    "state": "VT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BUF": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BUR": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BWI": {
+    "base_offset_hours": -5,
+    "state": "MD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "BZN": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CAE": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CAK": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CDB": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "CDC": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CDV": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CGI": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CHA": {
+    "base_offset_hours": -5,
+    "state": "TN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CHO": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CHS": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CID": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CIU": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CKB": {
+    "base_offset_hours": -5,
+    "state": "WV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CLE": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CLL": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CLT": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CMH": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CMI": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CMX": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CNY": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "COD": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "COS": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "COU": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CPR": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CRP": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CRW": {
+    "base_offset_hours": -5,
+    "state": "WV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CSG": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CVG": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CWA": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "CYS": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DAB": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DAL": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DAY": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DBQ": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DCA": {
+    "base_offset_hours": -5,
+    "state": "DC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DDC": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DEC": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DEN": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DFW": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DHN": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DIK": {
+    "base_offset_hours": -7,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DLG": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DLH": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DRO": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DRT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DSM": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DTW": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "DVL": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EAR": {
+    "base_offset_hours": -6,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EAT": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EAU": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ECP": {
+    "base_offset_hours": -6,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EGE": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EKO": {
+    "base_offset_hours": -8,
+    "state": "NV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ELM": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ELP": {
+    "base_offset_hours": -7,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ERI": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ESC": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EUG": {
+    "base_offset_hours": -8,
+    "state": "OR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EVV": {
+    "base_offset_hours": -6,
+    "state": "IN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EWN": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EWR": {
+    "base_offset_hours": -5,
+    "state": "NJ",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "EYW": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FAI": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FAR": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FAT": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FAY": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FCA": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FLG": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  },
+  "FLL": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FLO": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "FNT": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FOD": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FSD": {
+    "base_offset_hours": -6,
+    "state": "SD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FSM": {
+    "base_offset_hours": -6,
+    "state": "AR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "FWA": {
+    "base_offset_hours": -5,
+    "state": "IN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GCC": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GCK": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GEG": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GFK": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GGG": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GJT": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GNV": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GPT": {
+    "base_offset_hours": -6,
+    "state": "MS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GRB": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GRI": {
+    "base_offset_hours": -6,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GRK": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GRR": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GSO": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GSP": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GST": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GTF": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GTR": {
+    "base_offset_hours": -6,
+    "state": "MS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GUC": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "GUM": {
+    "base_offset_hours": null,
+    "state": "TT",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "HDN": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HGR": {
+    "base_offset_hours": -5,
+    "state": "MD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HHH": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HIB": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HLN": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HNL": {
+    "base_offset_hours": -10,
+    "state": "HI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "HI 不实行夏令时，使用州固定偏移"
+  },
+  "HOB": {
+    "base_offset_hours": -7,
+    "state": "NM",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HOU": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HPN": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HRL": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HSV": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HTS": {
+    "base_offset_hours": -5,
+    "state": "WV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HVN": {
+    "base_offset_hours": -5,
+    "state": "CT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HYA": {
+    "base_offset_hours": -5,
+    "state": "MA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "HYS": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IAD": {
+    "base_offset_hours": -5,
+    "state": "DC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IAG": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IAH": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ICT": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IDA": {
+    "base_offset_hours": -7,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ILG": {
+    "base_offset_hours": -5,
+    "state": "DE",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "ILM": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IMT": {
+    "base_offset_hours": -6,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IND": {
+    "base_offset_hours": -5,
+    "state": "IN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "INL": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "IPT": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "ISN": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ISP": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ITH": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ITO": {
+    "base_offset_hours": -10,
+    "state": "HI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "HI 不实行夏令时，使用州固定偏移"
+  },
+  "JAC": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JAN": {
+    "base_offset_hours": -6,
+    "state": "MS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JAX": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JFK": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JLN": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JMS": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JNU": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "JST": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "KOA": {
+    "base_offset_hours": -10,
+    "state": "HI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "HI 不实行夏令时，使用州固定偏移"
+  },
+  "KTN": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LAN": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LAR": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LAS": {
+    "base_offset_hours": -8,
+    "state": "NV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LAW": {
+    "base_offset_hours": -6,
+    "state": "OK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LAX": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LBB": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LBE": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LBF": {
+    "base_offset_hours": -6,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LBL": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LCH": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LCK": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LEX": {
+    "base_offset_hours": -5,
+    "state": "KY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LFT": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LGA": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LGB": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LIH": {
+    "base_offset_hours": -10,
+    "state": "HI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "HI 不实行夏令时，使用州固定偏移"
+  },
+  "LIT": {
+    "base_offset_hours": -6,
+    "state": "AR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LNK": {
+    "base_offset_hours": -6,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LRD": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LSE": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LWB": {
+    "base_offset_hours": -5,
+    "state": "WV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LWS": {
+    "base_offset_hours": -8,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "LYH": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MAF": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MBS": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MCI": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MCO": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MCW": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MDT": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MDW": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MEI": {
+    "base_offset_hours": -6,
+    "state": "MS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MEM": {
+    "base_offset_hours": -6,
+    "state": "TN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MFE": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MFR": {
+    "base_offset_hours": -8,
+    "state": "OR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MGM": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MHK": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MHT": {
+    "base_offset_hours": -5,
+    "state": "NH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MIA": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MKE": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MKG": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MLB": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MLI": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MLU": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MMH": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MOB": {
+    "base_offset_hours": -6,
+    "state": "AL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MOT": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MQT": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MRY": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MSN": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MSO": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MSP": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MSY": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MTJ": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MVY": {
+    "base_offset_hours": -5,
+    "state": "MA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "MYR": {
+    "base_offset_hours": -5,
+    "state": "SC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OAJ": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OAK": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OGD": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OGG": {
+    "base_offset_hours": -10,
+    "state": "HI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "HI 不实行夏令时，使用州固定偏移"
+  },
+  "OGS": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OKC": {
+    "base_offset_hours": -6,
+    "state": "OK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OMA": {
+    "base_offset_hours": -6,
+    "state": "NE",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OME": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ONT": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ORD": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ORF": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ORH": {
+    "base_offset_hours": -5,
+    "state": "MA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OTH": {
+    "base_offset_hours": -8,
+    "state": "OR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OTZ": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "OWB": {
+    "base_offset_hours": -6,
+    "state": "KY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PAE": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PAH": {
+    "base_offset_hours": -6,
+    "state": "KY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PBG": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PBI": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PDX": {
+    "base_offset_hours": -8,
+    "state": "OR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PGD": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PGV": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PHF": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PHL": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PHX": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  },
+  "PIA": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PIB": {
+    "base_offset_hours": -6,
+    "state": "MS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PIE": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PIH": {
+    "base_offset_hours": -7,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PIR": {
+    "base_offset_hours": -6,
+    "state": "SD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PIT": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PLN": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PNS": {
+    "base_offset_hours": -6,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PPG": {
+    "base_offset_hours": null,
+    "state": "TT",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "PRC": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  },
+  "PSC": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PSE": {
+    "base_offset_hours": -4,
+    "state": "PR",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "PR 不实行夏令时，使用州固定偏移"
+  },
+  "PSG": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PSM": {
+    "base_offset_hours": -5,
+    "state": "NH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PSP": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PUB": {
+    "base_offset_hours": -7,
+    "state": "CO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PUW": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PVD": {
+    "base_offset_hours": -5,
+    "state": "RI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PVU": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "PWM": {
+    "base_offset_hours": -5,
+    "state": "ME",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RAP": {
+    "base_offset_hours": -7,
+    "state": "SD",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RDD": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RDM": {
+    "base_offset_hours": -8,
+    "state": "OR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RDU": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RFD": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RHI": {
+    "base_offset_hours": -6,
+    "state": "WI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RIC": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RIW": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RKS": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RNO": {
+    "base_offset_hours": -8,
+    "state": "NV",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ROA": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ROC": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "ROW": {
+    "base_offset_hours": -7,
+    "state": "NM",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RST": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "RSW": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SAF": {
+    "base_offset_hours": -7,
+    "state": "NM",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SAN": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SAT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SAV": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SBA": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SBN": {
+    "base_offset_hours": -5,
+    "state": "IN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SBP": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SCC": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SCE": {
+    "base_offset_hours": -5,
+    "state": "PA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SCK": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SDF": {
+    "base_offset_hours": -5,
+    "state": "KY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SEA": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SFB": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SFO": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SGF": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SGU": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SHD": {
+    "base_offset_hours": -5,
+    "state": "VA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SHR": {
+    "base_offset_hours": -7,
+    "state": "WY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SHV": {
+    "base_offset_hours": -6,
+    "state": "LA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SIT": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SJC": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SJT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SJU": {
+    "base_offset_hours": -4,
+    "state": "PR",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "PR 不实行夏令时，使用州固定偏移"
+  },
+  "SLC": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SLN": {
+    "base_offset_hours": -6,
+    "state": "KS",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SMF": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SMX": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SNA": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SPI": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SPN": {
+    "base_offset_hours": null,
+    "state": "TT",
+    "derived_from_schedule": false,
+    "has_dst": true
+  },
+  "SPS": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SRQ": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "STC": {
+    "base_offset_hours": -6,
+    "state": "MN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "STL": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "STS": {
+    "base_offset_hours": -8,
+    "state": "CA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "STT": {
+    "base_offset_hours": -4,
+    "state": "VI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "VI 不实行夏令时，使用州固定偏移"
+  },
+  "STX": {
+    "base_offset_hours": -4,
+    "state": "VI",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "VI 不实行夏令时，使用州固定偏移"
+  },
+  "SUN": {
+    "base_offset_hours": -7,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SUX": {
+    "base_offset_hours": -6,
+    "state": "IA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SWF": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SWO": {
+    "base_offset_hours": -6,
+    "state": "OK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "SYR": {
+    "base_offset_hours": -5,
+    "state": "NY",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TBN": {
+    "base_offset_hours": -6,
+    "state": "MO",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TLH": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TOL": {
+    "base_offset_hours": -5,
+    "state": "OH",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TPA": {
+    "base_offset_hours": -5,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TRI": {
+    "base_offset_hours": -5,
+    "state": "TN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TTN": {
+    "base_offset_hours": -5,
+    "state": "NJ",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TUL": {
+    "base_offset_hours": -6,
+    "state": "OK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TUS": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  },
+  "TVC": {
+    "base_offset_hours": -5,
+    "state": "MI",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TWF": {
+    "base_offset_hours": -7,
+    "state": "ID",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TXK": {
+    "base_offset_hours": -6,
+    "state": "AR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TYR": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "TYS": {
+    "base_offset_hours": -5,
+    "state": "TN",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "UIN": {
+    "base_offset_hours": -6,
+    "state": "IL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "USA": {
+    "base_offset_hours": -5,
+    "state": "NC",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "VCT": {
+    "base_offset_hours": -6,
+    "state": "TX",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "VEL": {
+    "base_offset_hours": -7,
+    "state": "UT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "VLD": {
+    "base_offset_hours": -5,
+    "state": "GA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "VPS": {
+    "base_offset_hours": -6,
+    "state": "FL",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "WRG": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "WYS": {
+    "base_offset_hours": -7,
+    "state": "MT",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "XNA": {
+    "base_offset_hours": -6,
+    "state": "AR",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "XWA": {
+    "base_offset_hours": -6,
+    "state": "ND",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "YAK": {
+    "base_offset_hours": -9,
+    "state": "AK",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "YKM": {
+    "base_offset_hours": -8,
+    "state": "WA",
+    "derived_from_schedule": true,
+    "has_dst": true
+  },
+  "YUM": {
+    "base_offset_hours": -7,
+    "state": "AZ",
+    "derived_from_schedule": false,
+    "has_dst": false,
+    "note": "AZ 不实行夏令时，使用州固定偏移"
+  }
+}

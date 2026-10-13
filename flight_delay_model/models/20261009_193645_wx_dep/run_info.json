@@ -1,0 +1,12 @@
+{
+  "run_id": "20261009_193645_wx_dep",
+  "created_at": "2026-10-13T12:21:11",
+  "type": "wx_dep_four_arm",
+  "mode": "full",
+  "models": [
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx_block__catboost.cbm",
+    "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx_od__catboost.cbm"
+  ]
+}

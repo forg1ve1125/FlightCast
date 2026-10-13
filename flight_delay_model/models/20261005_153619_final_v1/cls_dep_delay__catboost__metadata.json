@@ -1,0 +1,81 @@
+{
+  "run_id": "20261005_153619_final_v1",
+  "task": "cls_dep_delay",
+  "task_desc": "分类：出发延误概率  P(DEP_DELAY >= 15)",
+  "algo": "catboost",
+  "feature_set": "v1",
+  "quick_mode": false,
+  "model_file": "cls_dep_delay__catboost.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_153619_final_v1/cls_dep_delay__catboost.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "historical_stats_file": null,
+  "categories": null,
+  "target": "DEP_DELAY >= 15min (1/0)",
+  "delay_threshold_min": 15,
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "val_years": [
+      2022
+    ],
+    "test_years": [
+      2023
+    ],
+    "train_rows": 1791628,
+    "val_rows": 667762
+  },
+  "hyperparams": {
+    "loss_function": "Logloss",
+    "eval_metric": "AUC",
+    "iterations": 1500,
+    "learning_rate": 0.1,
+    "depth": 8,
+    "l2_leaf_reg": 3.0,
+    "auto_class_weights": "Balanced",
+    "random_seed": 42,
+    "verbose": 200,
+    "allow_writing_files": false
+  },
+  "param_overrides": {},
+  "early_stopping_rounds": 150,
+  "random_seed": 42,
+  "val_metrics_2022": {
+    "threshold": 0.5,
+    "accuracy": 0.6326,
+    "precision": 0.3171,
+    "recall": 0.6297,
+    "f1": 0.4218,
+    "auc": 0.682,
+    "best_iteration": 46
+  },
+  "train_duration_sec": 75.0,
+  "trained_at": "2026-10-05T15:32:09",
+  "library_versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "catboost": "1.2.10",
+    "lightgbm": null
+  }
+}

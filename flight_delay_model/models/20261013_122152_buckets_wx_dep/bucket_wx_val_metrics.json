@@ -1,0 +1,252 @@
+{
+  "run_id": "20261013_122152_buckets_wx_dep",
+  "mode": "full",
+  "weather_coverage": {
+    "origin": 0.9962,
+    "dest": 0.9961
+  },
+  "v1wx_od": {
+    "accuracy": 0.6108,
+    "macro_f1": 0.1666,
+    "weighted_f1": 0.4702,
+    "confusion_matrix": [
+      [
+        405212,
+        688,
+        5,
+        32,
+        455
+      ],
+      [
+        122247,
+        1422,
+        11,
+        44,
+        320
+      ],
+      [
+        47376,
+        943,
+        11,
+        33,
+        280
+      ],
+      [
+        40828,
+        1024,
+        9,
+        44,
+        485
+      ],
+      [
+        44020,
+        1018,
+        12,
+        62,
+        1181
+      ]
+    ],
+    "per_class_f1": {
+      "bucket0_不延误": 0.7602,
+      "bucket1_延误1-15分钟": 0.022,
+      "bucket2_延误16-30分钟": 0.0005,
+      "bucket3_延误31-60分钟": 0.0021,
+      "bucket4_延误60分钟以上": 0.0482
+    },
+    "probability_calibration": [
+      {
+        "bucket": 0,
+        "mean_pred_prob": 0.6953,
+        "actual_rate": 0.6086
+      },
+      {
+        "bucket": 1,
+        "mean_pred_prob": 0.153,
+        "actual_rate": 0.1858
+      },
+      {
+        "bucket": 2,
+        "mean_pred_prob": 0.0542,
+        "actual_rate": 0.0728
+      },
+      {
+        "bucket": 3,
+        "mean_pred_prob": 0.046,
+        "actual_rate": 0.0635
+      },
+      {
+        "bucket": 4,
+        "mean_pred_prob": 0.0516,
+        "actual_rate": 0.0693
+      }
+    ],
+    "best_iteration": 568,
+    "seconds": 2490.6,
+    "expected_delay_mae_vs_max_delay0": 17.44
+  },
+  "flat_v1": {
+    "accuracy": 0.609,
+    "macro_f1": 0.1532,
+    "weighted_f1": 0.4626,
+    "confusion_matrix": [
+      [
+        406142,
+        249,
+        0,
+        0,
+        1
+      ],
+      [
+        123523,
+        521,
+        0,
+        0,
+        0
+      ],
+      [
+        48315,
+        328,
+        0,
+        0,
+        0
+      ],
+      [
+        42003,
+        385,
+        0,
+        0,
+        2
+      ],
+      [
+        45900,
+        390,
+        0,
+        0,
+        3
+      ]
+    ],
+    "per_class_f1": {
+      "bucket0_不延误": 0.7575,
+      "bucket1_延误1-15分钟": 0.0083,
+      "bucket2_延误16-30分钟": 0.0,
+      "bucket3_延误31-60分钟": 0.0,
+      "bucket4_延误60分钟以上": 0.0001
+    },
+    "probability_calibration": [
+      {
+        "bucket": 0,
+        "mean_pred_prob": 0.6933,
+        "actual_rate": 0.6086
+      },
+      {
+        "bucket": 1,
+        "mean_pred_prob": 0.1534,
+        "actual_rate": 0.1858
+      },
+      {
+        "bucket": 2,
+        "mean_pred_prob": 0.0542,
+        "actual_rate": 0.0728
+      },
+      {
+        "bucket": 3,
+        "mean_pred_prob": 0.0464,
+        "actual_rate": 0.0635
+      },
+      {
+        "bucket": 4,
+        "mean_pred_prob": 0.0526,
+        "actual_rate": 0.0693
+      }
+    ],
+    "expected_delay_mae_vs_max_delay0": 17.85
+  },
+  "flat_run_id": "20261006_124341_buckets",
+  "prev_wx": {
+    "accuracy": 0.6103,
+    "macro_f1": 0.1629,
+    "weighted_f1": 0.4678,
+    "confusion_matrix": [
+      [
+        405603,
+        477,
+        1,
+        16,
+        295
+      ],
+      [
+        122804,
+        1009,
+        0,
+        17,
+        214
+      ],
+      [
+        47749,
+        677,
+        1,
+        15,
+        201
+      ],
+      [
+        41266,
+        755,
+        0,
+        23,
+        346
+      ],
+      [
+        44521,
+        806,
+        3,
+        37,
+        926
+      ]
+    ],
+    "per_class_f1": {
+      "bucket0_不延误": 0.7593,
+      "bucket1_延误1-15分钟": 0.0158,
+      "bucket2_延误16-30分钟": 0.0,
+      "bucket3_延误31-60分钟": 0.0011,
+      "bucket4_延误60分钟以上": 0.0384
+    },
+    "probability_calibration": [
+      {
+        "bucket": 0,
+        "mean_pred_prob": 0.6944,
+        "actual_rate": 0.6086
+      },
+      {
+        "bucket": 1,
+        "mean_pred_prob": 0.1534,
+        "actual_rate": 0.1858
+      },
+      {
+        "bucket": 2,
+        "mean_pred_prob": 0.0541,
+        "actual_rate": 0.0728
+      },
+      {
+        "bucket": 3,
+        "mean_pred_prob": 0.046,
+        "actual_rate": 0.0635
+      },
+      {
+        "bucket": 4,
+        "mean_pred_prob": 0.0522,
+        "actual_rate": 0.0693
+      }
+    ],
+    "best_iteration": 259,
+    "seconds": 1144.5,
+    "expected_delay_mae_vs_max_delay0": 17.56
+  },
+  "prev_wx_run": "20261009_202254_buckets_wx_dep",
+  "verdict": {
+    "accuracy_win": true,
+    "calibration_win": false,
+    "macro_f1_win": true,
+    "wins": 2,
+    "recommend": "建议采用天气版区间模型"
+  }
+}

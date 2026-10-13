@@ -1,0 +1,81 @@
+读取 /Users/lyc031125/Desktop/IS6400/Group Project/Dataset/flights_sample_3m_clean.csv
+训练 1,848,656 行 / 验证 687,860 行（2023 测试集不加载！）
+历史统计(as-of): route_month=73,271 全局延误率=0.1580
+
+0:	test: 0.6589634	best: 0.6589634 (0)	total: 444ms	remaining: 11m 5s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6819996234
+bestIteration = 46
+
+Shrink model to first 47 iterations.
+[CB-v1-基线                    ] AUC=0.6820 F1=0.4221 P=0.322 R=0.611 acc=0.6439  (73.2s)
+0:	test: 0.6589634	best: 0.6589634 (0)	total: 390ms	remaining: 9m 44s
+200:	test: 0.6815421	best: 0.6819235 (108)	total: 1m 20s	remaining: 8m 41s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6819235249
+bestIteration = 108
+
+Shrink model to first 109 iterations.
+[CB-v1-lr0.05                ] AUC=0.6819 F1=0.4225 P=0.320 R=0.620 acc=0.6393  (112.7s)
+0:	test: 0.6622003	best: 0.6622003 (0)	total: 520ms	remaining: 12m 59s
+200:	test: 0.6803705	best: 0.6815586 (97)	total: 2m 6s	remaining: 13m 35s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6815586276
+bestIteration = 97
+
+Shrink model to first 98 iterations.
+[CB-v1-lr0.05-d10            ] AUC=0.6816 F1=0.4222 P=0.324 R=0.606 acc=0.6470  (157.9s)
+0:	test: 0.6471724	best: 0.6471724 (0)	total: 277ms	remaining: 6m 55s
+200:	test: 0.6819269	best: 0.6819785 (178)	total: 1m 25s	remaining: 9m 15s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6819969164
+bestIteration = 210
+
+Shrink model to first 211 iterations.
+[CB-v1-lr0.05-d6-l2=9        ] AUC=0.6820 F1=0.4225 P=0.320 R=0.623 acc=0.6379  (151.6s)
+0:	test: 0.6589634	best: 0.6589634 (0)	total: 320ms	remaining: 7m 58s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6813049264
+bestIteration = 34
+
+Shrink model to first 35 iterations.
+[CB-v1-lr0.15-d8-l2=6        ] AUC=0.6813 F1=0.4223 P=0.322 R=0.614 acc=0.6427  (87.4s)
+0:	test: 0.4829405	best: 0.4829405 (0)	total: 455ms	remaining: 11m 22s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.5007955627
+bestIteration = 2
+
+Shrink model to first 3 iterations.
+[CB-v2asof-lr0.1             ] AUC=0.5008 F1=0.3515 P=0.213 R=0.993 acc=0.2202  (71.3s)
+0:	test: 0.4829405	best: 0.4829405 (0)	total: 416ms	remaining: 10m 23s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.5011907416
+bestIteration = 2
+
+Shrink model to first 3 iterations.
+[CB-v2asof-lr0.05            ] AUC=0.5012 F1=0.3515 P=0.213 R=0.993 acc=0.2200  (70.4s)
+[LGB-v1-基线                   ] AUC=0.6735 F1=0.4158 P=0.312 R=0.622 acc=0.6284  (19.1s)
+[200]	valid_0's auc: 0.670471
+[LGB-v1-lr0.05-l63-mcs300    ] AUC=0.6756 F1=0.4177 P=0.312 R=0.630 acc=0.6258  (18.6s)
+[LGB-v1-lr0.05-l255          ] AUC=0.6705 F1=0.4142 P=0.313 R=0.611 acc=0.6321  (28.5s)
+
+===== 验证集(2022)排名（按AUC） =====
+ 1. CB-v1-基线                     AUC=0.6820 F1=0.4221 P=0.322 R=0.611 acc=0.6439
+ 2. CB-v1-lr0.05-d6-l2=9         AUC=0.6820 F1=0.4225 P=0.320 R=0.623 acc=0.6379
+ 3. CB-v1-lr0.05                 AUC=0.6819 F1=0.4225 P=0.320 R=0.620 acc=0.6393
+ 4. CB-v1-lr0.05-d10             AUC=0.6816 F1=0.4222 P=0.324 R=0.606 acc=0.6470
+ 5. CB-v1-lr0.15-d8-l2=6         AUC=0.6813 F1=0.4223 P=0.322 R=0.614 acc=0.6427
+ 6. LGB-v1-lr0.05-l63-mcs300     AUC=0.6756 F1=0.4177 P=0.312 R=0.630 acc=0.6258
+ 7. LGB-v1-基线                    AUC=0.6735 F1=0.4158 P=0.312 R=0.622 acc=0.6284
+ 8. LGB-v1-lr0.05-l255           AUC=0.6705 F1=0.4142 P=0.313 R=0.611 acc=0.6321
+ 9. CB-v2asof-lr0.05             AUC=0.5012 F1=0.3515 P=0.213 R=0.993 acc=0.2200
+10. CB-v2asof-lr0.1              AUC=0.5008 F1=0.3515 P=0.213 R=0.993 acc=0.2202
+
+已保存: tuning_results.json

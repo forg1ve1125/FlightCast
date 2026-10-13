@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-10-09T17:59:34",
+  "source": "https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py",
+  "range": [
+    "2018-12-25",
+    "2024-01-05"
+  ],
+  "stations_total": 380,
+  "stations_with_weather": 380,
+  "stations_failed_last_run": [],
+  "stations_no_weather": [],
+  "raw_files": 380,
+  "output": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/weather/weather_hourly.csv.gz",
+  "resume_note": "重跑同一命令即续传：已下载文件自动跳过，失败站点自动重试"
+}

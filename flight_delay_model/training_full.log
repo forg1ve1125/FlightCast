@@ -1,0 +1,67 @@
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:189: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:189: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:189: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/02_train_models.py:189: Pandas4Warning: Constructing a Categorical with a dtype and values containing non-null entries not in that dtype's categories is deprecated and will raise in a future version.
+  x_va[c] = pd.Categorical(x_va[c], categories=cats)
+读取清洗后数据集: /Users/lyc031125/Desktop/IS6400/Group Project/Dataset/flights_sample_3m_clean.csv
+  共 3,000,000 行 x 20 列
+数据划分: 训练集 2019-2020-2021: 1,848,656 行 | 验证集 2022: 687,860 行 | 测试集 2023: 463,484 行（本次训练不使用）
+
+=== [catboost] cls_dep_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+0:	test: 0.6589634	best: 0.6589634 (0)	total: 502ms	remaining: 12m 32s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6819996234
+bestIteration = 46
+
+Shrink model to first 47 iterations.
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6326, 'precision': 0.3171, 'recall': 0.6297, 'f1': 0.4218, 'auc': 0.682, 'best_iteration': 46}  耗时 64.8s
+
+=== [catboost] cls_arr_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+0:	test: 0.6338701	best: 0.6338701 (0)	total: 315ms	remaining: 7m 52s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 0.6544710457
+bestIteration = 47
+
+Shrink model to first 48 iterations.
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6159, 'precision': 0.2977, 'recall': 0.6074, 'f1': 0.3995, 'auc': 0.6545, 'best_iteration': 47}  耗时 71.5s
+
+=== [catboost] reg_dep_delay : 训练 543,330 行 / 验证 261,370 行 ===
+0:	learn: 31.8630187	test: 32.1029565	best: 32.1029565 (0)	total: 91.5ms	remaining: 2m 17s
+200:	learn: 30.8843581	test: 31.5800287	best: 31.5719527 (129)	total: 18.6s	remaining: 2m
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 31.57195268
+bestIteration = 129
+
+Shrink model to first 130 iterations.
+验证集(2022)指标: {'mae_min': 31.57, 'rmse_min': 77.67, 'r2': -0.0698, 'best_iteration': 129}  耗时 26.7s
+
+=== [catboost] reg_arr_delay : 训练 549,121 行 / 验证 249,258 行 ===
+0:	learn: 31.1825391	test: 32.8155576	best: 32.8155576 (0)	total: 89.9ms	remaining: 2m 14s
+200:	learn: 30.2949366	test: 32.3103270	best: 32.2890494 (79)	total: 20.5s	remaining: 2m 12s
+Stopped by overfitting detector  (150 iterations wait)
+
+bestTest = 32.28904944
+bestIteration = 79
+
+Shrink model to first 80 iterations.
+验证集(2022)指标: {'mae_min': 32.29, 'rmse_min': 79.22, 'r2': -0.0803, 'best_iteration': 79}  耗时 24.2s
+
+=== [lightgbm] cls_dep_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.6944, 'precision': 0.3478, 'recall': 0.498, 'f1': 0.4096, 'auc': 0.6735, 'best_iteration': 20}  耗时 17.1s
+
+=== [lightgbm] cls_arr_delay : 训练 1,791,628 行 / 验证 667,762 行 ===
+验证集(2022)指标: {'threshold': 0.5, 'accuracy': 0.69, 'precision': 0.3259, 'recall': 0.4431, 'f1': 0.3755, 'auc': 0.6473, 'best_iteration': 20}  耗时 17.3s
+
+=== [lightgbm] reg_dep_delay : 训练 543,330 行 / 验证 261,370 行 ===
+验证集(2022)指标: {'mae_min': 31.63, 'rmse_min': 77.78, 'r2': -0.0728, 'best_iteration': 19}  耗时 8.5s
+
+=== [lightgbm] reg_arr_delay : 训练 549,121 行 / 验证 249,258 行 ===
+验证集(2022)指标: {'mae_min': 32.36, 'rmse_min': 79.28, 'r2': -0.0819, 'best_iteration': 21}  耗时 10.1s
+
+全部完成。模型存档目录: /Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261005_123402

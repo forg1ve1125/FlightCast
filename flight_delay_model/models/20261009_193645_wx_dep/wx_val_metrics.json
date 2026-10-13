@@ -1,0 +1,57 @@
+{
+  "run_id": "20261009_193645_wx_dep",
+  "mode": "full",
+  "scope": "departure-only",
+  "weather_coverage": {
+    "origin": 0.9962,
+    "dest": 0.9961
+  },
+  "segments": {
+    "dep": {
+      "v1": {
+        "threshold": 0.5,
+        "accuracy": 0.6441,
+        "precision": 0.5398,
+        "recall": 0.6153,
+        "f1": 0.5751,
+        "auc": 0.6923,
+        "logloss": 0.6325,
+        "best_iteration": 88,
+        "seconds": 2.1
+      },
+      "v1wx": {
+        "threshold": 0.5,
+        "accuracy": 0.6535,
+        "precision": 0.5513,
+        "recall": 0.6173,
+        "f1": 0.5824,
+        "auc": 0.7028,
+        "logloss": 0.625,
+        "best_iteration": 132,
+        "seconds": 0.5
+      },
+      "v1wx_block": {
+        "threshold": 0.5,
+        "accuracy": 0.6533,
+        "precision": 0.5511,
+        "recall": 0.6156,
+        "f1": 0.5816,
+        "auc": 0.7024,
+        "logloss": 0.6254,
+        "best_iteration": 124,
+        "seconds": 0.4
+      },
+      "v1wx_od": {
+        "threshold": 0.5,
+        "accuracy": 0.6568,
+        "precision": 0.5564,
+        "recall": 0.6084,
+        "f1": 0.5812,
+        "auc": 0.7042,
+        "logloss": 0.622,
+        "best_iteration": 227,
+        "seconds": 133.3
+      }
+    }
+  }
+}

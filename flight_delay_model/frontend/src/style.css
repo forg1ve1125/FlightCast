@@ -1,0 +1,29 @@
+/* Cathay-inspired design tokens */
+:root {
+  --green-ink: #00332e;        /* deep forest green — headings, active tab */
+  --green-brand: #00645a;      /* Cathay brand green — accents, links */
+  --green-btn: #2c4036;        /* primary button (measured on cathaypacific.com) */
+  --green-btn-hover: #1f3d33;
+  --bg: #fafaf7;               /* warm off-white page */
+  --panel: #f4f3f0;            /* warm neutral panels */
+  --panel-2: #ededeb;
+  --hairline: #d9d7d0;
+  --ink: #101820;              /* near-black text */
+  --ink-body: #4a4a45;         /* body grey */
+  --ink-soft: #77766f;
+  --card-shadow: 0 12px 32px rgba(0, 51, 46, 0.10);
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+a { color: var(--green-brand); }
