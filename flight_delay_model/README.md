@@ -1,34 +1,52 @@
-# IS6400 小组项目：航班延误预测模型（CatBoost / LightGBM）
+# IS6400 小组项目：航班延误预测模型（CatBoost）
+
+> **最终形态（2026-10-13 定格）**：仅预测**出发延误**，线上由三个 CatBoost 组件组成
+> （二分类 / 五档多分类 / 回归），各 39 特征 = 11 计划特征 + 起飞机场天气 14 + 到达机场天气 14。
+> 2023 测试集收官成绩：**AUC 0.7038 / 两段式期望延误 MAE 18.88 分钟**。
+> 最终采用哪几个模型、如何切换，见下文[「最终采用的模型」](#最终采用的模型线上现役)一节。
 
 按 **9.24 会议纪要** 和 **《训练模型不需要使用的字段》** 文档实现的完整流水线：
-数据清洗 → 特征工程 → 模型训练 → 测试集评估 → 新航班预测，附全套测试验证脚本。
+数据清洗 → 特征工程 → 模型训练 → 验证评估 → 天气特征 → 2023 收官测试 → 全栈网页部署。
 
-## 我们要做什么（会议纪要）
+## 我们要做什么（会议纪要 + 后续范围决策）
 
 给定航班信息，预测：
 1. **延误的概率**（分类：**延误时间 > 0 分钟**即为"延误"，小组统一口径）
 2. **在延误概率的基础上，分别延误多少时间**（回归：延误分钟数）
-3. 延误分**出发延误（DEP_DELAY）**和**到达延误（ARR_DELAY）**两类，各自都有分类+回归
+3. ~~出发延误和到达延误两类~~ → **2026-10-08 导师建议聚焦单一任务后，只预测出发延误**
+   （到达模型存档保留但不再训练/上线；两个计划时刻仍作为输入，见字段说明）
 
-最终预测输出形如：*"航班A有70%的概率延误，若延误预计延误 X 分钟"*（两段式：`期望延误 = P(延误) × 预测分钟`）。
+最终预测输出形如：*"63% on time · 25% 1-15 min delay (~5 min) · …"*（五档概率分布）
+与 *"35.2% chance of any delay; if delayed, about 38 min; expected delay 13.3 min"*（两段式）。
 
 ## 文件说明
 
 | 文件 | 作用 |
 |---|---|
-| `config.py` | 全局配置：路径、12个排除字段、数据划分、延误阈值、随机种子 |
+| `config.py` | 全局配置：路径、12个排除字段、数据划分、延误阈值/五档边界、随机种子 |
 | `features.py` | 特征工程（只使用"起飞前可知"的信息，防数据泄漏） |
 | `01_prepare_data.py` | **方式一（文档推荐）**：生成去除不使用字段的新数据集，保留原始数据集 |
-| `02_train_models.py` | 训练 CatBoost/LightGBM（分类+回归），自动存档每个模型 |
+| `02_train_models.py` | 训练 CatBoost/LightGBM（分类+回归，v1 基线），自动存档每个模型 |
 | `02b_tune_on_validation.py` | **只用验证集调参**（特征集/超参候选在2022上一一评估，绝不碰测试集） |
-| `03_evaluate_models.py` | 在 2023 测试集上评估（准确率/精确率/召回率/F1/AUC/MAE/RMSE/R²） |
+| `03_evaluate_models.py` | 模型评估工具（被后续脚本复用：加载存档/构建特征/预测） |
 | `04_predict.py` | 用存档模型预测新航班（演示与前端对接的输入/输出格式） |
 | `05_feasibility_analysis.py` | 分析"80/80/80是否可行"（结论：不可行，数学+实证） |
-| `06_eval_regression.py` | **延误分钟数预测质量评估**（MAE/RMSE/R²/±N分钟命中率+基线对比，验证集） |
+| `06_eval_regression.py` | **延误分钟数预测质量评估**（含勘误：两段式改为全体航班口径） |
 | `07_experiments_val.py` | 提升空间对照实验（集成/调参/新特征/XGBoost/单段式/校准，验证集） |
-| `08_train_bucket_models.py` | **延误区间多分类**（5档：不延误/1-15/16-30/31-60/>60分钟，多情景概率输出） |
-| `test_pipeline.py` | **测试/验证脚本**（10项测试，见下文） |
-| `models/<时间戳_run名>/` | 每次训练的存档：模型文件 + metadata.json（记录"怎么训练的"） |
+| `08_train_bucket_models.py` | **延误区间多分类**（5档，多情景概率输出，无天气版） |
+| `09_train_cumulative.py` | 累积二分类对照实验（4 个链式 P(>k)，结论：1/3 胜，弃用） |
+| `10_weather_download.py` | **IEM 天气数据下载**（380 机场逐站 2019–2023，断点续传+机场时区推导） |
+| `11_train_weather.py` | 二分类**四臂对照**（v1 / +起飞天气 / +块时长 / +双端天气） |
+| `12_train_bucket_weather.py` | 区间模型 + 双端天气（39 特征，双对照：08 版与上代天气版） |
+| `13_train_regression_weather.py` | 回归模型 + 双端天气（两段式三组合对照） |
+| `14_test_2023.py` | **2023 测试集一次性收官评估**（三档消融×三组件，已有结果拒绝重跑） |
+| `test_pipeline.py` | 数据/特征层测试脚本（10项） |
+| `server/` | Flask 后端：`app.py`（路由）、`predictor_service.py`（预测编排）、
+  `weather_serving.py`（Open-Meteo 双端预报+模型注册表）、`verdict.py`（argmax 英文结论）、
+  `auth.py`（注册/登录/历史，独立 app.db）、`build_meta_db.py`（元数据库）、`test_backend.py` |
+| `frontend/` | Vue3 前端（国泰风格全英文，`npm run build` 后由 Flask 托管） |
+| `weather/` | `tz_map.json`（机场时区）、`airport_coords.json`（坐标）、原始/整合天气数据（不入库） |
+| `models/<时间戳_run名>/` | 每次训练的存档：模型文件 + metadata.json + 指标 + 图表 + 报告 |
 
 ### 存档命名规范（统一格式）
 
@@ -39,36 +57,52 @@ python 02_train_models.py --feature-set v1 --run-name final_gt0   # 自动生成
 python 02_train_models.py --feature-set v1 --run-id 20261006_101500_myrun  # 也可完整指定
 ```
 
-当前存档：`20261005_155440_final_gt0`（**当前最优**，延误>0口径）、
-`20261005_153619_final_v1`（15分钟口径对照）、`20261005_123222_quick`（冒烟）、
-`20261005_123402_first15min`（首次全量，15分钟口径）。
+## 最终采用的模型（线上现役）
+
+三个组件全部为 CatBoost、39 特征（11 计划 + 起飞机场天气 14 + 到达机场天气 14），
+由注册表 `models/wx_serving.json` 控制启用与文件名：
+
+| 组件 | 回答的问题 | 存档 | 模型文件 | 2022验证 / 2023测试 |
+|---|---|---|---|---|
+| 二分类 | P(出发延误) | `20261009_193645_wx_dep`（臂4） | `cls_dep_delay__v1wx_od__catboost.cbm` | AUC 0.7042 / **0.7038** |
+| 五档区间 | 各延误区间的概率分布 | `20261013_122152_buckets_wx_dep` | `mcls_dep_delay__v1wx_od__catboost.cbm` | acc 0.6108 / 0.5991 |
+| 回归 | 若延误约几分钟 | `20261013_130457_wx_reg_dep` | `reg_dep_delay__v1wx_od__catboost.cbm` | 两段式 MAE 17.10 / 18.88 |
+
+兜底链（预报取不到→组件失败→整体异常时逐级回退）：
+- `models/latest_run.json` → `20261005_155440_final_gt0`（v1 基线 cls+reg，CatBoost/LightGBM）
+- `models/bucket_latest.json` → `20261006_124341_buckets`（v1 五档区间）
+
+换装/回滚：只改 `wx_serving.json` 的 run 与 `*_file` 字段后重启 Flask。线上在用的
+13 个模型二进制已入 git 仓库（克隆即可跑网页），其余存档二进制不入库、可按脚本重训。
 
 ## 快速开始
 
 ```bash
 # 0. 安装依赖（macOS 上 LightGBM 需要 libomp: brew install libomp）
-pip install pandas numpy scikit-learn catboost lightgbm
+pip install pandas numpy scikit-learn catboost lightgbm matplotlib flask
 
 # 1. 生成清洗数据集（约1-2分钟，只需运行一次）
 python 01_prepare_data.py
 
-# 2. 先冒烟测试一遍流程（抽样+少迭代，几分钟）
-python 02_train_models.py --quick
+# 2. 启动网页（模型二进制已在仓库中；详见 server 部分说明）
+python server/build_meta_db.py          # 首次：构建元数据库（约3秒）
+cd frontend && npm install && npm run build && cd ..
+python server/app.py                    # 打开 http://127.0.0.1:5000
 
-# 3. 完整训练全部 8 个模型（约 30-60 分钟）
-python 02_train_models.py                    # 可加 --algos catboost / --tasks cls_dep_delay
+# 3. 复现模型训练（可选；每个脚本支持断点续训，结束自动出总结+图表+报告）
+python 02_train_models.py               # v1 基线（约30-60分钟）
+python 10_weather_download.py           # 天气数据（约1-2小时，断点续传）
+python 11_train_weather.py              # 二分类四臂对照
+python 12_train_bucket_weather.py       # 区间模型（双端天气39特征）
+python 13_train_regression_weather.py   # 回归模型（双端天气39特征）
+python 14_test_2023.py                  # 2023 收官（已有结果会拒绝重跑）
 
-# 4. 评估（注意：2023 测试集只能用一次！）
-python 03_evaluate_models.py
-
-# 5. 预测新航班（前端对接示例）
-python 04_predict.py --demo
-
-# 6. 延误分钟预测质量评估（验证集，可反复运行）
-python 06_eval_regression.py
-
-# 7. 运行全部测试验证
-python test_pipeline.py
+# 4. 工具
+python 04_predict.py --demo             # 命令行预测示例
+python 06_eval_regression.py            # 分钟预测质量评估（验证集，可反复运行）
+python test_pipeline.py                 # 数据/特征层 10 项测试
+python server/test_backend.py           # 后端 6 项测试
+python server/weather_serving.py --self-test   # 天气服务自检（含双端预报）
 ```
 
 ## 关键设计决策
@@ -94,9 +128,10 @@ DELAY_DUE_NAS, DELAY_DUE_SECURITY, DELAY_DUE_LATE_AIRCRAFT`。
 是飞行后才知道的，**绝不作为特征**，否则数据泄漏、线下虚高线上失效。
 
 ### 3. 数据集划分（会议纪要规定）
-- **训练集**：2019-2021（1,848,656 行）— 训练模型
-- **验证集**：2022（687,860 行）— 早停、调阈值，可反复使用
-- **测试集**：2023（463,484 行）— 只在 `03_evaluate_models.py` 使用，**仅此一次**
+- **训练集**：2019-2021（1,791,628 行）— 训练模型
+- **验证集**：2022（667,762 行）— 早停、调参、一切采用决策，可反复使用
+- **测试集**：2023（463,484 行）— **仅在 `14_test_2023.py` 收官时读取一次**
+  （2026-10-13，三档消融×三组件，结果已定格；对同一存档拒绝重跑）
 
 ### 4. 类别不平衡与防过拟合
 - 延误率约 33-40%（延误>0口径）：CatBoost 用 `auto_class_weights=Balanced`，LightGBM 用 `scale_pos_weight`
@@ -124,7 +159,8 @@ DELAY_DUE_NAS, DELAY_DUE_SECURITY, DELAY_DUE_LATE_AIRCRAFT`。
 - 第2轮：v1 特征下扫超参（lr/depth/l2/num_leaves等10个配置）→ CatBoost 已饱和（±0.0007）；
   LightGBM 微调后 0.6735→**0.6756**，采纳（lr=0.05, num_leaves=63, min_child_samples=300）。
 
-**最终配置**（存档 `models/20261005_155440_final_gt0/`，延误定义 = 延误时间>0）：v1 特征 + CatBoost 基线超参
+**最终配置（v1 时代的最终配置；现役线上模型见上文「最终采用的模型」）**
+（存档 `models/20261005_155440_final_gt0/`，延误定义 = 延误时间>0）：v1 特征 + CatBoost 基线超参
 + LightGBM 调优超参。验证集(2022)与测试集(2023)指标高度一致，无过拟合。
 历史15分钟口径的对比存档保留在 `models/20261005_153619_final_v1/`。
 
