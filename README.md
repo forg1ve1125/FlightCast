@@ -56,8 +56,7 @@ md5 Dataset/flights_sample_3m.csv     # 应为 633c02070a85e801b6bf23d76acd3fdf
 cd flight_delay_model
 python 01_prepare_data.py        # 清洗数据集（约1-2分钟，生成 *_clean.csv）
 python server/build_meta_db.py   # 构建航司/机场/航线元数据库（约3秒）
-# 模型二进制不在仓库里：要么向组员拷贝 flight_delay_model/models/ 的 *.cbm，
-# 要么按第 3 节自己训练（约30-60分钟）
+# 线上在用的模型二进制已包含在仓库里，无需拷贝；重训全部存档见第 3 节
 cd frontend && npm run build && cd ..
 python server/app.py             # 打开 http://127.0.0.1:5000
 ```

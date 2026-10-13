@@ -14,9 +14,15 @@ Dataset/*.csv
 flight_delay_model/weather/raw/
 flight_delay_model/weather/*.csv.gz
 
-# ---- 模型二进制不入库（脚本可重训）；metadata/指标/图表/报告保留用于追溯 ----
+# ---- 模型二进制默认不入库（脚本可重训）；例外：线上服务在用的模型放行，克隆即可跑网页 ----
 *.cbm
 flight_delay_model/models/**/*.txt
+!flight_delay_model/models/20261005_155440_final_gt0/*.cbm
+!flight_delay_model/models/20261005_155440_final_gt0/*.txt
+!flight_delay_model/models/20261006_124341_buckets/mcls_*_delay__catboost.cbm
+!flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx_od__catboost.cbm
+!flight_delay_model/models/20261013_122152_buckets_wx_dep/mcls_dep_delay__v1wx_od__catboost.cbm
+!flight_delay_model/models/20261013_130457_wx_reg_dep/reg_dep_delay__v1wx_od__catboost.cbm
 
 # ---- 前端 ----
 flight_delay_model/frontend/node_modules/

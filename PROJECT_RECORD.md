@@ -315,8 +315,9 @@ python server/app.py                 # http://127.0.0.1:5000
 
 - 仓库为**私有**仓库，组员由仓库 owner 在 Settings → Collaborators 邀请（或
   `gh api repos/<owner>/IS6400/collaborators/<对方用户名> -X PUT`）；
-- 不入库的大文件：原始/清洗数据集（CSV）、天气整合数据（csv.gz）、模型二进制
+- 不入库的大文件：原始/清洗数据集（CSV）、天气整合数据（csv.gz）、其余存档的模型二进制
   （.cbm/.txt，可按脚本重训）、`node_modules`、运行时数据库与密钥；
-  **入库**：全部代码、每次训练的 metadata/指标/图表/报告（可追溯）、本文档；
+  **入库**：全部代码、每次训练的 metadata/指标/图表/报告（可追溯）、**线上在用的全套模型
+  二进制（v1 基线 + od 档三组件，约 93MB，克隆即可跑网页）**、本文档；
 - 关键可追溯锚点：原始数据 MD5（`Dataset/data_manifest.json`）、2023 测试纪律
   （`14_test_2023.py` 的 `--force` 门槛）、README 中的 06 号勘误记录。
