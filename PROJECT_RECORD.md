@@ -28,8 +28,12 @@
 
 ### 2.1 航班数据（Kaggle 公开数据集）
 
+- **下载地址**：<https://www.kaggle.com/datasets/patrickzel/flight-delay-and-cancellation-dataset-2019-2023>
+  （"Flight Delay and Cancellation Dataset (2019-2023)"，作者 patrickzel；页面内下载
+  `flights_sample_3m.csv` 与字段说明 `dictionary.html`）
+- **原始出处**：美国交通部 BTS TranStats "Reporting Carrier On-Time Performance"
+  （<https://www.transtats.bts.gov/ONTIME/>），Kaggle 版本为其 2019–2023 的公开抽样
 - **文件**：`flights_sample_3m.csv` —— 3,000,000 行 × 32 列，美国国内航班 2019–2023
-  （原始来源为美国交通部 BTS TranStats "Reporting Carrier On-Time Performance" 的公开抽样）。
 - **完整性锚点**：原始文件 MD5 = `633c02070a85e801b6bf23d76acd3fdf`，行数/列数/字段清单
   记录于 `Dataset/data_manifest.json`；**原始数据永不修改**，清洗产物另存
   `flights_sample_3m_clean.csv`（3,000,000 行 × 20 列，由 `01_prepare_data.py` 生成）。
@@ -45,6 +49,10 @@
 
 - **来源**：Iowa Environmental Mesonet（IEM）ASOS/METAR 逐小时**实测**气象，
   按 380 个机场气象站逐站下载 2019–2023（脚本 `10_weather_download.py`，支持断点续传）。
+  - 下载门户：<https://mesonet.agron.iastate.edu/request/download.phtml>
+  - 数据接口（脚本实际调用的 URL）：<https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py>
+    （GET 参数：`station`=ICAO 站号、`data=all`、`year1/month1/day1…year2/month2/day2`、
+    `tz=Etc/UTC`，返回 CSV；浏览器打开门户页可交互式选择同样的数据）
 - **覆盖**：380/380 机场全部成功（出发 ∪ 到达机场集合），整合为
   `weather/weather_hourly.csv.gz`（UTC 逐小时，162MB，不入库，可由脚本重建）。
 - **下载过程中解决的真实问题**：
@@ -60,8 +68,26 @@
 ### 2.3 线上服务数据
 
 - **Open-Meteo 预报 API**（免费，无需密钥）：生成与训练 METAR **同构**的天气特征
-  （单位在请求端直接换算为 °F/节/英寸/英里）；
-- **OpenFlights airports.dat**：机场经纬度坐标（含改名机场手工兜底）。
+  （单位在请求端直接换算为 °F/节/英寸/英里）。
+  - 官方文档（参数逐项说明 + 在线试调）：<https://open-meteo.com/en/docs>
+  - 接口地址：<https://api.open-meteo.com/v1/forecast>
+  - 本项目 `server/weather_serving.py` 的调用方式（GET，逐小时预报，UTC）：
+
+    ```
+    https://api.open-meteo.com/v1/forecast
+        ?latitude=<纬度>&longitude=<经度>
+        &hourly=temperature_2m,dew_point_2m,relative_humidity_2m,wind_speed_10m,
+                wind_gusts_10m,precipitation,weather_code,cloud_cover,visibility
+        &start_date=<UTC日期>&end_date=<UTC日期>&timezone=UTC
+        &temperature_unit=fahrenheit&wind_speed_unit=kn&precipitation_unit=inch
+    ```
+
+    返回 JSON 的 `hourly` 数组按整点排列，取最接近航班起降 UTC 时刻的那一小时；
+    WMO `weather_code` 映射为雷暴/雨/雪/雾标志，`cloud_cover`(%)×8/100 折算云量 okta。
+  - 如需"训练也用预报口径"（消掉训练实测/线上预报的差异），可用其历史存档接口：
+    <https://open-meteo.com/en/docs/historical-weather-api>（`archive-api.open-meteo.com`）
+- **OpenFlights airports.dat**：机场经纬度坐标（含改名机场手工兜底）：
+  <https://github.com/jpatokal/openflights/blob/master/data/airports.dat>
 
 ---
 

@@ -64,7 +64,11 @@ cd flight_delay_model/frontend && npm install && cd ../..
 
 ### 1. 放入数据集
 
-从 Kaggle 下载 `flights_sample_3m.csv`（300 万行，2019–2023）放到 `Dataset/` 目录，
+从 Kaggle 下载 `flights_sample_3m.csv`（300 万行，2019–2023）放到 `Dataset/` 目录：
+
+> 下载页：<https://www.kaggle.com/datasets/patrickzel/flight-delay-and-cancellation-dataset-2019-2023>
+> （原始出处：BTS TranStats On-Time Performance，<https://www.transtats.bts.gov/ONTIME/>）
+
 然后用 MD5 核对与 `Dataset/data_manifest.json` 里记录的一致（保证大家用同一份数据）：
 
 ```bash
@@ -99,7 +103,7 @@ lsof -ti:5000 | xargs kill                   # 停止 Flask
 | 步骤 | 命令 | 说明 |
 |---|---|---|
 | 基线模型 | `python 02_train_models.py` | v1 计划特征，CatBoost/LightGBM |
-| 天气数据 | `python 10_weather_download.py` | IEM 逐站下载，支持断点续传（约1-2小时） |
+| 天气数据 | `python 10_weather_download.py` | IEM 逐站下载（[门户](https://mesonet.agron.iastate.edu/request/download.phtml)），断点续传（约1-2小时） |
 | 二分类四臂 | `python 11_train_weather.py` | v1 / +起飞天气 / +块时长 / +双端天气 对照 |
 | 区间模型 | `python 12_train_bucket_weather.py` | 五档概率，39 特征 |
 | 回归模型 | `python 13_train_regression_weather.py` | "若延误约几分钟"，39 特征 |

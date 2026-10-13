@@ -366,6 +366,10 @@ GET  /api/history/<id>            # 某条历史的完整预测结果（仅本�
 
 ### 天气模型线上服务（server/weather_serving.py + Open-Meteo 免费预报 API）
 
+- Open-Meteo 文档与接口：<https://open-meteo.com/en/docs> / `https://api.open-meteo.com/v1/forecast`；
+  训练天气来自 IEM ASOS 实测（下载门户 <https://mesonet.agron.iastate.edu/request/download.phtml>，
+  10 号脚本调用的接口 `.../cgi-bin/request/asos.py`）；机场坐标来自
+  OpenFlights（<https://github.com/jpatokal/openflights/blob/master/data/airports.dat>）。
 - 训练用 IEM 实测 METAR（10 号脚本），线上用 Open-Meteo 预报生成**同构的天气特征**
   （温度°F/露点/湿度/风速节/阵风/能见度英里/降水英寸/云量okta/雷暴·雨·雪·雾标志，skyl1 预报缺失）。
 - **双端天气**：模型元数据含 `_d` 特征时自动额外取【到达机场@计划到达时刻】的预报
