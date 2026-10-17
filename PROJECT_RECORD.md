@@ -18,7 +18,7 @@
 | 最终成绩（2023 测试集，里程碑3） | **AUC 0.7038**；五档 RPS 0.1374、校准 0.37pp；条件分钟 MAE 34.43（基线 35.52）；期望延误 MAE **17.09**（常数基线 17.32、旧两段式 18.88） |
 | 部署 | Vue3 前端（国泰风格全英文）+ Flask 后端 + SQLite；线上天气由 Open-Meteo 免费预报 API 实时提供 |
 
-线上效果（双端天气 + 三组件最终形态）：
+线上效果（双端天气 + 四组件最终形态 v2）：
 
 ![前端预测结果](docs/img/frontend_result.png)
 
@@ -130,15 +130,16 @@
 
 ---
 
-## 4. 模型训练（最终三组件）
+## 4. 模型训练（最终四组件 v2）
 
 全部 CatBoost、全部 39 特征、全部只训练出发端（2026-10-08 导师建议聚焦单一任务后的项目口径）：
 
 | 组件 | 脚本 | 配置 | 作用 |
 |---|---|---|---|
 | 二分类 | `11_train_weather.py` 臂4 | Logloss，lr 0.1，depth 8，`auto_class_weights=Balanced`，早停 150 | P(延误) |
-| 五档多分类 | `12_train_bucket_weather.py` | MultiClass，lr 0.1，depth 7，**不用类别加权**（保持各档概率绝对值可信） | 五档概率分布 |
-| 回归 | `13_train_regression_weather.py` | MAE 损失，lr 0.1，depth 8 | E[分钟 \| 延误>0] |
+| 五档多分类+isotonic | `12_train_bucket_weather.py` + `17` 号校准器 | MultiClass，lr 0.1，depth 7，**不用类别加权**；isotonic 用完整 2022 拟合 | 五档概率分布（校准后） |
+| 条件回归 | `13_train_regression_weather.py` | MAE 损失，lr 0.1，depth 8 | E[分钟 \| 延误>0]（"若延误约 X 分钟"） |
+| 单段式回归 | `15_improve_minutes_bucket.py --only-a` | MAE 损失，lr 0.1，depth 8，**全体航班**、目标 max(延误,0) | 期望延误（中位口径） |
 
 工程纪律：每个脚本支持**断点续训**（模型+metadata 已存在则跳过）；每次训练落盘
 metadata（特征清单/超参/行数/库版本）、验证指标、图表与 Markdown 报告；
@@ -166,7 +167,7 @@ metadata（特征清单/超参/行数/库版本）、验证指标、图表与 Ma
 
 ![回归两段式对照](flight_delay_model/models/20261013_130457_wx_reg_dep/charts/regression_comparison.png)
 
-### 5.3 2023 测试集 · 最终收官（`14_test_2023.py`，一次性）
+### 5.3 2023 测试集 · 里程碑2 终评（`14_test_2023.py`，v1-wx-od 三档消融）
 
 三档消融同场对比，**六项指标排序全部保持 od > wx > v1，与 2022 验证值落差 ≤0.004 AUC
 （无验证集过拟合迹象）**：
@@ -375,7 +376,7 @@ python server/app.py                 # http://127.0.0.1:5000
 | `11_train_weather.py` | 二分类四臂对照（v1/wx/block/od） | 产物含 auc_comparison 图 |
 | `12_train_bucket_weather.py` | 区间模型 od 档（39 特征） | 双对照（08 版+上代天气版） |
 | `13_train_regression_weather.py` | 回归 od 档 + 两段式三组合 | |
-| `14_test_2023.py` | **2023 一次性收官评估** | 同存档拒绝重跑 |
+| `14_test_2023.py` | **2023 终评（里程碑2）** | 同存档拒绝重跑 |
 | `15_improve_minutes_bucket.py` | 单段式期望延误回归（`--only-a`） | v2 采纳；流量特征被证伪 |
 | `16_bucket_imbalance.py` | 五档不平衡处理消融（课件 L6 方法） | isotonic 采纳；`--arms ""` 零训练 |
 | `17_milestone3_2023.py` | isotonic 校准器制作 + 里程碑3 评估 | v2 配置的 2023 成绩 |
@@ -392,6 +393,6 @@ python server/app.py                 # http://127.0.0.1:5000
 - 不入库的大文件：原始/清洗数据集（CSV）、天气整合数据（csv.gz）、其余存档的模型二进制
   （.cbm/.txt，可按脚本重训）、`node_modules`、运行时数据库与密钥；
   **入库**：全部代码、每次训练的 metadata/指标/图表/报告（可追溯）、**线上在用的全套模型
-  二进制（v1 基线 + od 档三组件，约 93MB，克隆即可跑网页）**、本文档；
+  二进制（v1 基线 + od 档三组件 + 单段式，约 97MB，克隆即可跑网页）**、本文档；
 - 关键可追溯锚点：原始数据 MD5（`Dataset/data_manifest.json`）、2023 测试纪律
   （`14_test_2023.py` 的 `--force` 门槛）、README 中的 06 号勘误记录。
