@@ -192,7 +192,7 @@ def main():
         meta_path = out_dir / f"mcls_dep_delay__{arm}__catboost__metadata.json"
         model_path = out_dir / f"mcls_dep_delay__{arm}__catboost.cbm"
         t0 = time.time()
-        if meta_path.exists() and model_path.exists():
+        if model_path.exists():   # 模型在即可续（评估中途崩过也不必重训）
             from catboost import CatBoostClassifier
             model = CatBoostClassifier()
             model.load_model(str(model_path))
@@ -200,7 +200,8 @@ def main():
         else:
             model = train_bucket(x_tr, y_tr, x_va, y_va, w, quick=args.quick)
             model.save_model(str(model_path))
-        proba = predict_with(model, {"task": "mcls", "features": list(x_tr.columns)}, x_va)
+        proba = predict_with(model, {"task": "mcls", "features": list(x_tr.columns),
+                                     "categorical_features": CATEGORICAL_FEATURES}, x_va)
         res = metrics_bundle(y_va, proba, delay_va, med, priors)
         res["class_weights"] = [round(v, 4) for v in w]
         res["seconds"] = round(time.time() - t0, 1)
