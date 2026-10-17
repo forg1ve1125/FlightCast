@@ -308,8 +308,12 @@ v1 两段式 MAE **17.45**。README 留勘误记录。**教训：先审评估口
    实测对照后**条件回归保留**（推导版 33.03 输给它的 31.30），负责"若延误约 X 分钟"。
 3. **isotonic 校准层采纳**（16/17 号）：完整 2022 拟合、逐类分段线性。2023 上
    LogLoss 1.137→1.113、RPS 0.142→0.137、校准 3.81→**0.37pp**、QWK 0.050→0.112，
-   全线改善无代价（期望延误口径的恶化因单段式接管而无关）。课件 L6 的
-   先验校正 argmax（QWK×6）与类别加权（未跑，被 isotonic+argmax 严格支配）留档。
+   全线改善无代价（期望延误口径的恶化因单段式接管而无关）。课件 L6 三类不平衡
+   方法全部实测闭环（16 号，四层指标）：**类别加权 w1**（40 分钟训练）决策层
+   macroF1 0.167→0.280，但概率层全面崩塌（LogLoss 1.106→1.460、校准 3.47→14.64pp、
+   RPS 劣于常数基线），且决策层收益**低于零训练的先验校正 argmax**（0.283）——
+   被严格支配，不采纳；**先验校正 argmax**（决策层 QWK×6、概率零损伤）留档备用；
+   isotonic 采纳上线。
 
 第三个冻结里程碑（17 号）对 v2 配置评估 2023 并如实入档；线上换装为四槽位
 （cls / bucket+iso / cond_reg / single），产品输出形式不变。
@@ -378,7 +382,7 @@ python server/app.py                 # http://127.0.0.1:5000
 | `13_train_regression_weather.py` | 回归 od 档 + 两段式三组合 | |
 | `14_test_2023.py` | **2023 终评（里程碑2）** | 同存档拒绝重跑 |
 | `15_improve_minutes_bucket.py` | 单段式期望延误回归（`--only-a`） | v2 采纳；流量特征被证伪 |
-| `16_bucket_imbalance.py` | 五档不平衡处理消融（课件 L6 方法） | isotonic 采纳；`--arms ""` 零训练 |
+| `16_bucket_imbalance.py` | 五档不平衡处理消融（课件 L6 方法） | isotonic 采纳；w1 加权被严格支配（概率崩塌）；`--arms ""` 零训练 |
 | `17_milestone3_2023.py` | isotonic 校准器制作 + 里程碑3 评估 | v2 配置的 2023 成绩 |
 
 依赖：`pip install pandas numpy catboost lightgbm scikit-learn matplotlib flask`

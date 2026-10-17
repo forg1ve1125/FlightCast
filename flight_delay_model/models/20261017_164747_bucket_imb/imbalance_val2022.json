@@ -1,0 +1,81 @@
+{
+  "run_id": "20261017_164747_bucket_imb",
+  "mode": "full",
+  "evaluated_at": "2026-10-17T17:24:47",
+  "class_priors_train": [
+    0.6967,
+    0.1507,
+    0.0536,
+    0.046,
+    0.0529
+  ],
+  "arms": {
+    "baseline_od": {
+      "logloss": 1.106,
+      "brier": 0.5503,
+      "rps": 0.1348,
+      "calib_pp": 3.47,
+      "qwk": 0.0369,
+      "band_mae": 0.788,
+      "bal_acc": 0.2071,
+      "accuracy": 0.6108,
+      "macro_f1": 0.1666,
+      "expected_mae": 17.44,
+      "macro_f1_3band": 0.3144,
+      "prior_adj_macro_f1": 0.2826,
+      "prior_adj_qwk": 0.2233,
+      "prior_adj_accuracy": 0.4409
+    },
+    "w1": {
+      "logloss": 1.4604,
+      "brier": 0.7256,
+      "rps": 0.2141,
+      "calib_pp": 14.64,
+      "qwk": 0.2195,
+      "band_mae": 1.178,
+      "bal_acc": 0.305,
+      "accuracy": 0.4358,
+      "macro_f1": 0.2804,
+      "expected_mae": 31.57,
+      "macro_f1_3band": 0.3448,
+      "prior_adj_macro_f1": 0.0835,
+      "prior_adj_qwk": 0.0078,
+      "prior_adj_accuracy": 0.0807,
+      "class_weights": [
+        0.2871,
+        1.3268,
+        3.7284,
+        4.3523,
+        3.7786
+      ],
+      "seconds": 0.8
+    },
+    "isotonic_H2": {
+      "logloss": 1.0748,
+      "brier": 0.5338,
+      "rps": 0.1292,
+      "calib_pp": 1.85,
+      "qwk": 0.1241,
+      "band_mae": 0.741,
+      "bal_acc": 0.2303,
+      "accuracy": 0.6194,
+      "macro_f1": 0.2119,
+      "expected_mae": 19.33,
+      "macro_f1_3band": 0.4162
+    },
+    "raw_H2_reference": {
+      "logloss": 1.082,
+      "brier": 0.5379,
+      "rps": 0.1306,
+      "calib_pp": 2.68,
+      "qwk": 0.0458,
+      "band_mae": 0.771,
+      "bal_acc": 0.2087,
+      "accuracy": 0.6164,
+      "macro_f1": 0.1707,
+      "expected_mae": 17.32,
+      "macro_f1_3band": 0.3279
+    }
+  },
+  "note": "双指标（macroF1=决策分辨, calib_pp=概率可信）；全部2022自然分布验证；2023未读取；未改生产指针"
+}

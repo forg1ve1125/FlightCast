@@ -291,8 +291,8 @@ def make_charts(out_dir, results):
         ax.scatter(b["calib_pp"], b["prior_adj_macro_f1"], s=90, marker="x", color="#b23a3a")
         ax.annotate("prior-adjusted argmax", (b["calib_pp"], b["prior_adj_macro_f1"]),
                     textcoords="offset points", xytext=(8, -12), fontsize=9, color="#b23a3a")
-    ax.set_xlabel("Calibration |dev| (pp)  ——越小概率越可信")
-    ax.set_ylabel("macro F1 (5-band)")
+    ax.set_xlabel("Calibration |dev| (pp), lower = more trustworthy")
+    ax.set_ylabel("macro F1 / QWK (5-band)")
     ax.set_title("Trade-off: macro F1 vs calibration (2022 val)")
     ax.grid(alpha=0.3)
     fig.tight_layout(); fig.savefig(out_dir / "charts" / "tradeoff.png", dpi=150)
