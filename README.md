@@ -16,7 +16,7 @@ Vue3 + Flask 全栈网页。2023 测试集收官成绩 **AUC 0.7038 / 两段式�
 | # | 组件 | 回答的问题 | 存档 | 模型文件 | 2022验证 / 2023测试 |
 |---|---|---|---|---|---|
 | 1 | 二分类 | P(出发延误) | `models/20261009_193645_wx_dep`（11 号臂4） | `cls_dep_delay__v1wx_od__catboost.cbm` | AUC 0.7042 / **0.7038** |
-| 2 | 五档区间 | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` | acc 0.6108 / 0.5991 |
+| 2 | 五档区间 | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` | RPS 0.135/0.142 · LogLoss 1.11/1.14（三层指标详见技术 README） |
 | 3 | 回归 | 若延误，大约几分钟 | `models/20261013_130457_wx_reg_dep`（13 号） | `reg_dep_delay__v1wx_od__catboost.cbm` | 两段式 MAE 17.10 / 18.88 |
 
 兜底链（Open-Meteo 预报取不到 → 组件失败 → 整体异常时逐级回退到 v1 基线）：
