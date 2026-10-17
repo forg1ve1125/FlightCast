@@ -10,18 +10,20 @@ Vue3 + Flask 全栈网页。2023 测试集收官成绩 **AUC 0.7038 / 两段式�
 
 ## 最终采用的模型（线上现役）
 
-三个组件全部为 **CatBoost**、各 **39 特征**（11 计划特征 + 起飞机场天气 14 + 到达机场天气 14），
-只预测**出发延误**，由 `flight_delay_model/models/wx_serving.json` 注册表控制启用：
+四个组件全部为 **CatBoost**、各 **39 特征**（11 计划特征 + 起飞机场天气 14 + 到达机场天气 14），
+外加 isotonic 概率校准层，只预测**出发延误**，由 `flight_delay_model/models/wx_serving.json`
+注册表的**四槽位**控制（**最终形态 v2**，2026-10-17 里程碑3收官）：
 
 | # | 组件 | 回答的问题 | 存档 | 模型文件 | 2022验证 / 2023测试 |
 |---|---|---|---|---|---|
 | 1 | 二分类 | P(出发延误) | `models/20261009_193645_wx_dep`（11 号臂4） | `cls_dep_delay__v1wx_od__catboost.cbm` | AUC 0.7042 / **0.7038** |
-| 2 | 五档区间 | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` | RPS 0.135/0.142 · LogLoss 1.11/1.14（三层指标详见技术 README） |
-| 3 | 回归 | 若延误，大约几分钟 | `models/20261013_130457_wx_reg_dep`（13 号） | `reg_dep_delay__v1wx_od__catboost.cbm` | 两段式 MAE 17.10 / 18.88 |
+| 2 | 五档+isotonic | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` + `isotonic_full2022.json` | RPS 0.129/0.137 · 校准 1.85/**0.37**pp（三层指标详见技术 README） |
+| 3 | 条件回归 | 若延误，大约几分钟 | `models/20261013_130457_wx_reg_dep`（13 号） | `reg_dep_delay__v1wx_od__catboost.cbm` | MAE 31.30 / 34.43（常数基线 32.28/35.52） |
+| 4 | 单段式回归 | 期望延误（中位口径） | `models/20261017_152303_improve`（15 号） | `reg_dep_single__single39.cbm` | MAE **15.14 / 17.09**（常数0 基线 15.33/17.32；旧两段式 17.10/18.88） |
 
 兜底链（Open-Meteo 预报取不到 → 组件失败 → 整体异常时逐级回退到 v1 基线）：
 `latest_run.json → 20261005_155440_final_gt0`（cls+reg）、`bucket_latest.json → 20261006_124341_buckets`（五档）。
-这 13 个模型二进制已包含在仓库中，**克隆即可运行网页**；换装/回滚只需改 `wx_serving.json` 后重启 Flask。
+这 14 个模型二进制已包含在仓库中，**克隆即可运行网页**；换装/回滚只需改 `wx_serving.json` 后重启 Flask。
 
 > 曾训练并被**对照实验否决**的方案（存档保留、报告可查）：LightGBM 全家（AUC −0.003）、
 > 块时长特征臂（−0.0004）、累积二分类（1/3 胜）、XGBoost（−0.008）。详见
@@ -38,7 +40,7 @@ IS6400/
 ├── docs/img/                  # 文档配图
 ├── 9.24会议纪要.pdf 等        # 小组会议纪要与课程材料
 └── flight_delay_model/        # 全部代码
-    ├── 01~14_*.py             # 数据清洗 → 训练 → 评估 → 天气 → 收官测试（顺序即编号）
+    ├── 01~17_*.py             # 数据清洗 → 训练 → 评估 → 天气 → 收官/优化（顺序即编号）
     ├── config.py / features.py
     ├── models/                # 每次训练的 metadata/指标/图表/报告（模型二进制不入库）
     ├── weather/               # 时区表/机场坐标（原始天气数据不入库）
@@ -107,7 +109,10 @@ lsof -ti:5000 | xargs kill                   # 停止 Flask
 | 二分类四臂 | `python 11_train_weather.py` | v1 / +起飞天气 / +块时长 / +双端天气 对照 |
 | 区间模型 | `python 12_train_bucket_weather.py` | 五档概率，39 特征 |
 | 回归模型 | `python 13_train_regression_weather.py` | "若延误约几分钟"，39 特征 |
-| 2023 收官 | `python 14_test_2023.py` | **测试集只能用一次**，已有结果会拒绝重跑 |
+| 2023 收官 | `python 14_test_2023.py` | 三档消融终评（已有结果拒绝重跑） |
+| 单段式回归 | `python 15_improve_minutes_bucket.py --only-a` | 期望延误 v2（约10分钟） |
+| 不平衡消融 | `python 16_bucket_imbalance.py --arms ""` | 零训练路线（isotonic 等）；`--arms w1` 加权臂（可选） |
+| 里程碑3 | `python 17_milestone3_2023.py` | 制作 isotonic 校准器 + v2 配置的 2023 评估 |
 
 每个脚本都支持断点续训（已存在的模型自动跳过）、结束后在控制台打总结、
 在 `models/<运行id>/` 落盘指标 JSON + 图表 + Markdown 报告。

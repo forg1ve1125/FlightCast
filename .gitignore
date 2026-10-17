@@ -23,6 +23,7 @@ flight_delay_model/models/**/*.txt
 !flight_delay_model/models/20261009_193645_wx_dep/cls_dep_delay__v1wx_od__catboost.cbm
 !flight_delay_model/models/20261013_122152_buckets_wx_dep/mcls_dep_delay__v1wx_od__catboost.cbm
 !flight_delay_model/models/20261013_130457_wx_reg_dep/reg_dep_delay__v1wx_od__catboost.cbm
+!flight_delay_model/models/20261017_152303_improve/reg_dep_single__single39.cbm
 
 # ---- 前端 ----
 flight_delay_model/frontend/node_modules/

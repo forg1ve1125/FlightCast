@@ -1,0 +1,50 @@
+{
+  "run_id": "20261017_163610_milestone3",
+  "evaluated_at": "2026-10-17T16:36:30",
+  "discipline": "第三个冻结里程碑（无训练）：2022 仅拟合校准器（不参与模型选择），2023 评估 single39 与 isotonic 校准层；前两次里程碑见 03(基线时代)/14(终评)。",
+  "expected_delay_2023": {
+    "constant_zero": {
+      "mae": 17.32,
+      "hit_5min": 0.6835,
+      "hit_10min": 0.7394
+    },
+    "single39": {
+      "mae": 17.09,
+      "hit_5min": 0.6776,
+      "hit_10min": 0.7395
+    },
+    "two_stage_od_old": {
+      "mae": 18.88,
+      "hit_5min": 0.3544,
+      "hit_10min": 0.6609
+    }
+  },
+  "bucket_2023": {
+    "raw": {
+      "logloss": 1.1374,
+      "brier": 0.5647,
+      "rps": 0.1417,
+      "calib_pp": 3.81,
+      "qwk": 0.0495,
+      "band_mae": 0.833,
+      "bal_acc": 0.2098,
+      "accuracy": 0.5991,
+      "macro_f1": 0.1696,
+      "expected_mae": 19.18,
+      "macro_f1_3band": 0.3188
+    },
+    "isotonic_full2022": {
+      "logloss": 1.1132,
+      "brier": 0.5521,
+      "rps": 0.1374,
+      "calib_pp": 0.37,
+      "qwk": 0.1118,
+      "band_mae": 0.808,
+      "bal_acc": 0.2274,
+      "accuracy": 0.6028,
+      "macro_f1": 0.2042,
+      "expected_mae": 20.57,
+      "macro_f1_3band": 0.3997
+    }
+  }
+}

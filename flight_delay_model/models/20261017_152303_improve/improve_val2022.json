@@ -1,0 +1,42 @@
+{
+  "run_id": "20261017_152303_improve",
+  "mode": "full",
+  "drop_2020": false,
+  "only_a": true,
+  "evaluated_at": "2026-10-17T15:41:02",
+  "A_single_stage": {
+    "references": {
+      "constant_zero": {
+        "mae": 15.33,
+        "hit_5min": 0.6979,
+        "hit_10min": 0.7545
+      },
+      "two_stage_od": {
+        "mae": 17.1,
+        "hit_5min": 0.3688,
+        "hit_10min": 0.6811
+      }
+    },
+    "arms": {
+      "single39": {
+        "mae": 15.14,
+        "hit_5min": 0.693,
+        "hit_10min": 0.755,
+        "best_iteration": 1492,
+        "seconds": 585.4,
+        "pred_positive_share": 0.1278,
+        "pred_mean": 0.5
+      },
+      "single41": {
+        "mae": 15.18,
+        "hit_5min": 0.6916,
+        "hit_10min": 0.7543,
+        "best_iteration": 897,
+        "seconds": 468.6,
+        "pred_positive_share": 0.1078,
+        "pred_mean": 0.43
+      }
+    }
+  },
+  "note": "--only-a：仅A（单段式）；C/D 未运行；2022裁决；未改生产指针"
+}

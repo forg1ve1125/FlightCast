@@ -1,0 +1,95 @@
+{
+  "run_id": "20261017_152303_improve",
+  "task": "reg_dep_single",
+  "task_desc": "单段式期望延误回归 max(DEP_DELAY,0) 全体航班 single39",
+  "algo": "catboost",
+  "feature_set": "single_single39",
+  "model_file": "reg_dep_single__single39.cbm",
+  "model_path": "/Users/lyc031125/Desktop/IS6400/Group Project/flight_delay_model/models/20261017_152303_improve/reg_dep_single__single39.cbm",
+  "features": [
+    "FL_MONTH",
+    "FL_DAY_OF_MONTH",
+    "FL_DAY_OF_WEEK",
+    "FL_IS_WEEKEND",
+    "DEP_HOUR",
+    "ARR_HOUR",
+    "DISTANCE",
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE",
+    "tmpf_o",
+    "dwpf_o",
+    "relh_o",
+    "sknt_o",
+    "gust_o",
+    "vsby_o",
+    "p01i_o",
+    "skyl1_o",
+    "skyc1_okta_o",
+    "wx_ts_o",
+    "wx_sn_o",
+    "wx_ra_o",
+    "wx_fg_o",
+    "wx_missing_o",
+    "tmpf_d",
+    "dwpf_d",
+    "relh_d",
+    "sknt_d",
+    "gust_d",
+    "vsby_d",
+    "p01i_d",
+    "skyl1_d",
+    "skyc1_okta_d",
+    "wx_ts_d",
+    "wx_sn_d",
+    "wx_ra_d",
+    "wx_fg_d",
+    "wx_missing_d"
+  ],
+  "categorical_features": [
+    "AIRLINE",
+    "ORIGIN",
+    "DEST",
+    "ROUTE"
+  ],
+  "target": "max(DEP_DELAY,0) all flights, MAE loss (median regression)",
+  "split": {
+    "train_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "drop_2020": false,
+    "val_years": [
+      2022
+    ]
+  },
+  "val_metrics_2022": {
+    "mae": 15.14,
+    "hit_5min": 0.693,
+    "hit_10min": 0.755,
+    "best_iteration": 1492,
+    "seconds": 585.4,
+    "pred_positive_share": 0.1278,
+    "pred_mean": 0.5
+  },
+  "references_2022": {
+    "constant_zero": {
+      "mae": 15.33,
+      "hit_5min": 0.6979,
+      "hit_10min": 0.7545
+    },
+    "two_stage_od": {
+      "mae": 17.1,
+      "hit_5min": 0.3688,
+      "hit_10min": 0.6811
+    }
+  },
+  "trained_at": "2026-10-17T15:33:13",
+  "library_versions": {
+    "python": "3.12.14",
+    "catboost": "1.2.10"
+  },
+  "mode": "full"
+}

@@ -3,7 +3,9 @@
   "cls_file": "cls_dep_delay__v1wx_od__catboost.cbm",
   "bucket_run": "20261013_122152_buckets_wx_dep",
   "bucket_file": "mcls_dep_delay__v1wx_od__catboost.cbm",
-  "reg_run": "20261013_130457_wx_reg_dep",
-  "reg_file": "reg_dep_delay__v1wx_od__catboost.cbm",
-  "note": "最终形态（2026-10-13 定格，2023 测试集已收官）：三组件全部换装 od 档（v1+双端天气39特征）。cls=11号臂4; bucket=12号od档; reg=13号od档。带 _file 键指定文件名；null 表示该组件沿用 v1 基线。回滚：把三个 *_file 改回 *_v1wx_*.cbm 并将 bucket_run/reg_run 改回 20261009_202254/20261009_204247。"
+  "reg_run": "20261017_152303_improve",
+  "reg_file": "reg_dep_single__single39.cbm",
+  "cond_reg_run": "20261013_130457_wx_reg_dep",
+  "cond_reg_file": "reg_dep_delay__v1wx_od__catboost.cbm",
+  "note": "最终形态 v2（2026-10-17 里程碑3收官，四槽位）：cls=P(延误); bucket+isotonic校准层=五档分布; cond_reg=若延误约X分钟; reg(单段式single39)=期望延误(max(延误,0)全体航班)。回滚：reg_run/bucket_run 改回 20261009_204247/20261009_202254 的 v1wx 文件并删去 cond_reg_* 两行。"
 }

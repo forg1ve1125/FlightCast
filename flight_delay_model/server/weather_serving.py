@@ -73,6 +73,32 @@ _WMO_FG = {45, 48}
 _model_cache = {}
 _coords_cache = None
 _tz_cache = None
+_iso_cache = None
+
+
+def _load_isotonic(run_dir):
+    """加载五档概率的 isotonic 校准器（17 号脚本产出 isotonic_full2022.json）。"""
+    global _iso_cache
+    if _iso_cache is None:
+        path = run_dir / "isotonic_full2022.json"
+        _iso_cache = json.load(open(path, encoding="utf-8")) if path.exists() else False
+    return _iso_cache
+
+
+def _apply_isotonic(proba, iso):
+    """逐类分段线性插值后归一化（与 sklearn IsotonicRegression.predict 等价）。
+
+    兼容单航班(1-D, 5)与批量为(N, 5)两种输入。
+    """
+    single = (np.ndim(proba) == 1)
+    p = np.atleast_2d(np.asarray(proba, dtype=float))
+    n_cls = int(iso.get("classes", p.shape[1]))
+    out = np.column_stack([
+        np.interp(p[:, k], iso["fit"][str(k)]["x"], iso["fit"][str(k)]["y"])
+        for k in range(min(n_cls, p.shape[1]))])
+    out = np.clip(out, 1e-6, None)
+    out = out / out.sum(axis=1, keepdims=True)
+    return out[0] if single else out
 
 
 # ---------------------------------------------------------------- 坐标
@@ -270,11 +296,13 @@ def enabled():
 
 
 # 组件 -> 注册表里指定文件名的键 / 默认模型文件名（旧版 v1wx）
-COMPONENT_FILE_KEYS = {"cls_run": "cls_file", "reg_run": "reg_file", "bucket_run": "bucket_file"}
+COMPONENT_FILE_KEYS = {"cls_run": "cls_file", "reg_run": "reg_file",
+                       "bucket_run": "bucket_file", "cond_reg_run": "cond_reg_file"}
 DEFAULT_COMPONENT_FILES = {
     "cls_run": "cls_dep_delay__v1wx__catboost.cbm",
     "reg_run": "reg_dep_delay__v1wx__catboost.cbm",
     "bucket_run": "mcls_dep_delay__v1wx__catboost.cbm",
+    # cond_reg_run 无默认：必须显式指定（任务=若延误约X分钟的条件回归）
 }
 
 
@@ -309,15 +337,25 @@ def _predict(model, meta, x_full):
 def predict_with_weather(flight: dict, base_result: dict) -> dict:
     """在 v1 基线结果上叠加天气模型输出；逐组件独立启用，失败组件保持 v1。
 
+    四槽位（models/wx_serving.json，2026-10-17 最终形态 v2）：
+      cls_run      -> P(出发延误)，页面 "X% chance of any delay"
+      reg_run      -> 期望延误：单段式（task=reg_dep_single，目标 max(延误,0)）直接输出；
+                      兼容旧版条件回归文件（走两段式 p×m 回退）
+      bucket_run   -> 五档概率分布 +（可选）isotonic_full2022.json 校准层
+      cond_reg_run -> "若延误约 X 分钟"（条件回归，实测优于五档推导）；
+                      未配置时从五档条件分布推导作兜底
     模型元数据含 _d 特征时自动取【到达机场@计划到达时刻】的预报（双端天气）。
     """
     reg = load_registry()
     comps = []
-    for key in ("cls_run", "reg_run", "bucket_run"):
+    for key in ("cls_run", "reg_run", "bucket_run", "cond_reg_run"):
         run_id = reg.get(key)
         if not run_id:
             continue
-        fname = reg.get(COMPONENT_FILE_KEYS[key]) or DEFAULT_COMPONENT_FILES[key]
+        fname = reg.get(COMPONENT_FILE_KEYS[key]) or DEFAULT_COMPONENT_FILES.get(key)
+        if not fname:
+            print(f"[weather_serving] 警告: {key} 未指定文件名，该组件跳过")
+            continue
         path = config.MODELS_DIR / run_id / fname
         if not path.exists():
             print(f"[weather_serving] 警告: {key} 指定的模型不存在，该组件沿用 v1: {path}")
@@ -344,23 +382,32 @@ def predict_with_weather(flight: dict, base_result: dict) -> dict:
         for key, model, meta in comps:
             if key == "cls_run":
                 p = _predict(model, meta, x_full)
-                bucket = result["predictions"].setdefault("dep_delay", {})
-                bucket["prob_delay"] = round(p, 4)
+                result["predictions"].setdefault("dep_delay", {})["prob_delay"] = round(p, 4)
                 src.append("cls")
-            elif key == "reg_run":
+            elif key == "reg_run" and meta.get("task") == "reg_dep_single":
+                # 单段式：期望延误的直接来源（全体航班 max(延误,0) 中位回归）
+                e = _predict(model, meta, x_full)
+                b = result["predictions"].setdefault("dep_delay", {})
+                b["expected_minutes_overall"] = round(max(float(e), 0.0), 1)  # MAE回归可能出微负值
+                b["expected_delay_source"] = "single-stage"
+                src.append("single")
+            elif key == "reg_run":   # 旧版条件回归文件：兼容路径（两段式）
                 m = _predict(model, meta, x_full)
-                bucket = result["predictions"].setdefault("dep_delay", {})
-                bucket["expected_minutes_if_delayed"] = round(m, 1)
-                if "prob_delay" in bucket:
-                    bucket["expected_minutes_overall"] = round(bucket["prob_delay"] * m, 1)
-                    bucket["summary"] = (f"{bucket['prob_delay']*100:.1f}% chance of departure "
-                                         f"delay; if delayed, about {m:.0f} min; expected delay "
-                                         f"{bucket['prob_delay']*m:.0f} min")
+                result["predictions"].setdefault("dep_delay", {})[
+                    "expected_minutes_if_delayed"] = round(m, 1)
                 src.append("reg")
-            else:  # bucket_run
+            elif key == "cond_reg_run":
+                m = _predict(model, meta, x_full)
+                result["predictions"].setdefault("dep_delay", {})[
+                    "expected_minutes_if_delayed"] = round(m, 1)
+                src.append("cond")
+            else:  # bucket_run（+ 可选 isotonic 校准层）
                 from verdict import BUCKET_LABELS_EN
                 run_dir = config.MODELS_DIR / reg["bucket_run"]
                 proba = _predict(model, meta, x_full)
+                iso = _load_isotonic(run_dir)
+                if iso:
+                    proba = _apply_isotonic(proba, iso)
                 stats = json.load(open(run_dir / "bucket_stats.json",
                                        encoding="utf-8"))["dep"]
                 med = [s["median_minutes"] for s in stats]
@@ -383,7 +430,25 @@ def predict_with_weather(flight: dict, base_result: dict) -> dict:
                     "expected_delay_min_from_buckets": round(float(expected), 1),
                     "summary": " · ".join(parts),
                 }
-                src.append("bucket")
+                # 未配置 cond_reg 槽位时：从五档条件分布推导"若延误约X分钟"（粗粒度兜底）
+                p0 = float(proba[0])
+                b = result["predictions"].setdefault("dep_delay", {})
+                if "expected_minutes_if_delayed" not in b and p0 < 1 - 1e-6:
+                    b["expected_minutes_if_delayed"] = round(expected / max(1 - p0, 1e-9), 1)
+                src.append("bucket+iso" if iso else "bucket")
+
+        # 旧版回退与总结语组装
+        b = result["predictions"].get("dep_delay", {})
+        if "expected_minutes_overall" not in b and "prob_delay" in b \
+                and "expected_minutes_if_delayed" in b:
+            b["expected_minutes_overall"] = round(
+                b["prob_delay"] * b["expected_minutes_if_delayed"], 1)
+        if "prob_delay" in b and "expected_minutes_overall" in b:
+            parts = [f"{b['prob_delay']*100:.1f}% chance of departure delay"]
+            if "expected_minutes_if_delayed" in b:
+                parts.append(f"if delayed, about {b['expected_minutes_if_delayed']:.0f} min")
+            parts.append(f"expected delay {b['expected_minutes_overall']:.0f} min")
+            b["summary"] = "; ".join(parts)
     except Exception:
         pass  # 任一组件失败 -> 保持 v1 对应部分
 
