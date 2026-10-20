@@ -48,7 +48,7 @@
 | `server/` | Flask 后端：`app.py`（路由）、`predictor_service.py`（预测编排）、
   `weather_serving.py`（Open-Meteo 双端预报+模型注册表）、`verdict.py`（argmax 英文结论）、
   `auth.py`（注册/登录/历史，独立 app.db）、`build_meta_db.py`（元数据库）、`test_backend.py` |
-| `frontend/` | Vue3 前端（国泰风格全英文，`npm run build` 后由 Flask 托管） |
+| `frontend/` | Vue3 前端（全英文界面、深蓝主题，`npm run build` 后由 Flask 托管） |
 | `weather/` | `tz_map.json`（机场时区）、`airport_coords.json`（坐标）、原始/整合天气数据（不入库） |
 | `models/<时间戳_run名>/` | 每次训练的存档：模型文件 + metadata.json + 指标 + 图表 + 报告 |
 
@@ -80,21 +80,31 @@ python 02_train_models.py --feature-set v1 --run-id 20261006_101500_myrun  # 也
 换装/回滚：只改 `wx_serving.json` 的四槽位与 `*_file` 字段后重启 Flask。线上在用的
 14 个模型二进制已入 git 仓库（克隆即可跑网页），其余存档二进制不入库、可按脚本重训。
 
-### 分工表：每个模型负责什么、前后端在哪（给前端同学）
+**页面显示口径（2026-10-20 对比后选定）**：对同一"延误概率"的三个来源做校准实测
+（2022 验证，66.8 万航班）——二分类（Balanced）ECE 8.54pp、系统性高估 8.6pp；五档原始
+1−p0 ECE 8.67pp、受训练先验漂移低估 8.6pp；**五档+isotonic ECE 0.21pp**（平均预测
+0.392 vs 实际 0.391）。据此页面统一采用**五档+isotonic 单一来源**："Chance of any
+delay" = 1−准点概率、"Expected delay" = 五档加权分钟数、五档条形图逐档展示；中期两个
+目标（延误概率 / 概率+延误多久）由这一个分布同时兑现（边沿汇总 + 逐档明细）。
+**四个模型全部保留**：服务端每次请求仍全部计算并随 API 返回（未删除、随时可上屏），
+其余三个模型以对照实验与离线指标体现价值（AUC 0.7042 / 条件分钟 31.30 / 期望延误
+17.09，均为赢过基线的成绩）——"训练四个、对比后择优显示"即本项目完整工作量。
 
-API 字段与之前**完全一致**，前端无需任何改动即可工作；下表说明每个数字的来源，
-便于做展示优化：
+### 分工表：每个模型负责什么、页面显示谁（2026-10-20 前端定稿口径）
 
-| 模型/层 | API 字段（JSON） | 前端元素 | 后端位置 |
+四个模型**后端全部在线计算**，API 字段全部返回；**页面显示统一采用五档+isotonic 单一来源**
+（选定依据见上方"页面显示口径"），其余三个模型的字段在 API 中备用、可随时上屏：
+
+| 模型/层 | API 字段（JSON） | 页面显示（现状） | 后端位置 |
 |---|---|---|---|
-| 二分类 | `predictions.dep_delay.prob_delay` | "X% chance of any delay" 行 | `weather_serving.py` → `cls_run` 槽位 |
-| 五档+isotonic | `scenarios.dep_delay.scenarios[].{label,probability,typical_minutes}`、`summary` | 五档概率条形图 + summary 行；verdict 徽章（对五档取 argmax） | `bucket_run` 槽位 + `isotonic_full2022.json` 校准层；结论句在 `verdict.py` |
-| 条件回归 | `predictions.dep_delay.expected_minutes_if_delayed` | "if delayed, about X min" 行 | `cond_reg_run` 槽位 |
-| 单段式 | `predictions.dep_delay.expected_minutes_overall` | "Expected delay X min" 主数字 | `reg_run` 槽位 |
+| 五档+isotonic | `scenarios.dep_delay.scenarios[].{label,probability,typical_minutes}`、`expected_delay_min_from_buckets` | ✅ 全部数字的来源：五档条形图；"Chance of any delay"=1−准点概率；"Expected delay"=五档加权分钟；verdict 徽章（对五档取 argmax） | `bucket_run` 槽位 + `isotonic_full2022.json`；结论句在 `verdict.py` |
+| 二分类 | `predictions.dep_delay.prob_delay` | ⏸ 未上屏（备用）——排序能力以 AUC 0.7042 在报告中呈现 | `cls_run` 槽位 |
+| 条件回归 | `predictions.dep_delay.expected_minutes_if_delayed` | ⏸ 未上屏（备用）——"若延误约 X 分钟"，离线 31.30 vs 基线 32.28 | `cond_reg_run` 槽位 |
+| 单段式 | `predictions.dep_delay.expected_minutes_overall` | ⏸ 未上屏（备用）——期望延误中位口径，离线 17.09 vs 常数 17.32 | `reg_run` 槽位 |
 
-前端展示提示：`expected_minutes_overall` 现在是**中位口径**（单段式直接输出）——
-低风险航班会显示 0，属预期行为（63% 概率准点的航班期望延误本就接近 0）；
-如需均值口径可另取 `scenarios.dep_delay.expected_delay_min_from_buckets`（Σ概率×档中位）。
+（⏸ = 服务端每次请求照常计算并随 API 返回；如需上屏，取对应字段即可。三个备用口径的
+统计含义互不相同：二分类概率带 Balanced 偏高、单段式是中位数、五档加权是分档均值——
+上屏时建议标注口径，避免"互相打架"的观感。）
 
 ### 单段式与校准层是怎么训练/制作的
 
@@ -381,8 +391,10 @@ pytest test_pipeline.py -v          # pytest 方式
 前后端已全部实现并通过浏览器端到端验证，代码在 `server/`（Flask后端）和 `frontend/`（Vue3+Vite）。
 **产品口径（2026-10-08，导师建议聚焦单一任务）：只预测出发延误，不再输出到达延误预测。**
 CRS_ARR_TIME 仍是必填输入（唯一确定航班 + 块时长特征原料），到达模型存档保留但服务层不对外输出。
-界面为全英文，视觉参考国泰航空官网（深林绿 `#00332E/#00645A` + 暖白 `#FAFAF7`、白色预订卡片+顶部标签页、
-下划线式表单）。支持**可选的**用户注册/登录（SQLite 独立库）与查询历史回看；**游客无需登录即可使用全部预测功能**。
+界面为全英文（初版参考国泰航空官网的深绿主题；**2026-10-20 改版为深蓝主色、浅色背景、
+圆角卡片**，新增日期/时间选择器与历史分页分屏，并完成账号安全加固——服务端会话管理、
+跨账号竞态防护等，40 项新增测试见 `AUTH_HISTORY_TEST_REPORT.md`）。
+支持**可选的**用户注册/登录（SQLite 独立库）与查询历史回看；**游客无需登录即可使用全部预测功能**。
 
 ### 启动方式
 
