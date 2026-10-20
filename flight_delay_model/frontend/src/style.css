@@ -1,29 +1,279 @@
-/* Cathay-inspired design tokens */
+/* FlightCast：深蓝主色、浅色背景、白色卡片 */
 :root {
-  --green-ink: #00332e;        /* deep forest green — headings, active tab */
-  --green-brand: #00645a;      /* Cathay brand green — accents, links */
-  --green-btn: #2c4036;        /* primary button (measured on cathaypacific.com) */
-  --green-btn-hover: #1f3d33;
-  --bg: #fafaf7;               /* warm off-white page */
-  --panel: #f4f3f0;            /* warm neutral panels */
-  --panel-2: #ededeb;
-  --hairline: #d9d7d0;
-  --ink: #101820;              /* near-black text */
-  --ink-body: #4a4a45;         /* body grey */
-  --ink-soft: #77766f;
-  --card-shadow: 0 12px 32px rgba(0, 51, 46, 0.10);
-  --radius: 12px;
+  /* 保留原有变量名现有组件继续正常引用 */
+  --green-ink: #142d52;
+  --green-brand: #245a99;
+  --green-btn: #173f73;
+  --green-btn-hover: #10335e;
+
+  /* 背景与分隔线 */
+  --bg: #f3f6fb;
+  --panel: #eaf0f8;
+  --panel-2: #f1f4f9;
+  --hairline: #d9e2ef;
+
+  /* 文字层次 */
+  --ink: #172b45;
+  --ink-body: #485b73;
+  --ink-soft: #6b7c93;
+
+  /* 卡片 */
+  --card-shadow: 0 12px 36px rgba(20, 45, 82, 0.08);
+  --radius: 16px;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-               "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "PingFang SC", sans-serif;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
-a { color: var(--green-brand); }
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: var(--green-brand);
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Typography */
+:root {
+  --font-sans: "Inter Variable", "Segoe UI", Arial, sans-serif;
+  --radius: 18px;
+  --card-shadow: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-sans);
+}
+
+input,
+.pct,
+.flatpickr-calendar {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Flat, rounded calendar */
+.flight-picker.flatpickr-calendar {
+  box-sizing: border-box;
+  width: min(324px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: none;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.flight-picker.flatpickr-calendar::before,
+.flight-picker.flatpickr-calendar::after {
+  display: none;
+}
+
+.flight-picker .flatpickr-month {
+  height: 44px;
+}
+
+.flight-picker .flatpickr-current-month {
+  height: 44px;
+  padding-top: 9px;
+  color: var(--green-ink);
+  font-size: 15px;
+}
+
+.flight-picker .flatpickr-current-month .cur-month {
+  font-weight: 600;
+}
+
+.flight-picker .flatpickr-prev-month,
+.flight-picker .flatpickr-next-month {
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.flight-picker .flatpickr-prev-month {
+  left: 12px;
+}
+
+.flight-picker .flatpickr-next-month {
+  right: 12px;
+}
+
+.flight-picker .flatpickr-prev-month:hover,
+.flight-picker .flatpickr-next-month:hover {
+  background: var(--panel);
+}
+
+.flight-picker .flatpickr-weekdays {
+  height: 36px;
+}
+
+.flight-picker .flatpickr-weekday {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.flight-picker .flatpickr-days,
+.flight-picker .dayContainer {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.flight-picker .flatpickr-day {
+  flex-basis: calc(100% / 7);
+  max-width: none;
+  height: 38px;
+  line-height: 38px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.flight-picker .flatpickr-day.today {
+  border-color: var(--green-brand);
+}
+
+.flight-picker .flatpickr-day:not(.flatpickr-disabled):not(.selected):hover {
+  border-color: var(--panel);
+  background: var(--panel);
+}
+
+.flight-picker .flatpickr-day.selected,
+.flight-picker .flatpickr-day.selected:hover {
+  border-color: var(--green-btn);
+  background: var(--green-btn);
+  color: #fff;
+}
+
+/* Compact date calendar; time controls retain their existing size. */
+.flight-date-picker.flatpickr-calendar {
+  width: min(288px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 8px;
+  border-radius: 14px;
+  overflow-y: auto;
+}
+
+.flight-date-picker .flatpickr-month {
+  height: 36px;
+}
+
+.flight-date-picker .flatpickr-current-month {
+  height: 36px;
+  padding-top: 6px;
+  font-size: 14px;
+}
+
+.flight-date-picker .flatpickr-prev-month,
+.flight-date-picker .flatpickr-next-month {
+  top: 8px;
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.flight-date-picker .flatpickr-prev-month {
+  left: 8px;
+}
+
+.flight-date-picker .flatpickr-next-month {
+  right: 8px;
+}
+
+.flight-date-picker .flatpickr-weekdays {
+  height: 28px;
+}
+
+.flight-date-picker .flatpickr-day {
+  height: 32px;
+  line-height: 32px;
+  border-radius: 8px;
+}
+
+/* Rounded time controls */
+.flight-picker .flatpickr-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 60px;
+  max-height: none;
+  border: 0;
+}
+
+.flight-picker .flatpickr-time .numInputWrapper {
+  flex: 1;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  overflow: hidden;
+}
+
+.flight-picker .flatpickr-time input {
+  height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--green-ink);
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.flight-picker .flatpickr-time .flatpickr-time-separator {
+  flex: 0 0 12px;
+  color: var(--ink-soft);
+  font-size: 20px;
+}
+
+.flight-picker .numInputWrapper span {
+  border: 0;
+}
+
+/* Keep distance entry visually simple */
+#flight-distance {
+  appearance: textfield;
+}
+
+#flight-distance::-webkit-inner-spin-button,
+#flight-distance::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

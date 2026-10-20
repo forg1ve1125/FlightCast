@@ -1,0 +1,7 @@
+# Web serving only; no training or dataset evaluation is needed.
+# Model library versions below come from the shipped model metadata.
+catboost==1.2.10
+lightgbm==4.7.0
+pandas==3.0.6
+numpy==2.5.3
+Flask>=3.1,<4

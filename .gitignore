@@ -3,6 +3,8 @@
 .idea/
 __pycache__/
 *.pyc
+.venv/
+.local/
 
 # 个人课程文件（与项目仓库无关）
 NoFree-rider_*
@@ -31,5 +33,9 @@ flight_delay_model/frontend/dist/
 
 # ---- 运行时数据库 / 密钥 / 日志 ----
 flight_delay_model/server/*.db
+flight_delay_model/server/*.db-*
 flight_delay_model/server/.secret_key
 flight_delay_model/server/flask.log
+.env
+.env.*
+!.env.example

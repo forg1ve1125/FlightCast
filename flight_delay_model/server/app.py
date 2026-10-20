@@ -47,13 +47,32 @@ FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
 @app.before_request
 def _load_user():
-    g.user = None
-    uid = session.get("user_id")
-    if uid is not None:
-        row = app_db.execute(
-            "SELECT id, username FROM users WHERE id=?", (uid,)).fetchone()
-        if row:
-            g.user = {"id": row["id"], "username": row["username"]}
+    g.user = auth.session_user(app_db, session.get("login_token"))
+    if g.user is None and session:
+        session.clear()
+
+
+@app.after_request
+def _private_response_headers(response):
+    if request.path.startswith(("/api/auth/", "/api/history")) or request.path == "/api/predict":
+        response.headers["Cache-Control"] = "no-store"
+    return response
+
+
+def _credentials():
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict):
+        return None
+    if not all(isinstance(body.get(field, ""), str) for field in ("username", "password")):
+        return None
+    return body
+
+
+def _sign_in(user):
+    auth.revoke_session(app_db, session.get("login_token"))
+    session.clear()
+    session["login_token"] = auth.create_session(
+        app_db, user["id"], int(app.permanent_session_lifetime.total_seconds()))
 
 
 @app.get("/api/airlines")
@@ -76,6 +95,8 @@ def api_airports():
 @app.post("/api/predict")
 def api_predict():
     payload = request.get_json(silent=True) or {}
+    if not isinstance(payload, dict):
+        return jsonify({"error": "Please provide flight fields in a JSON object."}), 400
     outcome = predict(payload, db)
     if isinstance(outcome, tuple):          # (error_dict, 400)
         return jsonify(outcome[0]), 400
@@ -86,29 +107,34 @@ def api_predict():
 
 @app.post("/api/auth/register")
 def api_register():
-    body = request.get_json(silent=True) or {}
+    body = _credentials()
+    if body is None:
+        return jsonify({"error": "Provide username and password as text in a JSON object."}), 400
     user, err = auth.register(app_db, body.get("username", ""), body.get("password", ""))
     if err == "USERNAME_TAKEN":
         return jsonify({"error": "That username is already taken."}), 409
     if err:
         return jsonify({"error": err}), 400
-    session["user_id"] = user["id"]
+    _sign_in(user)
     return jsonify({"user": {"id": user["id"], "username": user["username"]}}), 201
 
 
 @app.post("/api/auth/login")
 def api_login():
-    body = request.get_json(silent=True) or {}
+    body = _credentials()
+    if body is None:
+        return jsonify({"error": "Provide username and password as text in a JSON object."}), 400
     user, err = auth.login(app_db, body.get("username", ""), body.get("password", ""))
     if err:
         return jsonify({"error": err}), 401
-    session["user_id"] = user["id"]
+    _sign_in(user)
     return jsonify({"user": {"id": user["id"], "username": user["username"]}})
 
 
 @app.post("/api/auth/logout")
 def api_logout():
-    session.pop("user_id", None)
+    auth.revoke_session(app_db, session.get("login_token"))
+    session.clear()
     return jsonify({"ok": True})
 
 

@@ -8,6 +8,25 @@ Vue3 + Flask 全栈网页。2023 测试集收官成绩 **AUC 0.7038 / 两段式�
 
 ---
 
+## 网页与账号更新（2026-10-20）
+
+- 前端采用深蓝主色、浅色背景和圆角卡片，增加日期/时间选择器；历史记录每页 10 条，使用左右分屏查看预测。
+- 账号记录由后端校验归属；登录用户的成功预测会保存，访客预测不入库。登录会话支持服务端注销与过期校验，避免退出后旧 Cookie 继续使用。
+- 修复切换账号时慢请求带回旧记录、退出失败仍显示已退出、重复注册遗留事务，以及异常输入报错等问题。
+- 原有模型权重、模型注册表和 API 地址保持不变。当前卡片的 `Chance of any delay` 为五档概率中的 `1 − 准时概率`，`Expected delay` 为五档加权分钟数，与二分类/单段式模型指标口径不同。
+- 更新后重启后端并重新登录一次；首次启动会增加登录会话表，原账号与历史记录保留。
+
+新增 29 项后端接口测试和 11 项前端请求时序测试，另通过原有 6 项后端测试。详见 [测试说明](AUTH_HISTORY_TEST_REPORT.md)。Windows 环境及启动入口见 [Windows 环境配置](Windows环境配置.md)；本机模型绝对路径、账号数据库、密钥、依赖和大数据集不提交。
+
+```bash
+python flight_delay_model/server/test_auth_history_api.py
+cd flight_delay_model/frontend && npm run test:auth
+```
+
+Windows 可在项目根目录运行 `powershell -NoProfile -ExecutionPolicy Bypass -File .\test-auth.ps1`，统一执行新增的两组测试。
+
+---
+
 ## 最终采用的模型（线上现役）
 
 四个组件全部为 **CatBoost**、各 **39 特征**（11 计划特征 + 起飞机场天气 14 + 到达机场天气 14），

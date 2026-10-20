@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+import '@fontsource-variable/inter'
+import 'flatpickr/dist/flatpickr.min.css'
 import './style.css'
 import App from './App.vue'
 

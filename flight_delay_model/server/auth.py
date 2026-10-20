@@ -57,6 +57,13 @@ def init_db(db_path=None) -> sqlite3.Connection:
             result     TEXT NOT NULL    -- JSON returned by /api/predict (success only)
         );
         CREATE INDEX IF NOT EXISTS idx_history_user ON query_history(user_id, id DESC);
+        CREATE TABLE IF NOT EXISTS login_sessions (
+            token_hash TEXT PRIMARY KEY,
+            user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            created_at TEXT NOT NULL,
+            expires_at INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_sessions_expiry ON login_sessions(expires_at);
         """
     )
     conn.commit()
@@ -77,6 +84,8 @@ def _user_row(conn, user_id):
 
 def register(conn, username: str, password: str):
     """Returns (user_dict, None) on success or (None, error_message)."""
+    if not isinstance(username, str) or not isinstance(password, str):
+        return None, "Username and password must be text."
     username = (username or "").strip()
     if not _USERNAME_RE.match(username):
         return None, ("Username must be 3-32 characters: letters, digits, "
@@ -90,6 +99,7 @@ def register(conn, username: str, password: str):
             "VALUES (?, ?, ?, ?)", (username, digest, salt, _now()))
         conn.commit()
     except sqlite3.IntegrityError:
+        conn.rollback()
         return None, "USERNAME_TAKEN"
     row = _user_row(conn, cur.lastrowid)
     return {"id": row["id"], "username": row["username"],
@@ -98,6 +108,8 @@ def register(conn, username: str, password: str):
 
 def login(conn, username: str, password: str):
     """Returns (user_dict, None) or (None, error_message)."""
+    if not isinstance(username, str) or not isinstance(password, str):
+        return None, "Invalid username or password."
     row = conn.execute(
         "SELECT id, username, created_at, password_hash, salt FROM users "
         "WHERE username=? COLLATE NOCASE", ((username or "").strip(),)).fetchone()
@@ -107,6 +119,42 @@ def login(conn, username: str, password: str):
             return {"id": row["id"], "username": row["username"],
                     "created_at": row["created_at"]}, None
     return None, "Invalid username or password."
+
+
+def _token_hash(token):
+    if not isinstance(token, str) or not token or len(token) > 128:
+        return None
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def create_session(conn, user_id: int, lifetime_seconds: int = 31 * 24 * 60 * 60):
+    """Store a revocable login; the database keeps only a hash of its random token."""
+    token = secrets.token_urlsafe(32)
+    now = int(time.time())
+    with conn:
+        conn.execute("DELETE FROM login_sessions WHERE expires_at<=?", (now,))
+        conn.execute(
+            "INSERT INTO login_sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
+            (_token_hash(token), user_id, _now(), now + lifetime_seconds))
+    return token
+
+
+def session_user(conn, token):
+    """Return the current account only for an unexpired, unrevoked login."""
+    digest = _token_hash(token)
+    if digest is None:
+        return None
+    row = conn.execute(
+        "SELECT u.id, u.username FROM login_sessions s JOIN users u ON u.id=s.user_id "
+        "WHERE s.token_hash=? AND s.expires_at>?", (digest, int(time.time()))).fetchone()
+    return dict(row) if row else None
+
+
+def revoke_session(conn, token):
+    digest = _token_hash(token)
+    if digest is not None:
+        with conn:
+            conn.execute("DELETE FROM login_sessions WHERE token_hash=?", (digest,))
 
 
 def save_history(conn, user_id: int, payload: dict, result: dict) -> int:
