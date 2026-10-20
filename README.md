@@ -1,7 +1,7 @@
 # IS6400 · 航班延误预测（FlightCast）
 
 美国国内航班**出发延误**预测：CatBoost 四组件（二分类 / 五档+isotonic 校准 / 条件回归 / 单段式回归）+ 双端天气特征，
-Vue3 + Flask 全栈网页。2023 测试集收官成绩 **AUC 0.7038 / 两段式期望延误 MAE 18.88 分钟**。
+Vue3 + Flask 全栈网页。2023 测试集收官成绩 **AUC 0.7038 / 五档 RPS 0.137（isotonic 校准 0.37pp）/ 期望延误 MAE 17.09 分钟（单段式）**。
 
 > 📖 **阅读顺序**：本文件 = 怎么操作；[`PROJECT_RECORD.md`](PROJECT_RECORD.md) = 完整项目记录
 > （数据来源、特征、每一步提升的对比与分析）；[`flight_delay_model/README.md`](flight_delay_model/README.md) = 技术细节手册。
@@ -27,22 +27,19 @@ Windows 可在项目根目录运行 `powershell -NoProfile -ExecutionPolicy Bypa
 
 ---
 
-## 最终采用的模型（线上现役）
+## 最终采用的模型（训练四个 · 择优显示五档）
 
 四个组件全部为 **CatBoost**、各 **39 特征**（11 计划特征 + 起飞机场天气 14 + 到达机场天气 14），
 外加 isotonic 概率校准层，只预测**出发延误**，由 `flight_delay_model/models/wx_serving.json`
-注册表的**四槽位**控制（**最终形态 v2**，2026-10-17 里程碑3收官）：
+注册表的**四槽位**控制（**最终形态 v2**，2026-10-17 里程碑3收官）。
+**四个模型全部训练、后端每次请求全部计算，但页面上屏的只有五档+isotonic 一个来源**（见最后一列）：
 
-| # | 组件 | 回答的问题 | 存档 | 模型文件 | 2022验证 / 2023测试 |
-|---|---|---|---|---|---|
-| 1 | 二分类 | P(出发延误) | `models/20261009_193645_wx_dep`（11 号臂4） | `cls_dep_delay__v1wx_od__catboost.cbm` | AUC 0.7042 / **0.7038** |
-| 2 | 五档+isotonic | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` + `isotonic_full2022.json` | RPS 0.129/0.137 · 校准 1.85/**0.37**pp（三层指标详见技术 README） |
-| 3 | 条件回归 | 若延误，大约几分钟 | `models/20261013_130457_wx_reg_dep`（13 号） | `reg_dep_delay__v1wx_od__catboost.cbm` | MAE 31.30 / 34.43（常数基线 32.28/35.52） |
-| 4 | 单段式回归 | 期望延误（中位口径） | `models/20261017_152303_improve`（15 号） | `reg_dep_single__single39.cbm` | MAE **15.14 / 17.09**（常数0 基线 15.33/17.32；旧两段式 17.10/18.88） |
-
-兜底链（Open-Meteo 预报取不到 → 组件失败 → 整体异常时逐级回退到 v1 基线）：
-`latest_run.json → 20261005_155440_final_gt0`（cls+reg）、`bucket_latest.json → 20261006_124341_buckets`（五档）。
-这 14 个模型二进制已包含在仓库中，**克隆即可运行网页**；换装/回滚只需改 `wx_serving.json` 后重启 Flask。
+| # | 组件 | 回答的问题 | 存档 | 模型文件 | 2022验证 / 2023测试 | 页面显示 |
+|---|---|---|---|---|---|---|
+| 1 | 二分类 | P(出发延误) | `models/20261009_193645_wx_dep`（11 号臂4） | `cls_dep_delay__v1wx_od__catboost.cbm` | AUC 0.7042 / **0.7038** | ⏸ 不上屏（API 备用） |
+| 2 | 五档+isotonic | 各延误区间的概率分布（"63% on time · 25% 1-15 min…"） | `models/20261013_122152_buckets_wx_dep`（12 号） | `mcls_dep_delay__v1wx_od__catboost.cbm` + `isotonic_full2022.json` | RPS 0.129/0.137 · 校准 1.85/**0.37**pp（三层指标详见技术 README） | ✅ **唯一上屏来源**（概率、期望延误、五档图） |
+| 3 | 条件回归 | 若延误，大约几分钟 | `models/20261013_130457_wx_reg_dep`（13 号） | `reg_dep_delay__v1wx_od__catboost.cbm` | MAE 31.30 / 34.43（常数基线 32.28/35.52） | ⏸ 不上屏（API 备用） |
+| 4 | 单段式回归 | 期望延误（中位口径） | `models/20261017_152303_improve`（15 号） | `reg_dep_single__single39.cbm` | MAE **15.14 / 17.09**（常数0 基线 15.33/17.32；旧两段式 17.10/18.88） | ⏸ 不上屏（API 备用，一键可切） |
 
 > **页面显示口径（2026-10-20 对比后选定）**：校准实测显示，同一"延误概率"的三个来源中
 > 二分类（Balanced）高估 8.6pp（ECE 8.54pp）、五档原始 1−p0 因先验漂移低估 8.6pp（ECE 8.67pp）、
@@ -50,6 +47,10 @@ Windows 可在项目根目录运行 `powershell -NoProfile -ExecutionPolicy Bypa
 > 五档+isotonic 单一来源（概率、期望延误、五档条形图全部出自它），中期两个目标由这一个分布
 > 同时兑现。**四个模型全部保留**：后端每次请求全部计算并随 API 返回，其余三个以对照实验与
 > 离线指标体现工作量（AUC 0.7042 / 条件分钟 31.30 / 期望延误 17.09）——"训练四个、对比后择优显示"。
+
+兜底链（Open-Meteo 预报取不到 → 组件失败 → 整体异常时逐级回退到 v1 基线）：
+`latest_run.json → 20261005_155440_final_gt0`（cls+reg）、`bucket_latest.json → 20261006_124341_buckets`（五档）。
+这 14 个模型二进制已包含在仓库中，**克隆即可运行网页**；换装/回滚只需改 `wx_serving.json` 后重启 Flask。
 
 > 曾训练并被**对照实验否决**的方案（存档保留、报告可查）：LightGBM 全家（AUC −0.003）、
 > 块时长特征臂（−0.0004）、累积二分类（1/3 胜）、XGBoost（−0.008）、典型流量特征
