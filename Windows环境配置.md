@@ -167,7 +167,7 @@ Invoke-RestMethod 'http://127.0.0.1:5173/api/airports?q=ATL'
 
 保留 `/api/airlines`、`/api/airports`、`/api/predict`、`/api/auth/*`、`/api/history*` 的调用与字段。输入仍为 `FL_DATE / AIRLINE / ORIGIN / DEST / CRS_DEP_TIME / CRS_ARR_TIME`，`DISTANCE` 可选。
 
-当前模型由 `models/wx_serving.json` 指向的四个 CatBoost 组件组成：延误概率、五档概率加校准、延误条件下分钟数、单段式分钟预测。界面优化保持这些模型选择和返回含义。尤其 `expected_minutes_overall` 是单段式中位口径，可能为 0；它与五档加权分钟数 `expected_delay_min_from_buckets` 不是同一个指标，设计时应分别标注，避免混用。
+2026-10-22 小组决定后，当前网页后端只运行 `models/wx_serving.json` 指向的五档 CatBoost + isotonic，其他三个组件及历史基线文件保留但不运行。`predictions.dep_delay` 的兼容字段现在也由五档推导，并带来源标记；`expected_minutes_overall` 不再是单段式回归输出。前端仍显示原五档来源的概率和加权分钟数，无需修改。开销实测和 F12 查看方法见 [后端开销说明](BACKEND_PERFORMANCE.md)。
 
 ## 常见问题
 

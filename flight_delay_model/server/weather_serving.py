@@ -18,12 +18,12 @@
       vsby=visibility(m->mi) skyc1_okta=cloud_cover(%)×8/100
       wx_ts/ra/sn/fg = WMO weather_code 映射(雷暴/雨/雪/雾)
       skyl1=预报无云底高度 -> 恒缺失(树模型可处理)
-  - 任何失败（无预报/无坐标/网络/超出16天预报窗）-> 该侧全部天气特征缺失 +
-    wx_missing_{o,d}=1，模型按缺测处理；再失败则整体回退 v1 结果。
+  - 无预报/无坐标/网络失败 -> wx_missing_{o,d}=1，模型按缺测处理。
+    bucket_only 模式下模型或校准器故障返回 503，不运行其他模型作为回退。
   - 模型注册表 models/wx_serving.json：
       {"cls_run":.., "bucket_run":.., "reg_run":..}
     可选 "<key>_file" 指定模型文件名（默认 *_v1wx_*.cbm，旧版）；
-    null 的组件沿用 v1 基线（渐进式启用）。
+    当前 bucket_only 模式下 null 的组件完全停用；HTTP 入口不运行 v1 基线。
 
 自检（验证 API 与映射，不做预测）：
     python server/weather_serving.py --self-test
@@ -81,7 +81,7 @@ def _load_isotonic(run_dir):
     global _iso_cache
     if _iso_cache is None:
         path = run_dir / "isotonic_full2022.json"
-        _iso_cache = json.load(open(path, encoding="utf-8")) if path.exists() else False
+        _iso_cache = json.loads(path.read_text(encoding="utf-8")) if path.exists() else False
     return _iso_cache
 
 
@@ -286,7 +286,7 @@ def fetch_dest_forecast_weather(flight: dict):
 def load_registry():
     if not REGISTRY_JSON.exists():
         return {}
-    return json.load(open(REGISTRY_JSON, encoding="utf-8"))
+    return json.loads(REGISTRY_JSON.read_text(encoding="utf-8"))
 
 
 def enabled():
@@ -311,8 +311,7 @@ def _load_model(run_id, filename):
     if key not in _model_cache:
         from catboost import CatBoostClassifier, CatBoostRegressor
         path = config.MODELS_DIR / run_id / filename
-        meta = json.load(open(path.with_name(path.stem + "__metadata.json"),
-                              encoding="utf-8"))
+        meta = json.loads(path.with_name(path.stem + "__metadata.json").read_text(encoding="utf-8"))
         if meta["task"].startswith(("cls", "mcls")):
             m = CatBoostClassifier()
         else:
@@ -334,10 +333,42 @@ def _predict(model, meta, x_full):
 
 
 # ---------------------------------------------------------------- 主入口
+def predict_bucket_only(flight: dict) -> dict:
+    """Run only the configured five-class model and its isotonic calibrator.
+
+    Keep the response structure; legacy numeric fields are explicitly marked as
+    bucket-derived estimates, not independent regressor/classifier predictions.
+    """
+    reg = load_registry()
+    if reg.get("serving_mode") != "bucket_only" or not reg.get("bucket_run"):
+        raise RuntimeError("Calibrated bucket-only configuration is required")
+    if any(reg.get(k) for k in ("cls_run", "reg_run", "cond_reg_run")):
+        raise RuntimeError("Other online model slots must be disabled")
+    run_dir = config.MODELS_DIR / reg["bucket_run"]
+    if not (run_dir / "isotonic_full2022.json").is_file() or not _load_isotonic(run_dir):
+        raise RuntimeError("The isotonic calibrator is required")
+    result = predict_with_weather(flight, {
+        "input": flight, "delay_threshold_min": config.DELAY_THRESHOLD_MIN, "predictions": {}})
+    if result.get("weather_components") != ["bucket+iso"]:
+        raise RuntimeError("The calibrated bucket model failed")
+    scenario = result["scenarios"]["dep_delay"]
+    p0 = next(s["probability"] for s in scenario["scenarios"] if s["bucket"] == 0)
+    b = result["predictions"]["dep_delay"]
+    b["prob_delay"] = round(1 - p0, 4)
+    b["expected_minutes_overall"] = scenario["expected_delay_min_from_buckets"]
+    b["prob_delay_source"] = "calibrated-buckets"
+    b["expected_delay_source"] = "bucket-weighted"
+    b["conditional_minutes_source"] = "bucket-derived"
+    b["summary"] = (f"{b['prob_delay']*100:.1f}% chance of departure delay; "
+                    f"expected delay {b['expected_minutes_overall']:.0f} min (bucket estimate)")
+    return result
+
+
 def predict_with_weather(flight: dict, base_result: dict) -> dict:
     """在 v1 基线结果上叠加天气模型输出；逐组件独立启用，失败组件保持 v1。
 
-    四槽位（models/wx_serving.json，2026-10-17 最终形态 v2）：
+    以下为历史四槽位职责（2026-10-17 v2）；当前 HTTP 入口先校验 bucket_only，
+    其他三个槽位必须为 null，此函数只会收到五档组件：
       cls_run      -> P(出发延误)，页面 "X% chance of any delay"
       reg_run      -> 期望延误：单段式（task=reg_dep_single，目标 max(延误,0)）直接输出；
                       兼容旧版条件回归文件（走两段式 p×m 回退）
@@ -408,8 +439,7 @@ def predict_with_weather(flight: dict, base_result: dict) -> dict:
                 iso = _load_isotonic(run_dir)
                 if iso:
                     proba = _apply_isotonic(proba, iso)
-                stats = json.load(open(run_dir / "bucket_stats.json",
-                                       encoding="utf-8"))["dep"]
+                stats = json.loads((run_dir / "bucket_stats.json").read_text(encoding="utf-8"))["dep"]
                 med = [s["median_minutes"] for s in stats]
                 items = [{"bucket": k, "label": BUCKET_LABELS_EN[k],
                           "probability": round(float(proba[k]), 4),

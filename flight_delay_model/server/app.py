@@ -23,6 +23,7 @@ The vite dev server (port 5173) proxies /api to this service.
 """
 import secrets
 from pathlib import Path
+from time import perf_counter
 
 from flask import Flask, g, jsonify, request, send_from_directory, session
 
@@ -97,12 +98,18 @@ def api_predict():
     payload = request.get_json(silent=True) or {}
     if not isinstance(payload, dict):
         return jsonify({"error": "Please provide flight fields in a JSON object."}), 400
+    started = perf_counter()
     outcome = predict(payload, db)
-    if isinstance(outcome, tuple):          # (error_dict, 400)
-        return jsonify(outcome[0]), 400
-    if g.user:                              # save successful predictions only
-        auth.save_history(app_db, g.user["id"], payload, outcome)
-    return jsonify(outcome)
+    elapsed_ms = (perf_counter() - started) * 1000
+    if isinstance(outcome, tuple):          # (error_dict, HTTP status)
+        response = jsonify(outcome[0])
+        response.status_code = outcome[1]
+    else:
+        if g.user:                         # save successful predictions only
+            auth.save_history(app_db, g.user["id"], payload, outcome)
+        response = jsonify(outcome)
+    response.headers["Server-Timing"] = f'predict;dur={elapsed_ms:.2f};desc="Prediction service"'
+    return response
 
 
 @app.post("/api/auth/register")

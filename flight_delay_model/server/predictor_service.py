@@ -10,10 +10,10 @@ Distance fallback when DISTANCE is not provided (in priority order):
   4) global median
 `distance_source` in the response says which level was used.
 
-All user-facing text is English (project requirement). The model layer
-(04_predict.py) still produces Chinese bucket labels from config.BUCKET_LABELS;
-this module translates them at the API boundary.
+The HTTP service runs only the calibrated five-bucket departure model.
+Archived models remain on disk and are never loaded by this entry point.
 """
+import logging
 import sqlite3
 import sys
 from pathlib import Path
@@ -24,17 +24,9 @@ SERVER_DIR = Path(__file__).resolve().parent
 DB_PATH = SERVER_DIR / "flight_meta.db"
 sys.path.insert(0, str(SERVER_DIR.parent))
 
-import config  # noqa: E402
-from verdict import BUCKET_LABELS_EN, verdict, verdict_from_prob  # noqa: E402
-
-from importlib import import_module  # noqa: E402
-
-predict_mod = import_module("04_predict")
+from verdict import verdict  # noqa: E402
 
 import weather_serving  # noqa: E402  (Open-Meteo 天气模型服务，可渐进启用)
-
-# config.BUCKET_LABELS (Chinese, model-side) -> bucket index
-_LABEL_TO_BUCKET = {label: k for k, label in enumerate(config.BUCKET_LABELS)}
 
 
 class MetaDB:
@@ -117,52 +109,6 @@ def _valid_hhmm(v):
     return 0 <= hh <= 23 and 0 <= mm <= 59
 
 
-def _scenarios_to_english(seg_scenarios: dict) -> dict:
-    """Translate one segment's bucket scenario block to English display keys.
-
-    Model side (04_predict.py): {scenarios: [{scenario: <zh label>, probability,
-    typical_minutes}], expected_delay_min_from_buckets, summary}.
-    API side: {scenarios: [{bucket, label, probability, typical_minutes}], ...}
-    with an English `summary`.
-    """
-    items = []
-    for s in seg_scenarios["scenarios"]:
-        k = _LABEL_TO_BUCKET.get(s["scenario"])
-        if k is None:            # unknown label: keep as-is, no bucket index
-            k = -1
-            label = s["scenario"]
-        else:
-            label = BUCKET_LABELS_EN[k]
-        items.append({"bucket": k, "label": label,
-                      "probability": s["probability"],
-                      "typical_minutes": s.get("typical_minutes")})
-    parts = []
-    for s in items:
-        if s["bucket"] == 0:
-            parts.append(f"{s['probability']:.0%} on time")
-        else:
-            mins = (f" (~{s['typical_minutes']:.0f} min)"
-                    if s.get("typical_minutes") is not None else "")
-            parts.append(f"{s['probability']:.0%} {s['label'].lower()}{mins}")
-    return {"scenarios": items,
-            "expected_delay_min_from_buckets": seg_scenarios["expected_delay_min_from_buckets"],
-            "summary": " · ".join(parts)}
-
-
-def _predictions_to_english(result: dict) -> None:
-    """Rewrite the two-stage model summaries in English (in place)."""
-    seg_word = {"dep_delay": "departure", "arr_delay": "arrival"}
-    for key, word in seg_word.items():
-        b = result.get("predictions", {}).get(key)
-        if not b or "summary" not in b:
-            continue
-        p, mins = b.get("prob_delay"), b.get("expected_minutes_if_delayed")
-        if p is not None and mins is not None:
-            b["summary"] = (f"{p*100:.1f}% chance of {word} delay; "
-                            f"if delayed, about {mins:.0f} min; "
-                            f"expected delay {p*mins:.0f} min")
-
-
 def predict(payload: dict, db: MetaDB) -> dict:
     """Main entry. payload: FL_DATE/AIRLINE/ORIGIN/DEST/CRS_DEP_TIME/CRS_ARR_TIME/DISTANCE?"""
     required = ["FL_DATE", "AIRLINE", "ORIGIN", "DEST", "CRS_DEP_TIME", "CRS_ARR_TIME"]
@@ -204,46 +150,20 @@ def predict(payload: dict, db: MetaDB) -> dict:
         "CRS_ARR_TIME": int(payload["CRS_ARR_TIME"]),
         "DISTANCE": float(distance),
     }
-    result = predict_mod.predict_flight(None, flight)
+    try:
+        result = weather_serving.predict_bucket_only(flight)
+    except Exception:
+        # Missing/broken configuration must never reactivate archived models.
+        logging.getLogger(__name__).exception("Calibrated departure model unavailable")
+        return {"error": "The calibrated departure model is unavailable. Please try again later."}, 503
     result["distance_source"] = dist_source
     result["resolved"] = {"airline": airline, "origin": origin, "dest": dest,
                           "distance": distance}
 
-    # English display for the bucket scenarios + two-stage summaries
-    if "scenarios" in result:
-        result["scenarios"] = {k: _scenarios_to_english(v)
-                               for k, v in result["scenarios"].items()}
-    _predictions_to_english(result)
-
-    # 产品口径(2026-10-08, 导师建议聚焦单一任务): 仅输出出发延误预测。
-    # 模型存档仍保留到达模型(训练能力不变), 在服务层过滤, 不对外输出。
-    # CRS_ARR_TIME 仍是必填输入: 用于唯一确定航班 + 块时长类特征原料。
-    if "predictions" in result:
-        result["predictions"] = {k: v for k, v in result["predictions"].items()
-                                 if k == "dep_delay"}
-    if "scenarios" in result:
-        result["scenarios"] = {k: v for k, v in result["scenarios"].items()
-                               if k == "dep_delay"}
-
-    # 天气模型叠加（Open-Meteo 预报 -> 与训练同构的天气特征 -> 11/12/13 号存档模型）。
-    # 必须放在英文翻译与仅出发过滤之后：其输出已自带英文结构、只覆盖 dep 组件。
-    # 组件在 models/wx_serving.json 中逐个启用；任何失败保持 v1 基线结果。
-    if weather_serving.enabled():
-        try:
-            result = weather_serving.predict_with_weather(flight, result)
-        except Exception:
-            pass
-
-    # Verdict: pure argmax over the bucket scenarios (better calibrated);
-    # fall back to the binary classifier probability when buckets are absent.
+    # Verdict and all visible statistics share the calibrated bucket distribution.
     result["verdicts"] = {}
-    for seg in ["dep"]:
-        key = f"{seg}_delay"
-        if key in result.get("scenarios", {}):
-            exp = result["scenarios"][key].get("expected_delay_min_from_buckets")
-            result["verdicts"][key] = verdict(seg, result["scenarios"][key]["scenarios"], exp)
-        elif key in result.get("predictions", {}):
-            p_delay = result["predictions"][key].get("prob_delay")
-            exp = result["predictions"][key].get("expected_minutes_overall")
-            result["verdicts"][key] = verdict_from_prob(seg, p_delay, exp)
+    key = "dep_delay"
+    if key in result.get("scenarios", {}):
+        exp = result["scenarios"][key].get("expected_delay_min_from_buckets")
+        result["verdicts"][key] = verdict("dep", result["scenarios"][key]["scenarios"], exp)
     return result

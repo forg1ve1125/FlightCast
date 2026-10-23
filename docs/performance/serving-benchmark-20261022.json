@@ -1,0 +1,140 @@
+{
+  "scope": "Isolated local serving cost; excludes HTTP, DB writes and external weather latency.",
+  "results": {
+    "before": {
+      "mode": "before",
+      "weather": "fixed missing features; no network calls",
+      "repeats": 20,
+      "cold_import_and_first_prediction_ms": 1182.62,
+      "warm_median_ms": 159.96,
+      "warm_p95_ms": 179.49,
+      "warm_median_cpu_ms": 2375.0,
+      "working_set_after_first_prediction_mb": 168.41,
+      "working_set_final_mb": 172.59,
+      "cold_model_loads": 14,
+      "cold_model_inferences": 14,
+      "warm_model_inferences_per_request": [
+        14
+      ],
+      "warm_model_loads_per_request": [
+        10
+      ],
+      "weather_components": [
+        "cls",
+        "single",
+        "bucket+iso",
+        "cond"
+      ],
+      "frontend_scenarios": {
+        "scenarios": [
+          {
+            "bucket": 4,
+            "label": "Over 60 min delay",
+            "probability": 0.3535,
+            "typical_minutes": 104.0
+          },
+          {
+            "bucket": 3,
+            "label": "31-60 min delay",
+            "probability": 0.2331,
+            "typical_minutes": 42.0
+          },
+          {
+            "bucket": 1,
+            "label": "1-15 min delay",
+            "probability": 0.1944,
+            "typical_minutes": 5.0
+          },
+          {
+            "bucket": 2,
+            "label": "16-30 min delay",
+            "probability": 0.1903,
+            "typical_minutes": 22.0
+          },
+          {
+            "bucket": 0,
+            "label": "On time",
+            "probability": 0.0287,
+            "typical_minutes": null
+          }
+        ],
+        "expected_delay_min_from_buckets": 51.7,
+        "summary": "35% over 60 min delay (~104 min) · 23% 31-60 min delay (~42 min) · 19% 1-15 min delay (~5 min) · 19% 16-30 min delay (~22 min) · 3% on time"
+      },
+      "frontend_verdict": {
+        "level": "alert",
+        "bucket": 4,
+        "phrase": "Expected over 60 min departure delay",
+        "p_delay": 0.9713,
+        "expected_delay_min": 51.7
+      }
+    },
+    "after": {
+      "mode": "after",
+      "weather": "fixed missing features; no network calls",
+      "repeats": 20,
+      "cold_import_and_first_prediction_ms": 830.26,
+      "warm_median_ms": 7.49,
+      "warm_p95_ms": 8.33,
+      "warm_median_cpu_ms": 7.81,
+      "working_set_after_first_prediction_mb": 116.1,
+      "working_set_final_mb": 116.9,
+      "cold_model_loads": 1,
+      "cold_model_inferences": 1,
+      "warm_model_inferences_per_request": [
+        1
+      ],
+      "warm_model_loads_per_request": [
+        0
+      ],
+      "weather_components": [
+        "bucket+iso"
+      ],
+      "frontend_scenarios": {
+        "scenarios": [
+          {
+            "bucket": 4,
+            "label": "Over 60 min delay",
+            "probability": 0.3535,
+            "typical_minutes": 104.0
+          },
+          {
+            "bucket": 3,
+            "label": "31-60 min delay",
+            "probability": 0.2331,
+            "typical_minutes": 42.0
+          },
+          {
+            "bucket": 1,
+            "label": "1-15 min delay",
+            "probability": 0.1944,
+            "typical_minutes": 5.0
+          },
+          {
+            "bucket": 2,
+            "label": "16-30 min delay",
+            "probability": 0.1903,
+            "typical_minutes": 22.0
+          },
+          {
+            "bucket": 0,
+            "label": "On time",
+            "probability": 0.0287,
+            "typical_minutes": null
+          }
+        ],
+        "expected_delay_min_from_buckets": 51.7,
+        "summary": "35% over 60 min delay (~104 min) · 23% 31-60 min delay (~42 min) · 19% 1-15 min delay (~5 min) · 19% 16-30 min delay (~22 min) · 3% on time"
+      },
+      "frontend_verdict": {
+        "level": "alert",
+        "bucket": 4,
+        "phrase": "Expected over 60 min departure delay",
+        "p_delay": 0.9713,
+        "expected_delay_min": 51.7
+      }
+    }
+  },
+  "frontend_outputs_identical": true,
+  "warm_latency_reduction_percent": 95.3
+}

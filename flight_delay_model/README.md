@@ -1,10 +1,8 @@
 # IS6400 小组项目：航班延误预测模型（CatBoost）
 
-> **最终形态 v2（2026-10-17 定格）**：仅预测**出发延误**，线上由四个 CatBoost 组件
-> （二分类 / 五档多分类+isotonic 校准 / 条件回归 / 单段式回归）组成，各 39 特征 =
-> 11 计划特征 + 起飞机场天气 14 + 到达机场天气 14。
-> 2023 里程碑3成绩：**AUC 0.7038 / 五档校准 0.37pp / 期望延误 MAE 17.09 分钟**。
-> 最终采用哪几个模型、如何切换，见下文[「最终采用的模型」](#最终采用的模型线上现役-v22026-10-17-里程碑3收官)一节。
+> **当前网页服务（2026-10-23 同步）**：仅运行五档 CatBoost + 原 isotonic 校准。其他三个组件及历史基线的文件、训练与评估存档保留，HTTP 后端不再加载或推理它们。
+> 当前启动、接口口径及测试见 [单模型 README](../README_SINGLE_MODEL.md)，性能测量见 [开销说明](../BACKEND_PERFORMANCE.md)。
+> 下文四组件表和相关离线成绩记录 2026-10-17 训练方案，不能将独立回归的 MAE 当作当前五档推导分钟数的成绩。
 
 按 **9.24 会议纪要** 和 **《训练模型不需要使用的字段》** 文档实现的完整流水线：
 数据清洗 → 特征工程 → 模型训练 → 验证评估 → 天气特征 → 2023 收官测试 → 全栈网页部署。
@@ -61,7 +59,7 @@ python 02_train_models.py --feature-set v1 --run-name final_gt0   # 自动生成
 python 02_train_models.py --feature-set v1 --run-id 20261006_101500_myrun  # 也可完整指定
 ```
 
-## 最终采用的模型（线上现役 · v2，2026-10-17 里程碑3收官）
+## 四组件训练存档（v2，2026-10-17 里程碑3收官；目前仅五档在线）
 
 四个组件全部为 CatBoost、39 特征（11 计划 + 起飞机场天气 14 + 到达机场天气 14），
 外加一层 isotonic 概率校准，由注册表 `models/wx_serving.json` 的**四槽位**控制：
@@ -73,12 +71,7 @@ python 02_train_models.py --feature-set v1 --run-id 20261006_101500_myrun  # 也
 | 3 | 条件回归 `cond_reg_run` | 若延误约几分钟 | `20261013_130457_wx_reg_dep` / `reg_dep_delay__v1wx_od__catboost.cbm` | MAE 31.30 / 34.43（基线 32.28/35.52） |
 | 4 | 单段式回归 `reg_run` | 期望延误（中位口径） | `20261017_152303_improve` / `reg_dep_single__single39.cbm` | MAE 15.14 / **17.09**（常数0基线 15.33/17.32，旧两段式 17.10/18.88） |
 
-兜底链（预报取不到→组件失败→整体异常时逐级回退）：
-- `models/latest_run.json` → `20261005_155440_final_gt0`（v1 基线 cls+reg，CatBoost/LightGBM）
-- `models/bucket_latest.json` → `20261006_124341_buckets`（v1 五档区间）
-
-换装/回滚：只改 `wx_serving.json` 的四槽位与 `*_file` 字段后重启 Flask。线上在用的
-14 个模型二进制已入 git 仓库（克隆即可跑网页），其余存档二进制不入库、可按脚本重训。
+14 个原模型二进制保留。当前配置为 `bucket_only`：仅五档槽位非空；HTTP 入口不再调用 v1 基线，也不在模型故障时回退。恢复其他模型需调整服务编排和测试。
 
 **页面显示口径（2026-10-20 定稿）**：出于**口径一致**考虑，页面统一采用**五档+isotonic
 单一来源**："Chance of any delay" = 1−准点概率、"Expected delay" = 五档加权分钟数、
@@ -86,26 +79,20 @@ python 02_train_models.py --feature-set v1 --run-id 20261006_101500_myrun  # 也
 这一个分布同时兑现（边沿汇总 + 逐档明细）。选择该来源上屏的概率依据：对同一"延误
 概率"的三个来源做校准实测（2022 验证，66.8 万航班）——二分类（Balanced）ECE 8.54pp、
 系统性高估 8.6pp；五档原始 1−p0 ECE 8.67pp、受训练先验漂移低估 8.6pp；**五档+isotonic
-ECE 0.21pp**（平均预测 0.392 vs 实际 0.391）。**四个模型全部保留**：服务端每次请求
-仍全部计算并随 API 返回（未删除、随时可上屏），各自以对照实验与离线指标体现价值
-（AUC 0.7042 / 条件分钟 31.30 / 期望延误 17.09，均为赢过基线的成绩；分钟精度以单段式
-最优，如需以它上屏只改注册表一行）——"训练四个、前端单一口径显示"即本项目完整工作量。
+ECE 0.21pp**（平均预测 0.392 vs 实际 0.391）。**四个模型存档全部保留**，各自以对照实验与离线指标体现价值（AUC 0.7042 / 条件分钟 31.30 / 期望延误 17.09；分钟精度以单段式最优）。小组现决定只运行已在页面显示的五档来源，减少未显示模型的开销；不再计算另外三个组件。
 
-### 分工表：每个模型负责什么、页面显示谁（2026-10-20 前端定稿口径）
+### 当前页面与接口字段来源
 
-四个模型**后端全部在线计算**，API 字段全部返回；**页面显示统一采用五档+isotonic 单一来源**
-（选定依据见上方"页面显示口径"），其余三个模型的字段在 API 中备用、可随时上屏：
+| 字段/界面 | 当前来源 |
+|---|---|
+| `scenarios.dep_delay` 五档概率 | 五档 CatBoost + 原 isotonic 校准器 |
+| `verdicts.dep_delay` / 主要延误范围 | 校准五档 argmax；同概率时选较轻档 |
+| `Chance of any delay` | 1 − 五档准时概率 |
+| `Expected delay` | 五档 Σ(概率 × 档位典型分钟数)，分档加权估计 |
+| `predictions.dep_delay` 兼容字段 | 同一五档分布推导，含 `prob_delay_source=calibrated-buckets`、`expected_delay_source=bucket-weighted`、`conditional_minutes_source=bucket-derived` |
+| `weather_components` | 仅 `["bucket+iso"]` |
 
-| 模型/层 | API 字段（JSON） | 页面显示（现状） | 后端位置 |
-|---|---|---|---|
-| 五档+isotonic | `scenarios.dep_delay.scenarios[].{label,probability,typical_minutes}`、`expected_delay_min_from_buckets` | ✅ 全部数字的来源：五档条形图；"Chance of any delay"=1−准点概率；"Expected delay"=五档加权分钟；verdict 徽章（对五档取 argmax） | `bucket_run` 槽位 + `isotonic_full2022.json`；结论句在 `verdict.py` |
-| 二分类 | `predictions.dep_delay.prob_delay` | ⏸ 未上屏（备用）——排序能力以 AUC 0.7042 在报告中呈现 | `cls_run` 槽位 |
-| 条件回归 | `predictions.dep_delay.expected_minutes_if_delayed` | ⏸ 未上屏（备用）——"若延误约 X 分钟"，离线 31.30 vs 基线 32.28 | `cond_reg_run` 槽位 |
-| 单段式 | `predictions.dep_delay.expected_minutes_overall` | ⏸ 未上屏（备用）——期望延误中位口径，离线 17.09 vs 常数 17.32 | `reg_run` 槽位 |
-
-（⏸ = 服务端每次请求照常计算并随 API 返回；如需上屏，取对应字段即可。三个备用口径的
-统计含义互不相同：二分类概率带 Balanced 偏高、单段式是中位数、五档加权是分档均值——
-上屏时建议标注口径，避免"互相打架"的观感。）
+前端布局和使用的来源保持原样。兼容字段不再表示独立二分类/回归结果；分钟数也不是单段式中位预测。旧历史记录仍显示保存当时的响应。预报缺失时使用原缺测特征；模型或 isotonic 故障返回 503，失败结果不保存。
 
 ### 单段式与校准层是怎么训练/制作的
 
@@ -489,7 +476,7 @@ GET  /api/history/<id>            # 某条历史的完整预测结果（仅本�
 - 机场坐标来自 OpenFlights（首次自动构建 `weather/airport_coords.json`，含 PBI(2026年更名DJT)/WRG/USA 兜底）。
 - 模型启用注册表 `models/wx_serving.json`：`cls_run`/`bucket_run`/`reg_run` 指向存档，
   可选 `cls_file`/`bucket_file`/`reg_file` 指定文件名（默认 `*_v1wx_*.cbm` 旧版）；
-  **null 的组件自动沿用 v1 基线**；预报失败/超16天/无坐标 -> 天气缺测标志，模型照常预测；整体失败回退 v1。
+  **当前 `bucket_only` 模式下 null 的组件完全停用，不沿用 v1 基线**；预报失败/超16天/无坐标 -> 天气缺测标志，五档模型照常预测；模型或校准器失败返回 503。
 - 响应新增 `weather_source` 字段（前端 meta 行显示 "Weather: Open-Meteo forecast"）。
 - 自检：`python server/weather_serving.py --self-test`（验证坐标库与双端预报映射）。
 

@@ -85,7 +85,7 @@ class AuthHistoryAPI(unittest.TestCase):
     def predict(self, client, **overrides):
         response = client.post('/api/predict', json={**FLIGHT, **overrides})
         self.assertEqual(response.status_code, 200, response.get_json())
-        self.assertEqual(set(response.get_json()['weather_components']), {'cls', 'single', 'bucket+iso', 'cond'})
+        self.assertEqual(response.get_json()['weather_components'], ['bucket+iso'])
         return response.get_json()
 
     def items(self, client):
