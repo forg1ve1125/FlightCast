@@ -20,6 +20,7 @@ import SearchSelect from './components/SearchSelect.vue'
 import DelayPanel from './components/DelayPanel.vue'
 import AuthModal from './components/AuthModal.vue'
 import DateTimeInput from './components/DateTimeInput.vue'
+import { isSelectableFlightDate } from './flightDate.js'
 
 const form = reactive({
   FL_DATE: '', AIRLINE: '', ORIGIN: '', DEST: '',
@@ -154,6 +155,11 @@ async function submit() {
       error.value = `Please fill in the ${name}.`
       return
     }
+  }
+
+  if (!isSelectableFlightDate(form.FL_DATE)) {
+    error.value = 'Please use the calendar to select today or a future flight date.'
+    return
   }
 
   const departureTime = timeToHHMM(form.CRS_DEP_TIME)

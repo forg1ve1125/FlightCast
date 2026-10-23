@@ -120,18 +120,19 @@ npm run build
 | `/api/auth/register`、`login`、`logout`、`me` | 账号与会话 |
 | `GET /api/history`、`GET /api/history/<id>` | 当前用户的历史列表与详情 |
 
-预测输入示例（实际历史航班的计划信息，实际延误标签不作为模型输入）：
+新预测的日期必须为今天或未来，只能在页面日历选择；过去日期在 HTTP 接口也会被拒绝。示例沿用历史航线的计划信息，但 `FL_DATE` 取当天系统日期，不能照抄旧的 2021 日期：
 
-```json
-{
-  "FL_DATE": "2021-12-30",
-  "AIRLINE": "Southwest Airlines Co.",
-  "ORIGIN": "DEN",
-  "DEST": "SMF",
-  "CRS_DEP_TIME": 2245,
-  "CRS_ARR_TIME": 25,
-  "DISTANCE": 909
-}
+```powershell
+$flight = @{
+  FL_DATE = (Get-Date -Format 'yyyy-MM-dd')
+  AIRLINE = 'Southwest Airlines Co.'
+  ORIGIN = 'DEN'
+  DEST = 'SMF'
+  CRS_DEP_TIME = 2245
+  CRS_ARR_TIME = 25
+  DISTANCE = 909
+} | ConvertTo-Json
+Invoke-RestMethod -Uri 'http://localhost:5000/api/predict' -Method Post -ContentType 'application/json' -Body $flight
 ```
 
 `DISTANCE` 可选，缺失时仍由后端按原规则回填。每个登录用户只能查看自己的记录；访客可以预测，但不读取或保存历史。已有记录显示保存时的结果，不自动重算。
@@ -160,7 +161,7 @@ npm run build
 & '.\.venv\Scripts\python.exe' scripts/benchmark_serving.py
 ```
 
-前端在 `flight_delay_model/frontend` 下运行 `npm run test:auth`。本次已通过 6 项单模型服务测试、29 项账号历史接口测试、6 项原后端测试及 11 项前端时序测试。
+前端在 `flight_delay_model/frontend` 下运行 `npm run test:auth` 和 `npm run test:date`。日期限制更新后已通过 6 项单模型服务测试、38 项账号历史与日期接口测试、6 项原后端测试、15 项前端时序测试及 10 项日期控件测试，共 75 项。结果与视频记录来源说明见 [日期与隔离核查报告](DATE_PRIVACY_TEST_REPORT.md)。
 
 `benchmark_serving.py --compare` 需要原开发机保留的 `.local/bucket-only-before/` 快照；该私人备份不在仓库中。新克隆可不带 `--compare` 测当前版本，历史对比结果则查上面的 JSON 记录。
 
@@ -169,6 +170,8 @@ npm run build
 - [2K MP4：2560×1440](docs/demo/FlightCast-demo-2K.mp4)
 
 视频为 44 秒、30 fps、无声、英文步骤字幕，由真实浏览器页面的高清截图按步骤剪辑，覆盖填写航班、预测、区间说明、登录、历史分屏、分页和退出。录制账号与数据库独立，预测来自当前真实模型，正式用户的历史不受影响。
+
+这是新增“只接受今天及未来日期”规则之前的演示，使用历史航班和演示账号的已有记录；当前新预测已不能再选择视频中的过去日期。游客结果不会在登录后自动补存。该旧视频保留作为界面参考，本轮不重新录制。
 
 ![历史预测左右分屏](docs/demo/FlightCast-preview.png)
 

@@ -22,6 +22,7 @@ Run: python server/app.py   (default http://127.0.0.1:5000)
 The vite dev server (port 5173) proxies /api to this service.
 """
 import secrets
+from datetime import date
 from pathlib import Path
 from time import perf_counter
 
@@ -98,6 +99,18 @@ def api_predict():
     payload = request.get_json(silent=True) or {}
     if not isinstance(payload, dict):
         return jsonify({"error": "Please provide flight fields in a JSON object."}), 400
+    flight_date = payload.get("FL_DATE")
+    if flight_date is not None:
+        try:
+            if not isinstance(flight_date, str) or len(flight_date) != 10:
+                raise ValueError
+            selected_day = date.fromisoformat(flight_date)
+            if selected_day.isoformat() != flight_date:
+                raise ValueError
+        except ValueError:
+            return jsonify({"error": "Please select a valid flight date (YYYY-MM-DD)."}), 400
+        if selected_day < date.today():
+            return jsonify({"error": "Please select today or a future flight date."}), 400
     started = perf_counter()
     outcome = predict(payload, db)
     elapsed_ms = (perf_counter() - started) * 1000

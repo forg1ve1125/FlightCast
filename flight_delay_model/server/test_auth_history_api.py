@@ -12,6 +12,7 @@ import sqlite3
 import sys
 import tempfile
 import unittest
+from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import patch
 
@@ -21,9 +22,10 @@ TEST_ROOT = ROOT / '.local/auth-test-databases'
 TEST_ROOT.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(SERVER))
 import auth
+import weather_serving as wx
 
 FLIGHT = {
-    'FL_DATE': '2021-12-30', 'AIRLINE': 'Southwest Airlines Co.',
+    'FL_DATE': date.today().isoformat(), 'AIRLINE': 'Southwest Airlines Co.',
     'ORIGIN': 'DEN', 'DEST': 'SMF', 'CRS_DEP_TIME': 2245,
     'CRS_ARR_TIME': 25, 'DISTANCE': 909.0,
 }
@@ -59,6 +61,12 @@ class AuthHistoryAPI(unittest.TestCase):
         sys.modules.pop('_is6400_auth_api_tests', None)
 
     def setUp(self):
+        # Exercise real model inference with deterministic missing-weather inputs;
+        # account ownership tests must not depend on an external weather service.
+        for name, side in (('fetch_forecast_weather', 'o'), ('fetch_dest_forecast_weather', 'd')):
+            fixture = patch.object(wx, name, return_value=wx._missing(side))
+            fixture.start()
+            self.addCleanup(fixture.stop)
         self.temp = tempfile.TemporaryDirectory(prefix='case-', dir=TEST_ROOT)
         assert Path(self.temp.name).resolve().is_relative_to(TEST_ROOT.resolve())
         self.db_path = Path(self.temp.name) / 'app.db'
@@ -164,7 +172,7 @@ class AuthHistoryAPI(unittest.TestCase):
         a_id = self.items(self.a)[0]['id']
         self.register(self.b, 'user_b')
         self.assertEqual(self.items(self.b), [])
-        self.predict(self.b, FL_DATE='2022-10-30')
+        self.predict(self.b, FL_DATE=(date.today() + timedelta(days=1)).isoformat())
         b_id = self.items(self.b)[0]['id']
         self.assertNotEqual(a_id, b_id)
         self.assertEqual([item['id'] for item in self.items(self.a)], [a_id])
@@ -371,6 +379,101 @@ class AuthHistoryAPI(unittest.TestCase):
         with self.guest.session_transaction() as session:
             session['user_id'] = a['id']
         self.assertEqual(self.guest.get('/api/history').status_code, 401)
+
+    def test_30_guest_prediction_is_not_backfilled_after_login(self):
+        """An existing account with empty history stays empty after guest -> login."""
+        self.register(self.a)
+        self.predict(self.guest)
+        self.assertEqual(self.count(), 0)
+        self.assertEqual(self.login(self.guest).status_code, 200)
+        self.assertEqual(self.items(self.guest), [])
+        self.assertEqual(self.count(), 0)
+
+    def test_31_guest_prediction_is_not_backfilled_after_registration(self):
+        """Registering after a guest prediction does not adopt that prediction."""
+        self.predict(self.guest)
+        self.register(self.guest, 'new_user')
+        self.assertEqual(self.items(self.guest), [])
+        self.assertEqual(self.count(), 0)
+
+    def test_32_login_during_guest_inference_does_not_save_it(self):
+        """Login between request authentication and real inference completion cannot change ownership."""
+        self.register(self.a)
+        real_predict = self.module.predict
+
+        def login_while_predicting(payload, meta):
+            self.assertEqual(self.login(self.guest).status_code, 200)
+            return real_predict(payload, meta)
+
+        # Nested HTTP dispatch controls request ordering without sleeping or replacing model outputs.
+        with patch.object(self.module, 'predict', side_effect=login_while_predicting):
+            self.predict(self.guest)
+        self.assertIsNotNone(self.guest.get('/api/auth/me').get_json()['user'])
+        self.assertEqual(self.items(self.guest), [])
+        self.assertEqual(self.count(), 0)
+
+    def test_33_inflight_a_prediction_never_belongs_to_b(self):
+        """An A request completing after switching to B is saved only under A."""
+        a = self.register(self.a)
+        self.register(self.b, 'user_b')
+        real_predict = self.module.predict
+
+        def switch_while_predicting(payload, meta):
+            self.assertEqual(self.login(self.a, 'user_b').status_code, 200)
+            return real_predict(payload, meta)
+
+        with patch.object(self.module, 'predict', side_effect=switch_while_predicting):
+            self.predict(self.a)
+        self.assertEqual(self.items(self.a), [])  # this browser now belongs to B
+        row = self.conn.execute('SELECT id, user_id FROM query_history').fetchone()
+        self.assertEqual(row['user_id'], a['id'])
+        self.assertEqual(self.a.get(f"/api/history/{row['id']}").status_code, 404)
+        self.assertEqual(self.login(self.guest).status_code, 200)
+        self.assertEqual(len(self.items(self.guest)), 1)
+
+    def test_34_identical_flights_remain_separate_between_users(self):
+        """Identical flight payloads do not merge or expose A/B records."""
+        self.register(self.a)
+        self.register(self.b, 'user_b')
+        self.predict(self.a)
+        self.predict(self.b)
+        a, b = self.items(self.a)[0], self.items(self.b)[0]
+        self.assertNotEqual(a['id'], b['id'])
+        self.assertEqual(self.a.get(f"/api/history/{b['id']}").status_code, 404)
+        self.assertEqual(self.b.get(f"/api/history/{a['id']}").status_code, 404)
+        self.assertEqual(self.count(), 2)
+
+    def test_35_past_date_is_rejected_before_inference_and_storage(self):
+        """Bypassing the calendar with an old API date returns 400 before inference."""
+        self.register(self.a)
+        with patch.object(self.module, 'predict') as inference:
+            for day in ((date.today() - timedelta(days=1)).isoformat(), '2021-12-30'):
+                self.assertEqual(self.a.post('/api/predict', json={**FLIGHT, 'FL_DATE': day}).status_code, 400)
+            inference.assert_not_called()
+        self.assertEqual(self.count(), 0)
+
+    def test_36_invalid_calendar_dates_are_rejected(self):
+        """Invalid dates/types/formats cannot reach inference or be persisted."""
+        with patch.object(self.module, 'predict') as inference:
+            for day in ('2026-02-30', '2026-2-03', '20261023', '', 123, [], {}):
+                with self.subTest(day=day):
+                    self.assertEqual(self.guest.post('/api/predict', json={**FLIGHT, 'FL_DATE': day}).status_code, 400)
+            inference.assert_not_called()
+
+    def test_37_today_and_future_dates_are_accepted(self):
+        """Both today and tomorrow can be predicted; guests still create no history."""
+        for day in (date.today(), date.today() + timedelta(days=1)):
+            self.predict(self.guest, FL_DATE=day.isoformat())
+        self.assertEqual(self.count(), 0)
+
+    def test_38_existing_historical_records_remain_readable(self):
+        """The new-date restriction does not hide or delete previously saved history."""
+        user = self.register(self.a)
+        past = {**FLIGHT, 'FL_DATE': '2021-12-30'}
+        outcome = self.module.predict(past, self.module.db)  # offline historical evaluation stays available
+        item_id = auth.save_history(self.conn, user['id'], past, outcome)
+        self.assertEqual(self.a.get(f'/api/history/{item_id}').status_code, 200)
+        self.assertEqual(self.items(self.a)[0]['fl_date'], '2021-12-30')
 
 
 class RecordedResult(unittest.TextTestResult):

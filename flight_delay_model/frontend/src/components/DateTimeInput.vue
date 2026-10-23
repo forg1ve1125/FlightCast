@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import flatpickr from 'flatpickr'
+import { localToday, isSelectableFlightDate } from '../flightDate.js'
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -13,6 +14,25 @@ const value = defineModel({ type: String, default: '' })
 const input = ref(null)
 const opened = ref(false)
 let picker = null
+let dateTimer = null
+let minimumDay = ''
+
+function refreshDateLimit(instance = picker) {
+  if (props.mode === 'time' || !instance) return
+  const today = localToday()
+  if (minimumDay !== today) {
+    minimumDay = today
+    instance.set('minDate', today)
+  }
+  if (value.value && !isSelectableFlightDate(value.value)) {
+    instance.clear(false)
+    value.value = ''
+  }
+}
+
+function refreshOnFocus() {
+  refreshDateLimit()
+}
 
 function positionDatePicker(instance, positionElement) {
   const popup = instance.calendarContainer
@@ -54,6 +74,7 @@ onMounted(() => {
     locale: 'en',
     disableMobile: true,
     allowInput: false,
+    minDate: isTime ? undefined : localToday(),
     monthSelectorType: 'static',
     position: isTime ? 'auto' : positionDatePicker,
 
@@ -63,7 +84,7 @@ onMounted(() => {
     minuteIncrement: 1,
 
     dateFormat: isTime ? 'H:i' : 'Y-m-d',
-    defaultDate: value.value || undefined,
+    defaultDate: (isTime || isSelectableFlightDate(value.value)) ? value.value || undefined : undefined,
 
     onReady: (_, __, instance) => {
       const popup = instance.calendarContainer
@@ -77,13 +98,19 @@ onMounted(() => {
         'aria-label',
         isTime ? 'Choose a time' : 'Choose a date',
       )
+      if (!isTime) {
+        instance.currentYearElement.readOnly = true
+        instance.currentYearElement.setAttribute('inputmode', 'none')
+        refreshDateLimit(instance)
+      }
     },
 
     onChange: (_, selectedValue) => {
       value.value = selectedValue
     },
 
-    onOpen: () => {
+    onOpen: (_, __, instance) => {
+      refreshDateLimit(instance)
       opened.value = true
     },
 
@@ -94,6 +121,10 @@ onMounted(() => {
   })
 
   if (!isTime) {
+    // Refresh an already-open calendar across midnight, and after sleep/clock changes.
+    dateTimer = window.setInterval(refreshOnFocus, 1000)
+    window.addEventListener('focus', refreshOnFocus)
+    document.addEventListener('visibilitychange', refreshOnFocus)
     window.addEventListener('scroll', repositionDatePicker, {
       capture: true,
       passive: true,
@@ -102,6 +133,11 @@ onMounted(() => {
 })
 
 watch(value, (nextValue) => {
+  if (props.mode !== 'time' && nextValue && !isSelectableFlightDate(nextValue)) {
+    picker?.clear(false)
+    value.value = ''
+    return
+  }
   if (!picker || nextValue === picker.input.value) return
 
   if (nextValue) {
@@ -120,6 +156,9 @@ function openPicker() {
 }
 
 onBeforeUnmount(() => {
+  window.clearInterval(dateTimer)
+  window.removeEventListener('focus', refreshOnFocus)
+  document.removeEventListener('visibilitychange', refreshOnFocus)
   window.removeEventListener('scroll', repositionDatePicker, true)
   picker?.destroy()
 })
@@ -139,6 +178,10 @@ onBeforeUnmount(() => {
     aria-haspopup="dialog"
     autocomplete="off"
     readonly
+    inputmode="none"
+    @beforeinput.prevent
+    @paste.prevent
+    @drop.prevent
     @keydown.enter.prevent="openPicker"
     @keydown.space.prevent="openPicker"
   />

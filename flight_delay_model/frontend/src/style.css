@@ -227,6 +227,14 @@ input,
   border-radius: 8px;
 }
 
+.flight-date-picker .flatpickr-day.flatpickr-disabled,
+.flight-date-picker .flatpickr-day.flatpickr-disabled:hover {
+  color: #b7bec9;
+  background: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
 /* Rounded time controls */
 .flight-picker .flatpickr-time {
   display: flex;

@@ -15,7 +15,10 @@ sys.path.insert(0, str(SERVER))
 import predictor_service as service
 import weather_serving as wx
 import auth
-from test_auth_history_api import FLIGHT, TEST_ROOT, load_test_app
+from test_auth_history_api import FLIGHT as API_FLIGHT, TEST_ROOT, load_test_app
+
+# Keep the original historical golden case for offline model regression.
+FLIGHT = {**API_FLIGHT, 'FL_DATE': '2021-12-30'}
 
 
 class BucketOnlyServing(unittest.TestCase):
@@ -97,10 +100,10 @@ class BucketOnlyServing(unittest.TestCase):
                     'username': 'isolated_user', 'password': 'test-password'}).status_code, 201)
                 with patch.object(wx, '_load_isotonic', return_value=False), \
                      self.assertLogs('predictor_service', level='ERROR'):
-                    response = client.post('/api/predict', json=FLIGHT)
+                    response = client.post('/api/predict', json=API_FLIGHT)
                 self.assertEqual(response.status_code, 503)
                 self.assertEqual(conn.execute('SELECT COUNT(*) FROM query_history').fetchone()[0], 0)
-                response = client.post('/api/predict', json=FLIGHT)
+                response = client.post('/api/predict', json=API_FLIGHT)
                 self.assertEqual(response.status_code, 200)
                 self.assertTrue(response.headers['Server-Timing'].startswith('predict;dur='))
                 self.assertEqual(len(client.get('/api/history').get_json()['items']), 1)

@@ -6,6 +6,7 @@ import vm from 'node:vm'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { after, test } from 'node:test'
+import { localToday, isSelectableFlightDate } from '../src/flightDate.js'
 
 const require = createRequire(new URL('../package.json', import.meta.url))
 const vue = require('vue')
@@ -29,7 +30,7 @@ function harness() {
     onMounted: callback => mounted.push(callback),
     SearchSelect: {}, DelayPanel: {}, AuthModal: {}, DateTimeInput: {},
     fetch: (url, options) => new Promise((resolve, reject) => requests.push({ url, options, resolve, reject })),
-    console, Intl,
+    console, Intl, isSelectableFlightDate,
   }
   const ui = vm.runInNewContext(compiled + '\ncomponent.setup({}, { expose() {} })', context)
   function reply(index, data, status = 200) {
@@ -163,7 +164,7 @@ await check('Late prediction cannot appear after logout', async () => {
   const { ui, reply } = harness()
   ui.user.value = A
   await flush()
-  Object.assign(ui.form, { FL_DATE: '2021-12-30', AIRLINE: 'WN', ORIGIN: 'DEN', DEST: 'SMF',
+  Object.assign(ui.form, { FL_DATE: localToday(), AIRLINE: 'WN', ORIGIN: 'DEN', DEST: 'SMF',
     CRS_DEP_TIME: '22:45', CRS_ARR_TIME: '00:25', DISTANCE: '909' })
   const prediction = ui.submit()
   const logout = ui.signOut()
@@ -195,6 +196,56 @@ await check('History network errors are caught and loading ends', async () => {
   await assert.doesNotReject(pending)
   assert.equal(ui.historyLoading.value, false)
   assert.ok(ui.historyListError?.value || ui.error.value)
+})
+
+function fillFlight(ui, day = localToday()) {
+  Object.assign(ui.form, { FL_DATE: day, AIRLINE: 'WN', ORIGIN: 'DEN', DEST: 'SMF',
+    CRS_DEP_TIME: '22:45', CRS_ARR_TIME: '00:25', DISTANCE: '909' })
+}
+
+await check('Guest result is cleared at login without posting or backfilling it', async () => {
+  const { ui, requests, reply } = harness()
+  fillFlight(ui)
+  const pending = ui.submit()
+  reply(0, { scenarios: {}, guest: true })
+  await pending
+  assert.ok(ui.result.value)
+  ui.onAuthenticated(A)
+  reply(1, { items: [] })
+  await flush()
+  assert.equal(ui.result.value, null)
+  assert.equal(ui.history.value.length, 0)
+  assert.equal(requests.filter(r => r.options?.method === 'POST').length, 1)
+  assert.equal(requests[1].url, '/api/history')
+})
+
+await check('Guest prediction arriving after login cannot populate account state', async () => {
+  const { ui, requests, reply } = harness()
+  fillFlight(ui)
+  const pending = ui.submit()
+  ui.onAuthenticated(A)
+  reply(1, { items: [] })
+  await flush()
+  reply(0, { scenarios: {}, guest: true })
+  await pending
+  assert.equal(ui.result.value, null)
+  assert.equal(ui.history.value.length, 0)
+  assert.equal(requests.length, 2)
+})
+
+await check('Manually supplied past flight date is blocked before an HTTP request', async () => {
+  const { ui, requests } = harness()
+  fillFlight(ui, '2021-12-30')
+  await ui.submit()
+  assert.equal(requests.length, 0)
+  assert.match(ui.error.value, /today or a future/)
+})
+
+await check('Invalid calendar date is blocked before an HTTP request', async () => {
+  const { ui, requests } = harness()
+  fillFlight(ui, '2099-02-30')
+  await ui.submit()
+  assert.equal(requests.length, 0)
 })
 
 after(() => {
